@@ -1,6 +1,7 @@
 # IDE
 *.iml
 .idea/*
+*.log
 
 # Maven
 target/
