@@ -1,0 +1,9 @@
+# IDE
+*.iml
+.idea/*
+
+# Maven
+target/
+
+# General
+codesigning.asc
