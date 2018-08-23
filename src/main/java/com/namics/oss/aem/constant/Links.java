@@ -7,6 +7,8 @@ public interface Links {
 
 	String TARGET_BLANK = "_blank";
 	String TARGET_SELF = "_self";
+	String TARGET_PARENT = "_parent";
+	String TARGET_TOP = "_top";
 
 	int HTTP_PORT = 80;
 	int HTTPS_PORT = 443;
@@ -18,8 +20,6 @@ public interface Links {
 	String REQUEST_SCHEME_EXTENSION = "://";
 	String GENERIC_PROTOCOL_PREFIX = "//";
 	String HTML_EXTENSION = ".html";
-
-	String CONTENT_PREFIX = "/content";
 
 	String SLASH = "/";
 	String ANCHOR = "#";
