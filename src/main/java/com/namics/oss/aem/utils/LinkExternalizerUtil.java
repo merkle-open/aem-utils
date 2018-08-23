@@ -17,7 +17,7 @@ public class LinkExternalizerUtil {
     /**
      * Creates a run mode respected absolute URL
      *
-     * @param link    optional, externalize if avail
+     * @param link    optional, externalize if available
      * @param request to evaluate run mode and resource mapping
      * @return optional of a externalized link
      */
@@ -27,7 +27,7 @@ public class LinkExternalizerUtil {
         }
 
         String runMode = evaluateRunMode(request);
-        return link.map(l -> Optional.of(externalizeLink(request, l, runMode))).orElse(Optional.empty());
+        return link.map(l -> externalizeLink(request, l, runMode));
     }
 
     private static String evaluateRunMode(SlingHttpServletRequest request) {
