@@ -22,8 +22,8 @@ public class LinkUtilTest {
 
     @Test
     public void getRelativePathFromAbsoluteInternalLink() {
-        assertThat(LinkUtil.getRelativePathFromAbsoluteInternalLink(ABSOLUTE_LINK)).isEqualTo(RELATIVE_LINK);
-        assertThat(LinkUtil.getRelativePathFromAbsoluteInternalLink(RELATIVE_LINK)).isEqualTo(RELATIVE_LINK);
+        assertThat(LinkUtil.getRelativeFromAbsolutePath(ABSOLUTE_LINK)).isEqualTo(RELATIVE_LINK);
+        assertThat(LinkUtil.getRelativeFromAbsolutePath(RELATIVE_LINK)).isEqualTo(RELATIVE_LINK);
     }
 
     @Test
@@ -34,10 +34,10 @@ public class LinkUtilTest {
 
     @Test
     public void isMappedPathMissingHtmlExtension() {
-        Assert.assertFalse(LinkUtil.isMappedPathMissingHtmlExtension(null));
-        Assert.assertFalse(LinkUtil.isMappedPathMissingHtmlExtension(StringUtils.EMPTY));
-        Assert.assertFalse(LinkUtil.isMappedPathMissingHtmlExtension(DAM_LINK));
-        Assert.assertTrue(LinkUtil.isMappedPathMissingHtmlExtension(INTERNAL_LINK));
+        Assert.assertFalse(LinkUtil.isMissingHtmlExtension(null));
+        Assert.assertFalse(LinkUtil.isMissingHtmlExtension(StringUtils.EMPTY));
+        Assert.assertFalse(LinkUtil.isMissingHtmlExtension(DAM_LINK));
+        Assert.assertTrue(LinkUtil.isMissingHtmlExtension(INTERNAL_LINK));
     }
 
     @Test
