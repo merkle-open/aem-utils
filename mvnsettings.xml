@@ -4,7 +4,7 @@
         <mirror>
             <id>nexus</id>
             <mirrorOf>ibiblio.maven,central,java.net.repo,jboss.com,training-external-central,atlassian.central,adobe-public-releases</mirrorOf>
-            <url>http://nexus.namics.com/content/groups/public</url>
+            <url>https://nexus.namics.com/content/groups/public</url>
         </mirror>
     </mirrors>
     <servers>
