@@ -33,5 +33,22 @@
                 </repository>
             </repositories>
         </profile>
+        <profile>
+            <id>install</id>
+            <repositories>
+                <repository>
+                    <id>adobe-public-releases</id>
+                    <name>Adobe Public Repository</name>
+                    <url>https://repo.adobe.com/nexus/content/groups/public</url>
+                    <releases>
+                        <enabled>true</enabled>
+                        <updatePolicy>never</updatePolicy>
+                    </releases>
+                    <snapshots>
+                        <enabled>false</enabled>
+                    </snapshots>
+                </repository>
+            </repositories>
+        </profile>
     </profiles>
 </settings>
