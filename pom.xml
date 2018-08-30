@@ -109,6 +109,23 @@
         </plugins>
     </build>
 
+    <distributionManagement>
+        <snapshotRepository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+        <repository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
+    </distributionManagement>
+
+    <scm>
+        <url>https://github.com/namics/aem-utils</url>
+        <connection>scm:git:git@github.com:namics/aem-utils</connection>
+        <developerConnection>scm:git:git@github.com:namics/aem-utils.git</developerConnection>
+    </scm>
+
     <profiles>
         <profile>
             <id>autoInstallBundle</id>
