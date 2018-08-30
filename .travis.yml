@@ -14,7 +14,7 @@ before_install:
   - gpg --yes --batch --import codesigning.asc
 jdk:
   - oraclejdk8
-install: mvn --settings mvnsettings.xml clean install -P install -B -V -U
+install: mvn clean install -P !ossrh -B -V -U
 script:
 - mvn deploy -P ossrh --settings mvnsettings.xml
 cache:
