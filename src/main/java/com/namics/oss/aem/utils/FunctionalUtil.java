@@ -53,7 +53,7 @@ public final class FunctionalUtil {
     }
 
     /**
-     * Converts an {@link Optional} to a sequential singleton stream.
+     * Converts an {@link Optional} to a sequential singleton {@link Stream}.
      * <p>
      * Allows for a more fluent functional programming style,
      * in case of following consuming methods can not handle objects of optional.
