@@ -20,8 +20,8 @@ public final class FunctionalUtil {
      * @param <T>      type of iterator
      * @return stream form iterator
      * @apiNote Example:
-     * <pre>{@code final Iterator<String> iterator1 = Arrays.asList(test, null).iterator();
-     * final List<String> nullCollection = FunctionalUtil.asStream(iterator1).collect(Collectors.toList());}</pre>
+     * <pre>{@code final Iterator<String> iterator = Arrays.asList(test, null).iterator();
+     * final List<String> nullCollection = FunctionalUtil.asStream(iterator).collect(Collectors.toList());}</pre>
      */
     public static <T> Stream<T> asStream(Iterator<T> iterator) {
         return asStream(asIterable(iterator));
@@ -39,29 +39,31 @@ public final class FunctionalUtil {
      * Negates a given predicate using predicate negate.
      * <p>
      *
-     * @param predicate without negation, mostly as lamda or method reference
+     * @param predicate without negation, mostly as lambda or method reference
      * @param <T>       Type of consumed object
      * @return Negated predicted
      * @apiNote This method makes it easier to negate a predicate and removes boilerplate code.
      * <pre>{@code return Optional.ofNullable(page)
      *  .filter(not(Page::isHideInNav))
-     *  .map(PageLink::new)
-     *  .orElse(new PageLink(currentPage));}</pre>
+     *  .map(Page::getTitle)
+     *  .orElse("default value");}</pre>
      */
     public static <T> Predicate<T> not(Predicate<T> predicate) {
         return predicate.negate();
     }
 
     /**
-     * Method to flat map a optional in a stream to a stream using a stream containing the
-     * optional of an empty stream if the optional is empty.
+     * Converts an {@link Optional} to a sequential singleton stream.
+     * <p>
+     * Allows for a more fluent functional programming style,
+     * in case of following consuming methods can not handle objects of optional.
      *
      * @return Function to map an optional to stream which can be used in Stream#flatMap
      * @apiNote Example:
      * <pre>{@code return object.stream()
-     *  .map(objectId -> service.getObjectContainerById(objectId))
+     *  .map(objectId -> service.getPotentialOptionalObjectById(objectId))
      *  .flatMap(fromOptional())
-     *  .map(objectContainer -> createMember(objectContainer, type))
+     *  .map(object -> methodNotAbleToConsumeOptionalObject(object, type))
      *  .collect(Collectors.toList());}
      * </pre>
      */
