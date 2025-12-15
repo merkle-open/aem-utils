@@ -12,10 +12,8 @@ The development of this collection is in progress and will be extended in the fu
 ## Usage
 ### Maven Dependency
     <dependency>
-        <groupId>com.namics.oss.aem</groupId>
+        <groupId>com.merkle.oss.aem</groupId>
         <artifactId>aem-utils</artifactId>
         <version>0.0.1</version>
     </dependency>
 ## Requirements
-* AEM 6.1
-* JDK 8

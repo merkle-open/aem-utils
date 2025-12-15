@@ -1,4 +1,4 @@
-package com.namics.oss.aem.utils;
+package com.merkle.oss.aem.utils;
 
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Assert;
@@ -8,10 +8,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class LinkUtilTest {
 
-    private static final String INTERNAL_LINK = "/content/namics/de/home";
-    private static final String EXTERNAL_LINK = "https://www.namics.com";
-    private static final String ABSOLUTE_LINK = "https://www.namics.com/content/namics/de/home.html";
-    private static final String RELATIVE_LINK = "/content/namics/de/home.html";
+    private static final String INTERNAL_LINK = "/content/domain/de/home";
+    private static final String EXTERNAL_LINK = "https://www.domain.com";
+    private static final String ABSOLUTE_LINK = "https://www.domain.com/content/domain/de/home.html";
+    private static final String RELATIVE_LINK = "/content/domain/de/home.html";
     private static final String DAM_LINK = "/content/dam/images/image.jpg";
 
     @Test

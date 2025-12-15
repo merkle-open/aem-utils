@@ -1,4 +1,4 @@
-package com.namics.oss.aem.constant;
+package com.merkle.oss.aem.constants;
 
 /**
  * URL and HTML related constants.

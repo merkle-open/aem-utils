@@ -1,4 +1,4 @@
-package com.namics.oss.aem.constant;
+package com.merkle.oss.aem.constants;
 
 import org.junit.jupiter.api.Test;
 

@@ -1,4 +1,4 @@
-package com.namics.oss.aem.utils;
+package com.merkle.oss.aem.utils;
 
 import org.apache.sling.api.resource.ResourceResolver;
 import org.junit.Test;
@@ -14,8 +14,8 @@ import static org.mockito.Mockito.when;
 @RunWith(MockitoJUnitRunner.class)
 public class LinkMappingUtilTest {
 
-    private static final String TEST_URL = "https://www.namics.com";
-    private static final String TEST_PATH = "/content/namics/de/home";
+    private static final String TEST_URL = "https://www.domain.com";
+    private static final String TEST_PATH = "/content/domain/de/home";
     private static final String HTML_EXTENSION = ".html";
 
     @Mock
