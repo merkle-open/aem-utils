@@ -8,7 +8,7 @@
     <!-- ====================================================================== -->
     <groupId>com.merkle.oss.aem</groupId>
     <artifactId>aem-utils</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.2-SNAPSHOT</version>
     <name>aem-utils</name>
     <description>com.merkle.oss.aem - aem-utils</description>
     <url>https://github.com/merkle-open/aem-utils</url>
