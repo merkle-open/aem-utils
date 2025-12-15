@@ -1,12 +1,12 @@
-package com.namics.oss.aem.utils;
+package com.merkle.oss.aem.utils;
 
 import com.day.cq.dam.api.DamConstants;
-import com.namics.oss.aem.constant.Links;
+import com.merkle.oss.aem.constants.Links;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.Optional;
 
-import static com.namics.oss.aem.constant.Links.HTML_EXTENSION;
+import static com.merkle.oss.aem.constants.Links.HTML_EXTENSION;
 
 /**
  * Methods for handling links

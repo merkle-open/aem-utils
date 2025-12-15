@@ -1,7 +1,7 @@
-package com.namics.oss.aem.utils;
+package com.merkle.oss.aem.utils;
 
 import com.day.cq.commons.Externalizer;
-import com.namics.oss.aem.constant.RunMode;
+import com.merkle.oss.aem.constants.RunMode;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.scripting.SlingBindings;
@@ -19,7 +19,7 @@ public class LinkExternalizerUtil {
      *
      * @param link    optional, externalize if available
      * @param request to evaluate run mode and resource mapping
-     * @return optional of a externalized link
+     * @return optional of an externalized link
      */
     public static Optional<String> externalize(Optional<String> link, SlingHttpServletRequest request) {
         if (request == null) {

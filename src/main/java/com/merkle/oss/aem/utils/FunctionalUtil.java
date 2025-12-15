@@ -1,4 +1,4 @@
-package com.namics.oss.aem.utils;
+package com.merkle.oss.aem.utils;
 
 import java.util.Iterator;
 import java.util.Optional;

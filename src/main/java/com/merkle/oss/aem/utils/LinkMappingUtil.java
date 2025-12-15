@@ -1,4 +1,4 @@
-package com.namics.oss.aem.utils;
+package com.merkle.oss.aem.utils;
 
 import org.apache.sling.api.resource.ResourceResolver;
 
