@@ -14,6 +14,6 @@ The development of this collection is in progress and will be extended in the fu
     <dependency>
         <groupId>com.merkle.oss.aem</groupId>
         <artifactId>aem-utils</artifactId>
-        <version>0.0.2</version>
+        <version>0.0.1</version>
     </dependency>
 ## Requirements
