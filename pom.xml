@@ -64,27 +64,6 @@
     </issueManagement>
 
     <!-- ====================================================================== -->
-    <!-- D I S T RI B U T I O N   M A N A G E M E N T                           -->
-    <!-- ====================================================================== -->
-<!--    <distributionManagement>-->
-<!--        <repository>-->
-<!--            <id>central</id>-->
-<!--            <url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>-->
-<!--        </repository>-->
-<!--        <snapshotRepository>-->
-<!--            <name>Central Portal Snapshots</name>-->
-<!--            <id>central-portal-snapshots</id>-->
-<!--            <url>https://central.sonatype.com/repository/maven-snapshots/</url>-->
-<!--            <releases>-->
-<!--                <enabled>false</enabled>-->
-<!--            </releases>-->
-<!--            <snapshots>-->
-<!--                <enabled>true</enabled>-->
-<!--            </snapshots>-->
-<!--        </snapshotRepository>-->
-<!--    </distributionManagement>-->
-
-    <!-- ====================================================================== -->
     <!-- P R O P E R T I E S -->
     <!-- ====================================================================== -->
     <properties>
