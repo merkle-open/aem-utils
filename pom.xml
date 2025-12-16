@@ -67,6 +67,7 @@
     <!-- P R O P E R T I E S -->
     <!-- ====================================================================== -->
     <properties>
+        <sonar.coverage.jacoco.xmlReportPaths>target/site/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <mvn.gpg.plugin.version>3.2.8</mvn.gpg.plugin.version>
         <mvn.sonatype.publishing.plugin.version>0.9.0</mvn.sonatype.publishing.plugin.version>
