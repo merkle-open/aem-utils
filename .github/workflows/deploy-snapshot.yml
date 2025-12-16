@@ -6,13 +6,13 @@ on:
       - develop
 
 jobs:
-  call-verify:
+  call-ci:
 
-    uses: ./.github/workflows/verify.yml
+    uses: ./.github/workflows/ci.yml
 
   deploy-snapshot:
 
-    needs: call-verify
+    needs: call-ci
     runs-on: ubuntu-latest
 
     steps:
