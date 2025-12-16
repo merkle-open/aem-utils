@@ -1,7 +1,9 @@
-name: ci
+name: verify
 
 on:
-  workflow_call:
+  push:
+    branches:
+      - develop
 
 jobs:
   verify:
