@@ -1,4 +1,4 @@
-name: verify
+name: CI snapshot
 
 on:
   push:
