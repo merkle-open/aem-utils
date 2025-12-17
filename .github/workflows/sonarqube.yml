@@ -12,9 +12,6 @@ jobs:
   build:
     name: Build & analyze
     runs-on: ubuntu-latest
-    permissions:
-      pull-requests: read
-      contents: read
 
     steps:
       # Checkout source code
@@ -42,7 +39,5 @@ jobs:
       # Run maven verify and sonar scan
       - name: Build and analyze
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        # Added -X to help debug if it fails again
         run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=merkle-open_aem-utils
