@@ -113,7 +113,7 @@ jobs:
           ci/setup-git.sh
 
       # Release, set correct versions and create a tag
-      - name: Release version
+      - name: Release new version
         id: versioning
         run: |
           chmod +x ci/mvn-release.sh
