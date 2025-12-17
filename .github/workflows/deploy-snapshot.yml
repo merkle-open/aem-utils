@@ -3,43 +3,86 @@ name: Deploy snapshot
 on:
   push:
     branches:
-      - undefined
+      - develop
 
 jobs:
   verify:
-
+    name: Verify
     runs-on: ubuntu-latest
-
     steps:
       # Checkout source code
       - name: Checkout
         uses: actions/checkout@v4
         with:
           fetch-depth: '0'
+
       # Setup Java environment
       - name: Set up JDK 11
-        uses: actions/setup-java@v2
+        uses: actions/setup-java@v4
         with:
           java-version: 11
           distribution: zulu
+          cache: 'maven' # Built-in caching for ~/.m2
+
       # Run maven verify (includes unit tests)
       - name: Maven verify
         run: mvn verify --batch-mode
 
-  deploy-snapshot:
-
+  analyze:
+    name: Analyze
     needs: verify
     runs-on: ubuntu-latest
+    steps:
+      # Checkout source code
+      - uses: actions/checkout@v4 # Reverted v5 to v4 for stability consistency
+        with:
+          fetch-depth: '0'
 
+      # Setup Java environment
+      - name: Set up JDK 11
+        uses: actions/setup-java@v4
+        with:
+          java-version: 11
+          distribution: 'zulu'
+          cache: 'maven'
+
+      # Cache SonarQube packages
+      - name: Cache SonarQube packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.sonar/cache
+          key: ${{ runner.os }}-sonar
+          restore-keys: ${{ runner.os }}-sonar
+
+      # Cache Maven packages (Redundant with setup-java cache, but kept as per your comments)
+      - name: Cache Maven packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2
+
+      # Run maven verify and sonar scan
+      - name: Build and analyze
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        # Optimization: skipTests because verify job already passed
+        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=merkle-open_aem-utils -DskipTests
+
+  deploy-snapshot:
+    name: Deploy SNAPSHOT
+    needs: [ verify, analyze ]
+    runs-on: ubuntu-latest
     steps:
       # Checkout source code
       - name: Checkout
         uses: actions/checkout@v4
         with:
           fetch-depth: '0'
+
       # Setup Java environment
       - name: Set up JDK 11
-        uses: actions/setup-java@v2
+        uses: actions/setup-java@v4
         with:
           distribution: zulu
           java-version: 11
@@ -48,9 +91,12 @@ jobs:
           server-password: MAVEN_PASSWORD
           gpg-passphrase: MAVEN_GPG_PASSPHRASE
           gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
+          cache: 'maven'
+
       # Run maven deploy (to Sonatype)
       - name: Release Maven package
-        run: mvn deploy -Pdeploy
+        # Optimization: skipTests to avoid building/testing for the 3rd time
+        run: mvn deploy -Pdeploy -DskipTests --batch-mode
         env:
           MAVEN_USERNAME: ${{ secrets.SONATYPE_USER }}
           MAVEN_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}

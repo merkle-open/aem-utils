@@ -1,16 +1,14 @@
-name: SonarQube
+name: Analyze PR
 
 on:
-  push:
+  pull_request:
     branches:
       - master
-
-  pull_request:
     types: [ opened, synchronize, reopened ]
 
 jobs:
-  build:
-    name: Build & analyze
+  analyze:
+    name: Analyze
     runs-on: ubuntu-latest
 
     steps:
