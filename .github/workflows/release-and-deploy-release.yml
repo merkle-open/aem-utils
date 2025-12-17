@@ -26,6 +26,14 @@ jobs:
       - name: Maven verify
         run: mvn verify --batch-mode
 
+      # Step to save the coverage report for the Analyze job
+      - name: Upload JaCoCo Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: jacoco-report
+          path: target/site/jacoco/jacoco.xml
+          retention-days: 1 # We only need this for the duration of the workflow
+
   analyze:
     name: Analyze
     needs: verify
@@ -43,6 +51,13 @@ jobs:
           java-version: 11
           distribution: 'zulu'
           cache: 'maven'
+
+      # Step to retrieve the report from the Verify job
+      - name: Download JaCoCo Report
+        uses: actions/download-artifact@v4
+        with:
+          name: jacoco-report
+          path: target/site/jacoco/
 
       # Cache SonarQube packages
       - name: Cache SonarQube packages
@@ -73,7 +88,7 @@ jobs:
     needs: [ verify, analyze ]
     runs-on: ubuntu-latest
     outputs:
-      release_version: ${{ steps.versioning.outputs.VERSION }}
+      sha: ${{ steps.versioning.outputs.SHA }}
     steps:
       # Checkout source code
       - name: Checkout
@@ -105,8 +120,12 @@ jobs:
         run: |
           chmod +x ci/mvn-release.sh
           ./ci/mvn-release.sh
-          # Capture version for the deploy job
+          # Ensure tags are pushed so the next job can see them if needed
+          git push origin --tags
+          # Capture the VERSION after the script runs
           echo "VERSION=$(xmllint --xpath '/*[local-name()="project"]/*[local-name()="version"]/text()' pom.xml)" >> $GITHUB_OUTPUT
+          # Capture the COMMIT SHA to ensure the next job gets the exact code
+          echo "SHA=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
 
   deploy-release:
     name: Deploy release
@@ -117,7 +136,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          ref: ${{ needs.release.outputs.release_version }}
+          ref: ${{ needs.release.outputs.sha }}
 
       # Setup Java environment
       - name: Set up JDK 11
