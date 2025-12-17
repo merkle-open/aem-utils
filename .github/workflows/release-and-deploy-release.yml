@@ -87,8 +87,6 @@ jobs:
     name: Release
     needs: [ verify, analyze ]
     runs-on: ubuntu-latest
-    outputs:
-      sha: ${{ steps.versioning.outputs.SHA }}
     steps:
       # Checkout source code
       - name: Checkout
@@ -115,17 +113,11 @@ jobs:
           ci/setup-git.sh
 
       # Release, set correct versions and create a tag
-      - name: Release (versioning/tag)
+      - name: Release version
         id: versioning
         run: |
           chmod +x ci/mvn-release.sh
-          ./ci/mvn-release.sh
-          # Ensure tags are pushed so the next job can see them if needed
-          git push origin --tags
-          # Capture the VERSION after the script runs
-          echo "VERSION=$(xmllint --xpath '/*[local-name()="project"]/*[local-name()="version"]/text()' pom.xml)" >> $GITHUB_OUTPUT
-          # Capture the COMMIT SHA to ensure the next job gets the exact code
-          echo "SHA=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
+          ci/mvn-release.sh
 
   deploy-release:
     name: Deploy release
@@ -136,7 +128,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          ref: ${{ needs.release.outputs.sha }}
+          ref: 'master'
 
       # Setup Java environment
       - name: Set up JDK 11
