@@ -42,6 +42,7 @@ jobs:
         with:
           java-version: 11
           distribution: 'zulu'
+          cache: 'maven'
 
       # Cache SonarQube packages
       - name: Cache SonarQube packages
@@ -116,7 +117,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          ref: ${{ needs.release.outputs.release_version }
+          ref: ${{ needs.release.outputs.release_version }}
 
       # Setup Java environment
       - name: Set up JDK 11
