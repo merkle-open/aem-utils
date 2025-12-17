@@ -8,7 +8,7 @@
     <!-- ====================================================================== -->
     <groupId>com.merkle.oss.aem</groupId>
     <artifactId>aem-utils</artifactId>
-    <version>0.0.1</version>
+    <version>0.0.2-SNAPSHOT</version>
     <name>aem-utils</name>
     <description>com.merkle.oss.aem - aem-utils</description>
     <url>https://github.com/merkle-open/aem-utils</url>
@@ -64,19 +64,11 @@
     </issueManagement>
 
     <!-- ====================================================================== -->
-    <!-- D I S T RI B U T I O N   M A N A G E M E N T                           -->
-    <!-- ====================================================================== -->
-    <distributionManagement>
-        <repository>
-            <id>central</id>
-            <url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-        </repository>
-    </distributionManagement>
-
-    <!-- ====================================================================== -->
     <!-- P R O P E R T I E S -->
     <!-- ====================================================================== -->
     <properties>
+        <sonar.organization>merkle-open</sonar.organization>
+        <sonar.coverage.jacoco.xmlReportPaths>target/site/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <mvn.gpg.plugin.version>3.2.8</mvn.gpg.plugin.version>
         <mvn.sonatype.publishing.plugin.version>0.9.0</mvn.sonatype.publishing.plugin.version>
@@ -122,6 +114,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
+                <version>3.12.0</version>
                 <executions>
                     <execution>
                         <id>attach-javadocs</id>
@@ -131,6 +124,8 @@
                     </execution>
                 </executions>
                 <configuration>
+                    <source>8</source>
+                    <doclint>none</doclint>
                     <tags>
                         <tag>
                             <name>apiNote</name>
@@ -150,6 +145,30 @@
                         <goals>
                             <goal>jar-no-fork</goal>
                         </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.8.14</version>
+                <executions>
+                    <execution>
+                        <id>prepare-agent</id>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>report</id>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                        <configuration>
+                            <formats>
+                                <format>XML</format>
+                            </formats>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
@@ -213,6 +232,7 @@
                             <publishingServerId>central</publishingServerId>
                             <autoPublish>true</autoPublish>
                             <waitUntil>published</waitUntil>
+                            <deploymentName>aem-utils</deploymentName>
                         </configuration>
                     </plugin>
                 </plugins>
