@@ -1,4 +1,4 @@
-name: Deploy snapshot
+name: Deploy SNAPSHOT
 
 on:
   push:
