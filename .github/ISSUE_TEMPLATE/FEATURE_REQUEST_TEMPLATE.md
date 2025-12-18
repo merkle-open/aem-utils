@@ -1,6 +1,7 @@
 ---
-name: Feature Request
+name: 🔵 Feature Request
 about: Request a feature in this project
+type: 'feature'
 ---
 ### Is your feature request related to a problem?
 _A clear and concise description of what problem you would like to solve, [...]._
