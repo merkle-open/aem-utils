@@ -82,7 +82,6 @@ jobs:
         # Added -DskipTests as verification happened in the first job
         run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=merkle-open_aem-utils -DskipTests
 
-
   release:
     name: Release
     needs: [ verify, analyze ]
