@@ -3,7 +3,7 @@ name: Feature Request
 about: Request a feature in this project
 ---
 ### Is your feature request related to a problem?
-_A clear and concise description of what problem would you like to solve, [...]._
+_A clear and concise description of what problem you would like to solve, [...]._
 
 ### What solution would you like?
 _A clear and concise description of what you want to happen._
