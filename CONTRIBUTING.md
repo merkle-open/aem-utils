@@ -50,7 +50,7 @@ rejected.
 
 ## Issue Report Guidelines
 
-A well defined issue report will help in quickly understanding and replicating the problem faced, or the feature
+A well-defined issue report will help in quickly understanding and replicating the problem faced, or the feature
 requested.
 
 See our [bug report](.github/ISSUE_TEMPLATE/BUG_TEMPLATE.md)
