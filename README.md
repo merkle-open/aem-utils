@@ -9,7 +9,7 @@ The development of this collection is in progress and will be extended in the fu
     <a href="https://maven-badges.sml.io/sonatype-central/com.merkle.oss.aem/aem-utils/">
         <img alt="Sonatype Central Version" src="https://img.shields.io/maven-central/v/com.merkle.oss.aem/aem-utils?strategy=highestVersion&logo=sonatype&logoColor=white&logoSize=auto&label=sonatype-central&color=blue&link=https%3A%2F%2Fmaven-badges.sml.io%2Fsonatype-central%2Fcom.merkle.oss.aem%2Faem-utils%2F"></a>
     <a href="https://javadoc.io/doc/com.merkle.oss.aem/aem-utils">
-        <img alt="Javadoc" src="https://img.shields.io/badge/javadoc-0.0.1-brightgreen.svg?color=yellow"></a>
+        <img alt="Javadoc" src="https://javadoc.io/badge2/com.merkle.oss.aem/aem-utils/javadoc.svg?color=yellow"></a>
     <a href="https://sonarcloud.io/summary/overall?id=merkle-open_aem-utils&branch=master">
         <img alt="SonarQube - Quality Gate" src="https://sonarcloud.io/api/project_badges/measure?project=merkle-open_aem-utils&metric=alert_status"></a>
     <a href="https://sonarcloud.io/summary/overall?id=merkle-open_aem-utils&branch=master">
