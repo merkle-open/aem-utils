@@ -43,10 +43,9 @@ To maintain a stable release cycle, we follow a specific branching model:
 
 1. **Fork** the repository to your own GitHub account. [^1]
 2. **Clone** your fork locally.
-3. **Create a branch** off of `develop` (e.g., `feature/issue-123-description`).
+3. **Create a branch** off of `develop` (e.g., `feature/123-description`).
 4. **Commit** your changes with clear, descriptive commit messages by including the issue number (e.g., `#123 Description`).
 5. **Submit a Pull Request** (PR) to our `develop` branch. [^2]
-6. **Reference the Issue** in your PR description (e.g., `Closes #123`).
 
 ## Issue Report Guidelines
 
