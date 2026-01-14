@@ -1,4 +1,4 @@
-package com.merkle.oss.aem.constants;
+package com.merkle.oss.aem.utils.constants;
 
 /**
  * URL and HTML related constants.
@@ -22,5 +22,8 @@ public interface Links {
 	String HTML_EXTENSION = ".html";
 
 	String SLASH = "/";
-	String ANCHOR = "#";
+	String FRAGMENT_SEPARATOR = "#";
+	String QUERY_STRING_SEPARATOR = "?";
+	String QUERY_PARAM_DELIMITER = "&";
+
 }

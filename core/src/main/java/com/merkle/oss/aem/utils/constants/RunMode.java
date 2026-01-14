@@ -1,4 +1,4 @@
-package com.merkle.oss.aem.constants;
+package com.merkle.oss.aem.utils.constants;
 
 /**
  * Constant class with enumerations for specific run mode

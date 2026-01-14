@@ -1,12 +1,12 @@
 package com.merkle.oss.aem.utils;
 
 import com.day.cq.dam.api.DamConstants;
-import com.merkle.oss.aem.constants.Links;
+import com.merkle.oss.aem.utils.constants.Links;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.Optional;
 
-import static com.merkle.oss.aem.constants.Links.HTML_EXTENSION;
+import static com.merkle.oss.aem.utils.constants.Links.HTML_EXTENSION;
 
 /**
  * Methods for handling links
@@ -83,4 +83,5 @@ public class LinkUtil {
     public static boolean isLinkToDAM(String link) {
         return StringUtils.startsWith(link, DamConstants.MOUNTPOINT_ASSETS);
     }
+
 }

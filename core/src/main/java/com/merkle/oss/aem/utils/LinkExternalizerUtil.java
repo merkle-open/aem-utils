@@ -1,7 +1,7 @@
 package com.merkle.oss.aem.utils;
 
 import com.day.cq.commons.Externalizer;
-import com.merkle.oss.aem.constants.RunMode;
+import com.merkle.oss.aem.utils.constants.RunMode;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.scripting.SlingBindings;
@@ -47,6 +47,8 @@ public class LinkExternalizerUtil {
         final String mappedUrl = resolver.map(request, path);
 
         final Externalizer externalizer = resolver.adaptTo(Externalizer.class);
+        //TODO: refactor this to "absoluteLink()...."
         return externalizer.externalLink(resolver, runMode, mappedUrl);
     }
+
 }
