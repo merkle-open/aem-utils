@@ -12,7 +12,7 @@ jobs:
     steps:
       # Checkout source code
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
 
@@ -30,10 +30,10 @@ jobs:
 
       # Step to save the coverage report for the Analyze job
       - name: Upload JaCoCo Report
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: jacoco-report
-          path: target/site/jacoco/jacoco.xml
+          path: core/target/site/jacoco/jacoco.xml
           retention-days: 1
 
   analyze:
