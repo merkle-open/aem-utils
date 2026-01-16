@@ -10,10 +10,6 @@ import java.util.Arrays;
 
 /**
  * Common constants and definitions for URL handling and URI manipulation within AEM.
- * <p>
- * This interface provides a centralized location for protocol prefixes, ports,
- * path delimiters, and standard HTML link targets.
- * </p>
  */
 public class Links {
 
@@ -47,7 +43,6 @@ public class Links {
 
     /**
      * Represents standard HTML link target attributes and their associated security relationships.
-     * <p>
      */
     public enum Target {
 

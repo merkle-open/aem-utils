@@ -13,7 +13,6 @@ import java.util.stream.StreamSupport;
 
 /**
  * Provides functional programming utilities to bridge legacy Java/AEM APIs with modern Stream capabilities.
- * <p>
  */
 public final class FunctionalUtil {
 
@@ -26,7 +25,6 @@ public final class FunctionalUtil {
      * <p>
      * This is particularly useful in AEM when dealing with legacy APIs like {@code ResourceResolver.findResources}
      * or {@code Page.listChildren} that return iterators.
-     * </p>
      *
      * @param iterator The iterator to convert.
      * @param <T>      The type of elements returned by the iterator.
@@ -76,7 +74,6 @@ public final class FunctionalUtil {
      * <p>
      * <b>Thread Safety:</b> This uses a {@link ConcurrentHashMap} and is safe for use with parallel streams.
      * However, for parallel streams, the specific element preserved among duplicates is non-deterministic.
-     * </p>
      *
      * @param keyExtractor A function to extract the comparison key from the element.
      * @param <T>          The type of the stream elements.

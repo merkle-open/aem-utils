@@ -7,7 +7,6 @@ import org.jspecify.annotations.NonNull;
  * <p>
  * This class provides helper methods to enforce coding standards, such as
  * preventing the instantiation of utility or constant-only classes.
- * </p>
  */
 public final class ClassUtil {
 
@@ -16,8 +15,8 @@ public final class ClassUtil {
      * <p>
      * Throws an {@link AssertionError} immediately upon invocation to ensure
      * this class remains a static-only utility.
-     * </p>
-     * * @see #assertNoInstance(Class)
+     *
+     * @see #assertNoInstance(Class)
      */
     private ClassUtil() {
         assertNoInstance(this.getClass());
@@ -30,7 +29,6 @@ public final class ClassUtil {
      * This is intended to be used within the private or package-private
      * constructors of utility/constant classes to provide a clear, fail-fast
      * mechanism against accidental reflection or internal instantiation.
-     * </p>
      *
      * @param clazz The class type to include in the error message.
      * @param <T>   The type of the class.

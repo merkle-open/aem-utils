@@ -17,7 +17,6 @@ import java.util.function.Function;
  * This utility wraps the {@link ResourceResolver#map} functionality to provide a consistent
  * way of shortening internal paths, ensuring they are relative, and appending necessary
  * extensions. It is designed to safely ignore external links.
- * </p>
  */
 public final class LinkMappingUtil {
 
@@ -63,7 +62,6 @@ public final class LinkMappingUtil {
      * <li>Checks if the path is internal via {@link LinkUtil#isInternalLink(String)}. If not, returns the path as-is.</li>
      * <li>Applies {@link ResourceResolver#map(String)} (or request-aware map if provided).</li>
      * </ol>
-     * </p>
      *
      * @param path             The path to map.
      * @param request          The current request (optional context).

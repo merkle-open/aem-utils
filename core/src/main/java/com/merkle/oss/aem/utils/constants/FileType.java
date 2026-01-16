@@ -7,7 +7,6 @@ import org.jspecify.annotations.NonNull;
  * <p>
  * This enum provides a centralized mapping between logical file identifiers,
  * official IANA MIME types, and standard file extensions.
- * </p>
  */
 public enum FileType {
 
@@ -23,7 +22,6 @@ public enum FileType {
     private final String extension;
 
     /**
-     *
      * @param mimeType  The official IANA media type.
      * @param extension The standard file extension (without the leading dot).
      */
@@ -52,7 +50,6 @@ public enum FileType {
 
     /**
      * Returns the file extension prefixed with a leading dot.
-     * <p>
      *
      * @return The extension in the lower case with a leading dot (e.g., ".html").
      */

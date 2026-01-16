@@ -22,11 +22,10 @@ import java.util.stream.Stream;
  * <p>
  * This class provides methods to handle AEM-specific link logic, such as appending {@code .html}
  * extensions to internal pages while ignoring DAM assets and external application links.
- * </p>
- * <p>
- * <b>Note:</b> These methods do not apply Sling Resource Mapping. For shortening or
+ *
+ * @apiNote These methods do not apply Sling Resource Mapping. For shortening or
  * mapping paths, use {@link LinkMappingUtil}.
- * </p>
+ *
  */
 public class LinkUtil {
 
@@ -42,7 +41,6 @@ public class LinkUtil {
      * </p>
      * <b>Note:</b> This method does not apply Sling Resource Mapping. For shortening or
      * mapping paths, use {@link LinkMappingUtil}.
-     * <p>
      *
      * @param page The page to transform into a link.
      * @return The page path with an extension, or {@code null} if the page is null or invalid.
