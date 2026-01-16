@@ -1,5 +1,6 @@
 package com.merkle.oss.aem.utils.link.constants;
 
+import com.merkle.oss.aem.utils.java.ClassUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Strings;
 import org.jspecify.annotations.NonNull;
@@ -14,36 +15,41 @@ import java.util.Arrays;
  * path delimiters, and standard HTML link targets.
  * </p>
  */
-public interface Links {
-    String APP_LINK_SESSION = "sip:";
-    String APP_LINK_TEL = "tel:";
-    String APP_LINK_MAILTO = "mailto:";
-    String APP_LINK_FILE = "file:";
-    String APP_LINK_FTP = "ftp:";
-    String APP_LINK_IMAP = "imap:";
-    String APP_LINK_IRC = "irc:";
-    String APP_LINK_NNTP = "nntp:";
+public class Links {
 
-    int HTTP_PORT = 80;
-    int HTTPS_PORT = 443;
+    private Links() {
+        ClassUtil.assertNoInstance(this.getClass());
+    }
 
-    String HTTP = "http";
-    String HTTPS = "https";
-    String HTTP_PREFIX = "http://";
-    String HTTPS_PREFIX = "https://";
-    String REQUEST_SCHEME_EXTENSION = "://";
-    String GENERIC_PROTOCOL_PREFIX = "//";
+    public static final String APP_LINK_SESSION = "sip:";
+    public static final String APP_LINK_TEL = "tel:";
+    public static final String APP_LINK_MAILTO = "mailto:";
+    public static final String APP_LINK_FILE = "file:";
+    public static final String APP_LINK_FTP = "ftp:";
+    public static final String APP_LINK_IMAP = "imap:";
+    public static final String APP_LINK_IRC = "irc:";
+    public static final String APP_LINK_NNTP = "nntp:";
 
-    String SLASH = "/";
-    String FRAGMENT_SEPARATOR = "#";
-    String QUERY_STRING_SEPARATOR = "?";
-    String QUERY_PARAM_DELIMITER = "&";
+    public static final int HTTP_PORT = 80;
+    public static final int HTTPS_PORT = 443;
+
+    public static final String HTTP = "http";
+    public static final String HTTPS = "https";
+    public static final String HTTP_PREFIX = "http://";
+    public static final String HTTPS_PREFIX = "https://";
+    public static final String REQUEST_SCHEME_EXTENSION = "://";
+    public static final String GENERIC_PROTOCOL_PREFIX = "//";
+
+    public static final String SLASH = "/";
+    public static final String FRAGMENT_SEPARATOR = "#";
+    public static final String QUERY_STRING_SEPARATOR = "?";
+    public static final String QUERY_PARAM_DELIMITER = "&";
 
     /**
      * Represents standard HTML link target attributes and their associated security relationships.
      * <p>
      */
-    enum Target {
+    public enum Target {
 
         NONE(StringUtils.EMPTY, StringUtils.EMPTY),
         BLANK("_blank", "noopener"),
