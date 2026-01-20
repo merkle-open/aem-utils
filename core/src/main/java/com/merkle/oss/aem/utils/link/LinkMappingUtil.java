@@ -33,10 +33,10 @@ public final class LinkMappingUtil {
      * @param path             The path to map.
      * @param resourceResolver The resolver used for mapping.
      * @return The mapped and processed path.
-     * @see #applyResourceMapping(String, SlingHttpServletRequest, ResourceResolver)
+     * @see #map(String, SlingHttpServletRequest, ResourceResolver)
      */
-    public static @NonNull String applyResourceMapping(@NonNull final String path, @NonNull final ResourceResolver resourceResolver) {
-        return applyResourceMapping(path, null, resourceResolver);
+    public static @NonNull String map(@NonNull final String path, @NonNull final ResourceResolver resourceResolver) {
+        return map(path, null, resourceResolver);
     }
 
     /**
@@ -48,10 +48,10 @@ public final class LinkMappingUtil {
      * @param path    The path to map.
      * @param request The current request used for context-aware mapping.
      * @return The mapped and processed path.
-     * @see #applyResourceMapping(String, SlingHttpServletRequest, ResourceResolver)
+     * @see #map(String, SlingHttpServletRequest, ResourceResolver)
      */
-    public static @NonNull String applyResourceMapping(@NonNull final String path, @NonNull final SlingHttpServletRequest request) {
-        return applyResourceMapping(path, request, request.getResourceResolver());
+    public static @NonNull String map(@NonNull final String path, @NonNull final SlingHttpServletRequest request) {
+        return map(path, request, request.getResourceResolver());
     }
 
     /**
@@ -69,7 +69,7 @@ public final class LinkMappingUtil {
      * @return The mapped, relative, and extended path.
      * @throws NullPointerException if the path or resourceResolver is null.
      */
-    public static @NonNull String applyResourceMapping(@NonNull final String path, @Nullable final SlingHttpServletRequest request, @NonNull final ResourceResolver resourceResolver) {
+    public static @NonNull String map(@NonNull final String path, @Nullable final SlingHttpServletRequest request, @NonNull final ResourceResolver resourceResolver) {
         Objects.requireNonNull(path);
         Objects.requireNonNull(resourceResolver);
 

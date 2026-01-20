@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class FunctionalUtilTest {
 
     /**
-     * <p>Method under test: {@link FunctionalUtil}
+     * Method under test: {@link FunctionalUtil}
      */
     @Test
     void instantiationException() throws NoSuchMethodException {
@@ -29,7 +29,7 @@ public class FunctionalUtilTest {
     }
 
     /**
-     * <p>Method under test: {@link FunctionalUtil#asStream(Iterator)}
+     * Method under test: {@link FunctionalUtil#asStream(Iterator)}
      */
     @Test
     public void asStream() {
@@ -55,7 +55,7 @@ public class FunctionalUtilTest {
     }
 
     /**
-     * <p>Method under test: {@link FunctionalUtil#distinctByKey(Function)}
+     * Method under test: {@link FunctionalUtil#distinctByKey(Function)}
      */
     @Test
     void distinctByKey() {

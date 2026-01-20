@@ -29,12 +29,13 @@ public final class FunctionalUtil {
      * @param iterator The iterator to convert.
      * @param <T>      The type of elements returned by the iterator.
      * @return A sequential Stream backed by the provided iterator.
-     * @exampleUsage <pre>{@code
+     * @apiNote Example usage:
+     * {@snippet :
      * final Iterator<Resource> children = page.getContentResource().listChildren();
      * final List<String> names = FunctionalUtil.asStream(children)
-     *      .map(Resource::getName)
-     *      .collect(Collectors.toList());
-     * }</pre>
+     *    .map(Resource::getName)
+     *    .collect(Collectors.toList());
+     *}
      */
     public static @NonNull <T> Stream<T> asStream(@NonNull final Iterator<T> iterator) {
         Objects.requireNonNull(iterator);
@@ -78,10 +79,11 @@ public final class FunctionalUtil {
      * @param keyExtractor A function to extract the comparison key from the element.
      * @param <T>          The type of the stream elements.
      * @return A predicate that returns {@code true} the first time it encounters a specific key.
-     * @exampleUsage <pre>{@code
-     * stream.filter(FunctionalUtil.distinctByKey(User::getEmail))
-     *      .collect(Collectors.toList());
-     * }</pre>
+     * @apiNote Example usage:
+     * {@snippet :
+     * final List<User> distinctUsers = stream.filter(FunctionalUtil.distinctByKey(User::getEmail))
+     *     .collect(Collectors.toList());
+     *}
      */
     public static @NonNull <T> Predicate<T> distinctByKey(@NonNull final Function<? super T, ?> keyExtractor) {
         Objects.requireNonNull(keyExtractor);

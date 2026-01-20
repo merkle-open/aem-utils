@@ -59,7 +59,7 @@ public class LinkExternalizerUtilTest {
     private Page page;
 
     /**
-     * <p>Method under test: {@link LinkExternalizerUtil}
+     * Method under test: {@link LinkExternalizerUtil}
      */
     @Test
     void instantiationException() throws NoSuchMethodException {
@@ -72,7 +72,7 @@ public class LinkExternalizerUtilTest {
     }
 
     /**
-     * <p>Method under test: {@link LinkExternalizerUtil#externalize(Page, SlingHttpServletRequest)}
+     * Method under test: {@link LinkExternalizerUtil#externalize(Page, SlingHttpServletRequest)}
      */
     @Test
     void externalize_page_null() {
@@ -82,7 +82,7 @@ public class LinkExternalizerUtilTest {
     }
 
     /**
-     * <p>Method under test: {@link LinkExternalizerUtil#externalize(Page, SlingHttpServletRequest)}
+     * Method under test: {@link LinkExternalizerUtil#externalize(Page, SlingHttpServletRequest)}
      */
     @Test
     void externalize_page_invalid() {
@@ -91,7 +91,7 @@ public class LinkExternalizerUtilTest {
     }
 
     /**
-     * <p>Method under test: {@link LinkExternalizerUtil#externalize(Page, SlingHttpServletRequest)}
+     * Method under test: {@link LinkExternalizerUtil#externalize(Page, SlingHttpServletRequest)}
      */
     @Test
     void externalize_page() {
@@ -108,7 +108,7 @@ public class LinkExternalizerUtilTest {
     }
 
     /**
-     * <p>Method under test: {@link LinkExternalizerUtil#externalize(String, SlingHttpServletRequest)}
+     * Method under test: {@link LinkExternalizerUtil#externalize(String, SlingHttpServletRequest)}
      */
     @Test
     void externalize_path_null() {
@@ -118,7 +118,7 @@ public class LinkExternalizerUtilTest {
     }
 
     /**
-     * <p>Method under test: {@link LinkExternalizerUtil#externalize(String, SlingHttpServletRequest)}
+     * Method under test: {@link LinkExternalizerUtil#externalize(String, SlingHttpServletRequest)}
      */
     @Test
     void externalize_path_external() {
@@ -127,7 +127,7 @@ public class LinkExternalizerUtilTest {
     }
 
     /**
-     * <p>Method under test: {@link LinkExternalizerUtil#externalize(String, SlingHttpServletRequest)}
+     * Method under test: {@link LinkExternalizerUtil#externalize(String, SlingHttpServletRequest)}
      */
     @Test
     void externalize_path() {
@@ -146,7 +146,7 @@ public class LinkExternalizerUtilTest {
     }
 
     /**
-     * <p>Method under test: {@link LinkExternalizerUtil#externalizeRichTextLinks(String, SlingHttpServletRequest)}
+     * Method under test: {@link LinkExternalizerUtil#externalizeRichTextLinks(String, SlingHttpServletRequest)}
      */
     @Test
     void externalizeRichTextLinks_null() {
@@ -155,7 +155,7 @@ public class LinkExternalizerUtilTest {
     }
 
     /**
-     * <p>Method under test: {@link LinkExternalizerUtil#externalizeRichTextLinks(String, SlingHttpServletRequest)}
+     * Method under test: {@link LinkExternalizerUtil#externalizeRichTextLinks(String, SlingHttpServletRequest)}
      */
     @Test
     void externalizeRichTextLinks() {
