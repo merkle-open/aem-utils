@@ -43,7 +43,7 @@ public class LinkUtilTest {
     private PageManager pageManager;
 
     /**
-     * <p>Method under test: {@link LinkUtil}
+     * Method under test: {@link LinkUtil}
      */
     @Test
     void instantiationException() throws NoSuchMethodException {
@@ -56,7 +56,7 @@ public class LinkUtilTest {
     }
 
     /**
-     * <p>Method under test: {@link LinkUtil#createLink(Page)}
+     * Method under test: {@link LinkUtil#createLink(Page)}
      */
     @Test
     void createLink_page() {

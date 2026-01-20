@@ -33,13 +33,14 @@ public final class ClassUtil {
      * @param clazz The class type to include in the error message.
      * @param <T>   The type of the class.
      * @throws AssertionError always, containing the simple name of the class.
-     * @exampleUsage <pre>{@code
+     * @apiNote Example usage:
+     * {@snippet :
      * public final class MyUtils {
-     *      private MyUtils() {
-     *          ClassUtil.assertNoInstance(getClass());
-     *      }
+     *     private MyUtils() {
+     *         ClassUtil.assertNoInstance(getClass());
+     *     }
      * }
-     * }</pre>
+     *}
      */
     public static <T> void assertNoInstance(@NonNull final Class<T> clazz) {
         throw new AssertionError(clazz.getSimpleName() + " is not meant to be instantiated.");

@@ -42,8 +42,7 @@
                             <bnd><![CDATA[
 Bundle-Category: merkle.oss
 Bundle-SymbolicName: aem-utils.core-bundle
-Import-Package: javax.annotation;version=0.0.0,*\
-!org.jspecify.annotations,
+Import-Package: javax.annotation;version=0.0.0,*
                                 ]]></bnd>
                         </configuration>
                     </execution>
@@ -95,6 +94,10 @@ Import-Package: javax.annotation;version=0.0.0,*\
             <groupId>org.jsoup</groupId>
             <artifactId>jsoup</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.google.re2j</groupId>
+            <artifactId>re2j</artifactId>
+        </dependency>
         <!-- Testing -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
@@ -109,6 +112,16 @@ Import-Package: javax.annotation;version=0.0.0,*\
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.wcm</groupId>
+            <artifactId>io.wcm.testing.aem-mock.junit5</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>

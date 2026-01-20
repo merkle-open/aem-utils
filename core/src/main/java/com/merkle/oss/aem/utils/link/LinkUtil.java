@@ -38,12 +38,11 @@ public class LinkUtil {
      * <p>
      * The link is only returned if the page is valid (not hidden/expired).
      * Resource mapping is not applied.
-     * </p>
-     * <b>Note:</b> This method does not apply Sling Resource Mapping. For shortening or
-     * mapping paths, use {@link LinkMappingUtil}.
      *
      * @param page The page to transform into a link.
      * @return The page path with an extension, or {@code null} if the page is null or invalid.
+     * @apiNote This method does not apply Sling Resource Mapping. For shortening or
+     * mapping paths, use {@link LinkMappingUtil}.
      */
     public static @Nullable String createLink(@Nullable final Page page) {
         return Optional.ofNullable(page)
@@ -58,15 +57,13 @@ public class LinkUtil {
      * Creates a link from a path string.
      * <p>
      * Performs page validation if the path points to an internal resource.
-     * </p>
-     * <b>Note:</b> This method does not apply Sling Resource Mapping. For shortening or
-     * mapping paths, use {@link LinkMappingUtil}.
-     * <p>
      *
      * @param path             The path string.
      * @param resourceResolver The resolver to check page existence and validity.
      * @return The processed path, or {@code null} if an internal page is invalid.
      * @throws NullPointerException if the path or resourceResolver is null.
+     * @apiNote This method does not apply Sling Resource Mapping. For shortening or
+     * mapping paths, use {@link LinkMappingUtil}.
      */
     public static @Nullable String createLink(@NonNull final String path, @NonNull final ResourceResolver resourceResolver) {
         return createLink(path, resourceResolver, true);
@@ -77,7 +74,6 @@ public class LinkUtil {
      * <p>
      * Normalizes internal paths by ensuring a leading slash and appends {@code .html}
      * extensions where appropriate.
-     * </p>
      *
      * @param path                The source path.
      * @param resourceResolver    The resolver for JCR lookups.
@@ -136,7 +132,6 @@ public class LinkUtil {
      * <p>
      * For example, transforms {@code https://www.example.com/content/home.html}
      * into {@code /content/home.html}.
-     * </p>
      *
      * @param absolutePath The absolute URL.
      * @return The relative path, or the original string if it was not an absolute URL.
@@ -181,7 +176,6 @@ public class LinkUtil {
      * <p>
      * Returns {@code false} for DAM assets (e.g. {@code /content/dam/...}), external
      * links, or paths that already contain an extension, query string, or fragment.
-     * </p>
      *
      * @param path The path to check.
      * @return {@code true} if the path is an internal JCR path without an extension.

@@ -32,7 +32,7 @@ public class LinkMappingUtilTest {
     private ResourceResolver resourceResolver;
 
     /**
-     * <p>Method under test: {@link LinkMappingUtil}
+     * Method under test: {@link LinkMappingUtil}
      */
     @Test
     void instantiationException() throws NoSuchMethodException {
@@ -47,44 +47,44 @@ public class LinkMappingUtilTest {
     /**
      * Methods under test:
      * <ul>
-     *   <li>{@link LinkMappingUtil#applyResourceMapping(String, ResourceResolver)}
-     *   <li>{@link LinkMappingUtil#applyResourceMapping(String, SlingHttpServletRequest)}
+     *   <li>{@link LinkMappingUtil#map(String, ResourceResolver)}
+     *   <li>{@link LinkMappingUtil#map(String, SlingHttpServletRequest)}
      * </ul>
      */
     @Test
-    public void applyResourceMapping_null() {
+    public void map_null() {
         final SlingHttpServletRequest nullRequest = null;
         final ResourceResolver nullResolver = null;
 
-        assertThrows(NullPointerException.class, () -> LinkMappingUtil.applyResourceMapping(null, request));
-        assertThrows(NullPointerException.class, () -> LinkMappingUtil.applyResourceMapping(null, resourceResolver));
-        assertThrows(NullPointerException.class, () -> LinkMappingUtil.applyResourceMapping(FULL_PATH, nullRequest));
-        assertThrows(NullPointerException.class, () -> LinkMappingUtil.applyResourceMapping(FULL_PATH, nullResolver));
+        assertThrows(NullPointerException.class, () -> LinkMappingUtil.map(null, request));
+        assertThrows(NullPointerException.class, () -> LinkMappingUtil.map(null, resourceResolver));
+        assertThrows(NullPointerException.class, () -> LinkMappingUtil.map(FULL_PATH, nullRequest));
+        assertThrows(NullPointerException.class, () -> LinkMappingUtil.map(FULL_PATH, nullResolver));
     }
 
     /**
-     * <p>Method under test: {@link LinkMappingUtil#applyResourceMapping(String, ResourceResolver)}
+     * Method under test: {@link LinkMappingUtil#map(String, ResourceResolver)}
      */
     @Test
-    public void applyResourceMapping_resolver() {
-        assertTrue(LinkMappingUtil.applyResourceMapping("", resourceResolver).isEmpty());
-        assertEquals(TEST_URL, LinkMappingUtil.applyResourceMapping(TEST_URL, resourceResolver));
+    public void map_resolver() {
+        assertTrue(LinkMappingUtil.map("", resourceResolver).isEmpty());
+        assertEquals(TEST_URL, LinkMappingUtil.map(TEST_URL, resourceResolver));
 
         when(resourceResolver.map(FULL_PATH)).thenReturn(MAPPED_PATH);
-        assertEquals(MAPPED_PATH, LinkMappingUtil.applyResourceMapping(FULL_PATH, resourceResolver));
+        assertEquals(MAPPED_PATH, LinkMappingUtil.map(FULL_PATH, resourceResolver));
     }
 
     /**
-     * <p>Method under test: {@link LinkMappingUtil#applyResourceMapping(String, SlingHttpServletRequest)}
+     * Method under test: {@link LinkMappingUtil#map(String, SlingHttpServletRequest)}
      */
     @Test
-    public void applyResourceMapping_request() {
+    public void map_request() {
         when(request.getResourceResolver()).thenReturn(resourceResolver);
-        assertTrue(LinkMappingUtil.applyResourceMapping("", request).isEmpty());
-        assertEquals(TEST_URL, LinkMappingUtil.applyResourceMapping(TEST_URL, request));
+        assertTrue(LinkMappingUtil.map("", request).isEmpty());
+        assertEquals(TEST_URL, LinkMappingUtil.map(TEST_URL, request));
 
         when(resourceResolver.map(request, FULL_PATH)).thenReturn(MAPPED_PATH);
-        assertEquals(MAPPED_PATH, LinkMappingUtil.applyResourceMapping(FULL_PATH, request));
+        assertEquals(MAPPED_PATH, LinkMappingUtil.map(FULL_PATH, request));
     }
 
 }

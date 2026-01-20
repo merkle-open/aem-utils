@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class LinksTest {
 
     /**
-     * <p>Method under test: {@link Links}
+     * Method under test: {@link Links}
      */
     @Test
     void instantiationException() throws NoSuchMethodException {

@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class ClassUtilTest {
 
     /**
-     * <p>Method under test: {@link ClassUtil}
+     * Method under test: {@link ClassUtil}
      */
     @Test
     void instantiationException() throws NoSuchMethodException {
