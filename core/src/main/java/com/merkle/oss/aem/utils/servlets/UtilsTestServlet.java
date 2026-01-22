@@ -66,7 +66,7 @@ public class UtilsTestServlet extends SlingSafeMethodsServlet {
     /**
      * {@inheritDoc}
      *
-     * @see SlingSafeMethodsServlet#doGet(SlingHttpServletRequest, SlingHttpServletResponse)
+     * @see org.apache.sling.api.servlets.SlingSafeMethodsServlet#doGet(SlingHttpServletRequest, SlingHttpServletResponse)
      */
     @Override
     protected void doGet(@NonNull final SlingHttpServletRequest request, @NonNull final SlingHttpServletResponse response) throws IOException {

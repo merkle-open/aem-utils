@@ -102,25 +102,25 @@ public class LinkUtilTest {
     }
 
     /**
-     * Method under test: {@link LinkUtil#isValidInternalLink(String, ResourceResolver)}
+     * Method under test: {@link LinkUtil#isValidPageLink(String, ResourceResolver)}
      */
     @Test
-    void isValidInternalLink() {
-        assertFalse(LinkUtil.isValidInternalLink(StringUtils.EMPTY, resourceResolver));
-        assertThrows(NullPointerException.class, () -> LinkUtil.isValidInternalLink(INTERNAL_LINK, null));
+    void isValidPageLink() {
+        assertFalse(LinkUtil.isValidPageLink(StringUtils.EMPTY, resourceResolver));
+        assertThrows(NullPointerException.class, () -> LinkUtil.isValidPageLink(INTERNAL_LINK, null));
 
         when(this.resourceResolver.adaptTo(PageManager.class)).thenReturn(null);
-        assertFalse(LinkUtil.isValidInternalLink(INTERNAL_LINK, resourceResolver));
+        assertFalse(LinkUtil.isValidPageLink(INTERNAL_LINK, resourceResolver));
 
         when(this.resourceResolver.adaptTo(PageManager.class)).thenReturn(pageManager);
         when(this.pageManager.getPage(INTERNAL_LINK)).thenReturn(null);
-        assertFalse(LinkUtil.isValidInternalLink(INTERNAL_LINK, resourceResolver));
+        assertFalse(LinkUtil.isValidPageLink(INTERNAL_LINK, resourceResolver));
         when(this.pageManager.getPage(INTERNAL_LINK)).thenReturn(page);
         when(this.page.isValid()).thenReturn(false);
-        assertFalse(LinkUtil.isValidInternalLink(INTERNAL_LINK, resourceResolver));
+        assertFalse(LinkUtil.isValidPageLink(INTERNAL_LINK, resourceResolver));
 
         when(this.page.isValid()).thenReturn(true);
-        assertTrue(LinkUtil.isValidInternalLink(INTERNAL_LINK, resourceResolver));
+        assertTrue(LinkUtil.isValidPageLink(INTERNAL_LINK, resourceResolver));
     }
 
     /**
@@ -136,13 +136,13 @@ public class LinkUtilTest {
     }
 
     /**
-     * Method under test: {@link LinkUtil#appendHtmlExtensionIfMissing(String)}
+     * Method under test: {@link LinkUtil#appendHtml(String)}
      */
     @Test
-    public void appendHtmlExtensionIfMissing() {
-        assertThrows(NullPointerException.class, () -> LinkUtil.appendHtmlExtensionIfMissing(null));
-        assertEquals(INTERNAL_LINK, LinkUtil.appendHtmlExtensionIfMissing(INTERNAL_LINK));
-        assertEquals(INTERNAL_LINK, LinkUtil.appendHtmlExtensionIfMissing(INTERNAL_LINK));
+    public void appendHtml() {
+        assertThrows(NullPointerException.class, () -> LinkUtil.appendHtml(null));
+        assertEquals(INTERNAL_LINK, LinkUtil.appendHtml(INTERNAL_LINK));
+        assertEquals(INTERNAL_LINK, LinkUtil.appendHtml(INTERNAL_LINK));
     }
 
     /**
@@ -178,23 +178,23 @@ public class LinkUtilTest {
     }
 
     /**
-     * Method under test: {@link LinkUtil#isInternalLink(String)} 
+     * Method under test: {@link LinkUtil#isRelativ(String)}
      */
     @Test
-    public void isInternalLink() {
-        assertTrue(LinkUtil.isInternalLink(INTERNAL_LINK));
-        assertFalse(LinkUtil.isInternalLink(EXTERNAL_LINK));
+    public void isRelativ() {
+        assertTrue(LinkUtil.isRelativ(INTERNAL_LINK));
+        assertFalse(LinkUtil.isRelativ(EXTERNAL_LINK));
     }
 
     /**
-     * Method under test: {@link LinkUtil#isLinkToDAM(String)} 
+     * Method under test: {@link LinkUtil#isDAMPath(String)}
      */
     @Test
-    public void isLinkToDAM() {
-        assertFalse(LinkUtil.isLinkToDAM(null));
-        assertFalse(LinkUtil.isLinkToDAM(StringUtils.EMPTY));
-        assertFalse(LinkUtil.isLinkToDAM(INTERNAL_LINK));
-        assertTrue(LinkUtil.isLinkToDAM(DAM_LINK));
+    public void isDAMPath() {
+        assertFalse(LinkUtil.isDAMPath(null));
+        assertFalse(LinkUtil.isDAMPath(StringUtils.EMPTY));
+        assertFalse(LinkUtil.isDAMPath(INTERNAL_LINK));
+        assertTrue(LinkUtil.isDAMPath(DAM_LINK));
     }
 
     /**
