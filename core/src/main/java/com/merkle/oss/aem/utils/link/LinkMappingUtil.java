@@ -14,7 +14,7 @@ import java.util.function.Function;
 /**
  * Utility for applying Sling Resource Mapping to paths.
  * <p>
- * This utility wraps the {@link ResourceResolver#map} functionality to provide a consistent
+ * This utility wraps the {@link org.apache.sling.api.resource.ResourceResolver#map} functionality to provide a consistent
  * way of shortening internal paths, ensuring they are relative, and appending necessary
  * extensions. It is designed to safely ignore external links.
  */
@@ -27,8 +27,8 @@ public final class LinkMappingUtil {
     /**
      * Applies resource mapping to an internal path using the provided resolver.
      * <p>
-     * Returns a path mapped from the provided path applying the reverse mapping used by the {@link ResourceResolver#resolve(String)}
-     * such that when the path is given to the {@link ResourceResolver#resolve(String)} method, the same resource is returned.
+     * Returns a path mapped from the provided path applying the reverse mapping used by the {@link org.apache.sling.api.resource.ResourceResolver#resolve(String)}
+     * such that when the path is given to the {@link org.apache.sling.api.resource.ResourceResolver#resolve(String)} method, the same resource is returned.
      *
      * @param path             The path to map.
      * @param resourceResolver The resolver used for mapping.
@@ -59,8 +59,8 @@ public final class LinkMappingUtil {
      * <p>
      * The following logic is applied:
      * <ol>
-     * <li>Checks if the path is internal via {@link LinkUtil#isInternalLink(String)}. If not, returns the path as-is.</li>
-     * <li>Applies {@link ResourceResolver#map(String)} (or request-aware map if provided).</li>
+     * <li>Checks if the path is internal via {@link LinkUtil#isRelativ(String)}. If not, returns the path as-is.</li>
+     * <li>Applies {@link org.apache.sling.api.resource.ResourceResolver#map(String)} (or request-aware map if provided).</li>
      * </ol>
      *
      * @param path             The path to map.
@@ -73,7 +73,7 @@ public final class LinkMappingUtil {
         Objects.requireNonNull(path);
         Objects.requireNonNull(resourceResolver);
 
-        if (!LinkUtil.isInternalLink(path)) {
+        if (!LinkUtil.isRelativ(path)) {
             return path;
         }
 

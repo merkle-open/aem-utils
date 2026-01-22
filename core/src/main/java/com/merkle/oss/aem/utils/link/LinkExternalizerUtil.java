@@ -16,10 +16,10 @@ import java.util.Objects;
  * Utility class for transforming resource paths into absolute, externalized URLs.
  * <p>
  * This utility provides support for Page objects, raw path strings, and Rich Text content.
- * It leverages the AEM {@link Externalizer} service to prepend the appropriate
+ * It leverages the AEM {@link com.day.cq.commons.Externalizer} service to prepend the appropriate
  * scheme and domain based on the current request.
  * </p>
- * By utilizing {@link Externalizer#absoluteLink(SlingHttpServletRequest, String, String)} as the transformation mechanism,
+ * By utilizing {@link com.day.cq.commons.Externalizer#absoluteLink(SlingHttpServletRequest, String, String)} as the transformation mechanism,
  * this uititly provides safe externalizer functionality for multi tenancy projects based on valid resource resoler mapping configurations.
  *
  */
@@ -30,7 +30,7 @@ public class LinkExternalizerUtil {
     }
 
     /**
-     * Externalizes a {@link Page} path to an absolute URL.
+     * Externalizes a {@link com.day.cq.wcm.api.Page} path to an absolute URL.
      * <p>
      * If the page is invalid (e.g., hidden or expired), an empty string is returned.
      * </p>
@@ -75,7 +75,7 @@ public class LinkExternalizerUtil {
         Objects.requireNonNull(request);
         Objects.requireNonNull(path);
 
-        if (!LinkUtil.isInternalLink(path)) {
+        if (!LinkUtil.isRelativ(path)) {
             return path;
         }
 
@@ -103,7 +103,7 @@ public class LinkExternalizerUtil {
         Objects.requireNonNull(richText);
 
         final Document document = Jsoup.parse(richText);
-        document.select("a").forEach(data -> data.attr("href", absoluteLink(LinkUtil.appendHtmlExtensionIfMissing(data.attr("href")), request)));
+        document.select("a").forEach(data -> data.attr("href", absoluteLink(LinkUtil.appendHtml(data.attr("href")), request)));
 
         return document.body().html();
     }

@@ -34,7 +34,7 @@ public class LinkUtil {
     }
 
     /**
-     * Creates a link from a {@link Page} object.
+     * Creates a link from a {@link com.day.cq.wcm.api.Page} object.
      * <p>
      * The link is only returned if the page is valid (not hidden/expired).
      * Resource mapping is not applied.
@@ -77,7 +77,7 @@ public class LinkUtil {
      *
      * @param path                The source path.
      * @param resourceResolver    The resolver for JCR lookups.
-     * @param needsPageValidation Whether to perform {@link Page#isValid()} checks.
+     * @param needsPageValidation Whether to perform {@link com.day.cq.wcm.api.Page#isValid()} checks.
      * @return The formatted path string or {@code null} if validation fails.
      */
     private static @Nullable String createLink(@NonNull String path, @NonNull final ResourceResolver resourceResolver, final boolean needsPageValidation) {
@@ -101,7 +101,7 @@ public class LinkUtil {
             }
         }
 
-        return appendHtmlExtensionIfMissing(path);
+        return appendHtml(path);
     }
 
     /**
@@ -111,7 +111,7 @@ public class LinkUtil {
      * @param resourceResolver The resolver for JCR access.
      * @return {@code true} if the path exists as a page and is currently valid.
      */
-    public static boolean isValidInternalLink(@Nullable final String pagePath, @NonNull final ResourceResolver resourceResolver) {
+    public static boolean isValidPageLink(@Nullable final String pagePath, @NonNull final ResourceResolver resourceResolver) {
         Objects.requireNonNull(resourceResolver);
 
         if (StringUtils.isEmpty(pagePath)) {
@@ -161,7 +161,7 @@ public class LinkUtil {
      * @return The path with an extension appended if necessary.
      * @see #isMissingHtmlExtension(String)
      */
-    public static @NonNull String appendHtmlExtensionIfMissing(@NonNull final String path) {
+    public static @NonNull String appendHtml(@NonNull final String path) {
         Objects.requireNonNull(path);
 
         if (isMissingHtmlExtension(path)) {
@@ -183,7 +183,7 @@ public class LinkUtil {
     public static boolean isMissingHtmlExtension(@NonNull final String path) {
         Objects.requireNonNull(path);
 
-        if (isLinkToDAM(path) || !isInternalLink(path)) {
+        if (isDAMPath(path) || !isRelativ(path)) {
             return false;
         }
 
@@ -207,7 +207,7 @@ public class LinkUtil {
      * @param link The link/path to check.
      * @return {@code true} if the link starts with {@code /}.
      */
-    public static boolean isInternalLink(@Nullable final String link) {
+    public static boolean isRelativ(@Nullable final String link) {
         return StringUtils.isNotBlank(link) && link.trim().startsWith(Links.SLASH);
     }
 
@@ -217,7 +217,7 @@ public class LinkUtil {
      * @param link The path to check.
      * @return {@code true} if the path starts with the DAM mountpoint ({@code /content/dam}).
      */
-    public static boolean isLinkToDAM(@Nullable final String link) {
+    public static boolean isDAMPath(@Nullable final String link) {
         return StringUtils.isNotBlank(link) && Strings.CS.startsWith(link, DamConstants.MOUNTPOINT_ASSETS);
     }
 
