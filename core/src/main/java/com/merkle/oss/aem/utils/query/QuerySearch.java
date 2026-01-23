@@ -59,7 +59,7 @@ public class QuerySearch {
 
     private final List<PredicateGroup> additionalPredicates = new LinkedList<>();
 
-    private boolean addOnOffTimePredicate = true;
+    private boolean addOnOffTimePredicate;
 
     private long hitsPerPage = DEFAULT_HITS_PER_PAGE;
 
