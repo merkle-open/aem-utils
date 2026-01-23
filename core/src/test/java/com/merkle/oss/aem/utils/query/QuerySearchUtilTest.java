@@ -10,6 +10,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -63,6 +64,7 @@ public class QuerySearchUtilTest {
         assertNull(QuerySearchUtil.createTagListPredicateGroup(TAG_LIST, TAG_PROPERTY_PATH, false, null));
         assertNull(QuerySearchUtil.createTagListPredicateGroup(TAG_LIST, null, false, tagManager));
         assertNull(QuerySearchUtil.createTagListPredicateGroup(null, TAG_PROPERTY_PATH, false, tagManager));
+        assertNull(QuerySearchUtil.createTagListPredicateGroup(Collections.emptyList(), TAG_PROPERTY_PATH, false, tagManager));
 
         when(tagManager.resolve("tag1")).thenReturn(null);
         when(tagManager.resolve("tag2")).thenReturn(null);
