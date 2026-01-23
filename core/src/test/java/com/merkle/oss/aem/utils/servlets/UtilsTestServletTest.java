@@ -54,7 +54,7 @@ public class UtilsTestServletTest {
     }
 
     /**
-     * Method under test: {@link UtilsTestServlet#doGet(SlingHttpServletRequest, SlingHttpServletResponse)}.
+     * Method under test: {@link UtilsTestServlet@doGet(SlingHttpServletRequest, SlingHttpServletResponse)}.
      */
     @Test
     void doGet_null(final AemContext context) {
@@ -65,7 +65,7 @@ public class UtilsTestServletTest {
     }
 
     /**
-     * Method under test: {@link UtilsTestServlet#doGet(SlingHttpServletRequest, SlingHttpServletResponse)}.
+     * Method under test: {@link UtilsTestServlet@doGet(SlingHttpServletRequest, SlingHttpServletResponse)}.
      */
     @Test
     void doGet_runMode(final AemContext context) {
@@ -84,7 +84,7 @@ public class UtilsTestServletTest {
     }
 
     /**
-     * Method under test: {@link UtilsTestServlet#doGet(SlingHttpServletRequest, SlingHttpServletResponse)}.
+     * Method under test: {@link UtilsTestServlet@doGet(SlingHttpServletRequest, SlingHttpServletResponse)}.
      */
     @Test
     void doGet_pathParameter(final AemContext context) {

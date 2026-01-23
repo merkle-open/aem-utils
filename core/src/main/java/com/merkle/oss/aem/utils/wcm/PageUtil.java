@@ -88,7 +88,7 @@ public final class PageUtil {
      * @return The template path (e.g., {@code /conf/my-site/settings/wcm/templates/page-content}), or empty string if not found.
      */
     public static @NonNull String getTemplatePath(@Nullable final Page page) {
-        return propertyFromPage(page, NameConstants.NN_TEMPLATE);
+        return getProperty(page, NameConstants.NN_TEMPLATE);
     }
 
     /**
@@ -260,7 +260,7 @@ public final class PageUtil {
      * @return The property value, or an empty string if the page/property does not exist.
      * @throws NullPointerException if {@code propertyName} is null.
      */
-    public static @NonNull String propertyFromPage(@Nullable final Page page, @NonNull final String propertyName) {
+    public static @NonNull String getProperty(@Nullable final Page page, @NonNull final String propertyName) {
         Objects.requireNonNull(propertyName);
 
         return forPage(page, p -> Objects.requireNonNull(p.getProperties()).get(propertyName, StringUtils.EMPTY));

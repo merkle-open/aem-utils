@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * Utility class providing static helper methods for AEM {@link Query} construction.
+ * Utility class providing static helper methods for AEM {@link com.day.cq.search.Query} construction.
  */
 public final class QuerySearchUtil {
 
@@ -70,6 +70,8 @@ public final class QuerySearchUtil {
      * @see <a href="http://docs.adobe.com/docs/en/spec/jcr/1.0/6.6.5.1_jcr_like_Function.html">JCR 1.0: jcr:like Function</a>
      */
     public static @NonNull String escapeSearchValue(@NonNull final String searchValue) {
+        Objects.requireNonNull(searchValue);
+
         // please don't try to understand this escaping madness. It took me quite some time...
         return RegExUtils.replaceAll(searchValue, "\\\\", "\\\\\\\\")
                 .replace("_", "\\_")
