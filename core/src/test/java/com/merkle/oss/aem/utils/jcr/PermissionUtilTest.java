@@ -35,7 +35,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 /**
- * Unit tests for the {@link PermissionUtilTest} class.
+ * Unit tests for the {@link PermissionUtil} class.
  */
 @ExtendWith(MockitoExtension.class)
 public class PermissionUtilTest {

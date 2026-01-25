@@ -23,7 +23,7 @@ import static com.merkle.oss.aem.utils.sling.SlingUtil.sessionOf;
  * A builder-style utility to simplify the creation of AEM {@link com.day.cq.search.Query} objects.
  * <p>
  * This class streamlines the assembly of common search criteria such as paths, tags, primary types,
- * and pagination. An automatic inclusion of <b>On/Off Time</b> predicates
+ * and pagination. An automatic inclusion of On/Off Time predicates
  * ensures that search results only include resources that are currently active based on their
  * {@code cq:onTime} and {@code cq:offTime} properties.
  *
@@ -295,9 +295,9 @@ public class QuerySearch {
      *
      * @param propertyName   the name of the property to apply the range condition to
      * @param lowerBound     the lower bound value of the range; can be null or blank if not required
-     * @param lowerOperation the operation for the lower bound (e.g., ">", ">="); ignored if lowerBound is null or blank
+     * @param lowerOperation the operation for the lower bound (e.g., {@code >}, {@code >=}); ignored if lowerBound is null or blank
      * @param upperBound     the upper bound value of the range; can be null or blank if not required
-     * @param upperOperation the operation for the upper bound (e.g., "<", "<="); ignored if upperBound is null or blank
+     * @param upperOperation the operation for the upper bound (e.g., {@code <}, {@code <=}); ignored if upperBound is null or blank
      * @param decimal        a flag indicating whether the property is decimal-based
      * @return a PredicateGroup representing the range property predicate
      */
@@ -322,10 +322,10 @@ public class QuerySearch {
      * Creates a predicate group representing a date range property with optional lower and upper bounds.
      *
      * @param propertyName   the name of the property to be used in the date range comparison
-     * @param lowerBound     the lower bound of the date range can be null or empty if not applicable
-     * @param lowerOperation the comparison operation to use for the lower bound (e.g., ">=", ">", etc.)
-     * @param upperBound     the upper bound of the date range can be null or empty if not applicable
-     * @param upperOperation the comparison operation to use for the upper bound (e.g., "<=", "<", etc.)
+     * @param lowerBound    the lower bound value of the range; can be null or blank if not required
+     * @param lowerOperation the operation for the lower bound (e.g., {@code >}, {@code >=}); ignored if lowerBound is null or blank
+     * @param upperBound     the upper bound value of the range; can be null or blank if not required
+     * @param upperOperation the operation for the upper bound (e.g., {@code <}, {@code <=}); ignored if upperBound is null or blank
      * @return a PredicateGroup containing the configured date range property and bounds, or an empty group if no bounds are provided
      */
     public @NonNull PredicateGroup createDateRangePropertyPredicate(@NonNull final String propertyName, @Nullable final String lowerBound, @Nullable final String lowerOperation,
@@ -446,8 +446,8 @@ public class QuerySearch {
     /**
      * Constructs the logic for activation-based visibility.
      * <p>
-     * <b>Logic for On-Time:</b> (OnTime <= Now) OR (OnTime does not exist). <br>
-     * <b>Logic for Off-Time:</b> (OffTime > Now) OR (OffTime does not exist).
+     * Logic for On-Time: (OnTime <= Now) OR (OnTime does not exist). <br>
+     * Logic for Off-Time: (OffTime > Now) OR (OffTime does not exist).
      * </p>
      *
      * @param addOnOffTimePredicate Flag to toggle this logic.

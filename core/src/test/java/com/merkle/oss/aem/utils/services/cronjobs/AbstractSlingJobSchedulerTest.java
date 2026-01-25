@@ -58,11 +58,11 @@ public class AbstractSlingJobSchedulerTest {
     void scheduleJobOnAuthor() {
         when(runModeService.isPublish()).thenReturn(true);
         exampleScheduler.scheduleJobOnAuthor(false, CRON_EXPRESSION, JOB_TOPIC, null);
-        verify(jobManager, never()).getScheduledJobs(JOB_TOPIC, 0, null);
+        verify(jobManager, never()).getScheduledJobs(JOB_TOPIC, 0, (Map<String, Object>[]) null);
 
         when(runModeService.isPublish()).thenReturn(false);
         exampleScheduler.scheduleJobOnAuthor(false, CRON_EXPRESSION, JOB_TOPIC, null);
-        verify(jobManager, times(1)).getScheduledJobs(JOB_TOPIC, 0, null);
+        verify(jobManager, times(1)).getScheduledJobs(JOB_TOPIC, 0, (Map<String, Object>[]) null);
     }
 
     /**
@@ -72,11 +72,11 @@ public class AbstractSlingJobSchedulerTest {
     void scheduleJobOnPublish() {
         when(runModeService.isAuthor()).thenReturn(true);
         exampleScheduler.scheduleJobOnPublish(false, CRON_EXPRESSION, JOB_TOPIC, null);
-        verify(jobManager, never()).getScheduledJobs(JOB_TOPIC, 0, null);
+        verify(jobManager, never()).getScheduledJobs(JOB_TOPIC, 0, (Map<String, Object>[]) null);
 
         when(runModeService.isAuthor()).thenReturn(false);
         exampleScheduler.scheduleJobOnPublish(false, CRON_EXPRESSION, JOB_TOPIC, null);
-        verify(jobManager, times(1)).getScheduledJobs(JOB_TOPIC, 0, null);
+        verify(jobManager, times(1)).getScheduledJobs(JOB_TOPIC, 0, (Map<String, Object>[]) null);
     }
 
     /**
@@ -84,18 +84,18 @@ public class AbstractSlingJobSchedulerTest {
      */
     @Test
     void scheduleJob() {
-        when(jobManager.getScheduledJobs(JOB_TOPIC, 0, null)).thenReturn(Collections.singletonList(scheduledJobInfo));
+        when(jobManager.getScheduledJobs(JOB_TOPIC, 0, (Map<String, Object>[]) null)).thenReturn(Collections.singletonList(scheduledJobInfo));
         exampleScheduler.scheduleJob(false, CRON_EXPRESSION, JOB_TOPIC, null);
         verify(jobManager, never()).createJob(JOB_TOPIC);
 
-        when(jobManager.getScheduledJobs(JOB_TOPIC, 1, null)).thenReturn(Collections.emptyList());
+        when(jobManager.getScheduledJobs(JOB_TOPIC, 1, (Map<String, Object>[]) null)).thenReturn(Collections.emptyList());
         when(jobManager.createJob(JOB_TOPIC)).thenReturn(jobBuilder);
         when(jobBuilder.schedule()).thenReturn(scheduleBuilder);
         when(scheduleBuilder.add()).thenReturn(null);
         exampleScheduler.scheduleJob(true, CRON_EXPRESSION, JOB_TOPIC, null);
         verify(scheduleBuilder, atLeastOnce()).cron(CRON_EXPRESSION);
 
-        when(jobManager.getScheduledJobs(JOB_TOPIC, 1, null)).thenReturn(Collections.singletonList(scheduledJobInfo));
+        when(jobManager.getScheduledJobs(JOB_TOPIC, 1, (Map<String, Object>[]) null)).thenReturn(Collections.singletonList(scheduledJobInfo));
         when(scheduleBuilder.add()).thenReturn(scheduledJobInfo);
         final Map<String, Object> payload = new HashMap<>();
         payload.put("key", "value");
@@ -111,10 +111,10 @@ public class AbstractSlingJobSchedulerTest {
      */
     @Test
     void doesScheduledJobExist() {
-        when(jobManager.getScheduledJobs(JOB_TOPIC, 1, null)).thenReturn(Collections.emptyList());
+        when(jobManager.getScheduledJobs(JOB_TOPIC, 1, (Map<String, Object>[]) null)).thenReturn(Collections.emptyList());
         assertFalse(exampleScheduler.doesScheduledJobExist(JOB_TOPIC));
 
-        when(jobManager.getScheduledJobs(JOB_TOPIC, 1, null)).thenReturn(Collections.singletonList(scheduledJobInfo));
+        when(jobManager.getScheduledJobs(JOB_TOPIC, 1, (Map<String, Object>[]) null)).thenReturn(Collections.singletonList(scheduledJobInfo));
         assertTrue(exampleScheduler.doesScheduledJobExist(JOB_TOPIC));
     }
 
@@ -123,7 +123,7 @@ public class AbstractSlingJobSchedulerTest {
      */
     @Test
     void unscheduleJob() {
-        when(jobManager.getScheduledJobs(JOB_TOPIC, 0, null)).thenReturn(Collections.singletonList(scheduledJobInfo));
+        when(jobManager.getScheduledJobs(JOB_TOPIC, 0, (Map<String, Object>[]) null)).thenReturn(Collections.singletonList(scheduledJobInfo));
         exampleScheduler.unscheduleJob(JOB_TOPIC);
         verify(scheduledJobInfo, times(1)).unschedule();
     }

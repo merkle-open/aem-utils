@@ -46,7 +46,7 @@ public class CookieNameBuilder {
      * </p>
      * <p>
      * This method traverses the page hierarchy upwards to collect segments but appends them
-     * in <b>top-down order</b> (Shallowest &rarr; Deepest).
+     * in top-down order (Shallowest &rarr; Deepest).
      *
      * @param page   The starting page for traversal (can be null, in which case nothing happens).
      * @param depths The absolute JCR depths (e.g., 3, 4) of the pages whose names should be included.
