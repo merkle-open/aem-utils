@@ -9,7 +9,7 @@ import java.util.Map;
  * Service interface for managing scheduled Sling Jobs via cron expressions.
  * <p>
  * This service provides a high-level abstraction over the Sling Job Manager and Scheduler,
- * specifically handling the runmode-dependent nuances of AEM architectures (Clusters vs. Farms).
+ * specifically handling the run mode dependent nuances of AEM architectures (Clusters vs. Farms).
  * </p>
  * <p>
  * Using Sling Jobs for scheduling is preferred over standard Sling Commons Scheduler

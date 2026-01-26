@@ -1,4 +1,15 @@
+## Example usage
+
 ```java
+
+import com.day.cq.search.Query;
+import com.day.cq.search.QueryBuilder;
+import com.day.cq.tagging.TagManager;
+import com.merkle.oss.aem.utils.query.QueryResultHelper;
+import com.merkle.oss.aem.utils.query.QuerySearch;
+import com.merkle.oss.aem.utils.query.QuerySearchUtil;
+import org.apache.sling.api.resource.Resource;
+//... other imports
 
 @Model(adaptables = Resource.class, defaultInjectionStrategy = DefaultInjectionStrategy.OPTIONAL)
 public class QueryExampleComponent {
@@ -47,5 +58,20 @@ public class QueryExampleComponent {
                 .collect(Collectors.toList());
     }
 }
+
+```
+
+> [!IMPORTANT]
+> Always follow the Query execution pattern for proper resource retrieval due to closing resourceResolver.
+
+```java
+//...
+//Query execution
+final QueryResultHelper queryResultHelper = QueryResultHelper.create(resource.getResourceResolver());
+final Query query = querySearch.toQuery(queryBuilder, resource.getResourceResolver());
+searchResultItem = query.getResult().getHits().stream()
+        .map(queryResultHelper::getResource)
+        .filter(Objects::nonNull)
+        //...
 
 ```

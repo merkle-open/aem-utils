@@ -9,7 +9,7 @@
     <parent>
         <groupId>com.merkle.oss.aem</groupId>
         <artifactId>aem-utils</artifactId>
-        <version>0.0.2-SNAPSHOT</version>
+        <version>0.0.3-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
@@ -40,7 +40,12 @@
                     <filters>
                         <!-- /apps root -->
                         <filter><root>/apps</root></filter>
-                        <filter><root>/apps/utils</root></filter>
+                        <filter><root>/apps/merkle/utils/config.author</root></filter>
+                        <filter><root>/apps/merkle/utils/config.dev</root></filter>
+                        <filter><root>/apps/merkle/utils/config.prod</root></filter>
+                        <filter><root>/apps/merkle/utils/config.publish</root></filter>
+                        <filter><root>/apps/merkle/utils/config.rde</root></filter>
+                        <filter><root>/apps/merkle/utils/config.stage</root></filter>
                     </filters>
                 </configuration>
             </plugin>

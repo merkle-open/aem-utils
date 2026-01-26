@@ -1,10 +1,10 @@
 package com.merkle.oss.aem.utils.services.cronjobs;
 
 import com.merkle.oss.aem.utils.services.runmode.RunModeService;
-import org.apache.sling.event.jobs.Job;
 import org.apache.sling.event.jobs.JobBuilder;
 import org.apache.sling.event.jobs.JobManager;
 import org.apache.sling.event.jobs.ScheduledJobInfo;
+import org.jspecify.annotations.NonNull;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -45,11 +45,8 @@ public class AbstractSlingJobSchedulerTest {
     @Mock
     private ScheduledJobInfo scheduledJobInfo;
 
-    @Mock
-    private Job job;
-
     @InjectMocks
-    private ExampleScheduler exampleScheduler = new ExampleScheduler();
+    private ExampleSchedulerImpl exampleSchedulerImpl = new ExampleSchedulerImpl();
 
     /**
      * Method under test: {@link AbstractSlingJobScheduler#scheduleJobOnAuthor(boolean, String, String, Map)}
@@ -57,12 +54,12 @@ public class AbstractSlingJobSchedulerTest {
     @Test
     void scheduleJobOnAuthor() {
         when(runModeService.isPublish()).thenReturn(true);
-        exampleScheduler.scheduleJobOnAuthor(false, CRON_EXPRESSION, JOB_TOPIC, null);
-        verify(jobManager, never()).getScheduledJobs(JOB_TOPIC, 0, null);
+        exampleSchedulerImpl.scheduleJobOnAuthor(false, CRON_EXPRESSION, JOB_TOPIC, null);
+        verify(jobManager, never()).getScheduledJobs(JOB_TOPIC, 0, (Map<String, Object>[]) null);
 
         when(runModeService.isPublish()).thenReturn(false);
-        exampleScheduler.scheduleJobOnAuthor(false, CRON_EXPRESSION, JOB_TOPIC, null);
-        verify(jobManager, times(1)).getScheduledJobs(JOB_TOPIC, 0, null);
+        exampleSchedulerImpl.scheduleJobOnAuthor(false, CRON_EXPRESSION, JOB_TOPIC, null);
+        verify(jobManager, times(1)).getScheduledJobs(JOB_TOPIC, 0, (Map<String, Object>[]) null);
     }
 
     /**
@@ -71,12 +68,12 @@ public class AbstractSlingJobSchedulerTest {
     @Test
     void scheduleJobOnPublish() {
         when(runModeService.isAuthor()).thenReturn(true);
-        exampleScheduler.scheduleJobOnPublish(false, CRON_EXPRESSION, JOB_TOPIC, null);
-        verify(jobManager, never()).getScheduledJobs(JOB_TOPIC, 0, null);
+        exampleSchedulerImpl.scheduleJobOnPublish(false, CRON_EXPRESSION, JOB_TOPIC, null);
+        verify(jobManager, never()).getScheduledJobs(JOB_TOPIC, 0, (Map<String, Object>[]) null);
 
         when(runModeService.isAuthor()).thenReturn(false);
-        exampleScheduler.scheduleJobOnPublish(false, CRON_EXPRESSION, JOB_TOPIC, null);
-        verify(jobManager, times(1)).getScheduledJobs(JOB_TOPIC, 0, null);
+        exampleSchedulerImpl.scheduleJobOnPublish(false, CRON_EXPRESSION, JOB_TOPIC, null);
+        verify(jobManager, times(1)).getScheduledJobs(JOB_TOPIC, 0, (Map<String, Object>[]) null);
     }
 
     /**
@@ -84,25 +81,25 @@ public class AbstractSlingJobSchedulerTest {
      */
     @Test
     void scheduleJob() {
-        when(jobManager.getScheduledJobs(JOB_TOPIC, 0, null)).thenReturn(Collections.singletonList(scheduledJobInfo));
-        exampleScheduler.scheduleJob(false, CRON_EXPRESSION, JOB_TOPIC, null);
+        when(jobManager.getScheduledJobs(JOB_TOPIC, 0, (Map<String, Object>[]) null)).thenReturn(Collections.singletonList(scheduledJobInfo));
+        exampleSchedulerImpl.scheduleJob(false, CRON_EXPRESSION, JOB_TOPIC, null);
         verify(jobManager, never()).createJob(JOB_TOPIC);
 
-        when(jobManager.getScheduledJobs(JOB_TOPIC, 1, null)).thenReturn(Collections.emptyList());
+        when(jobManager.getScheduledJobs(JOB_TOPIC, 1, (Map<String, Object>[]) null)).thenReturn(Collections.emptyList());
         when(jobManager.createJob(JOB_TOPIC)).thenReturn(jobBuilder);
         when(jobBuilder.schedule()).thenReturn(scheduleBuilder);
         when(scheduleBuilder.add()).thenReturn(null);
-        exampleScheduler.scheduleJob(true, CRON_EXPRESSION, JOB_TOPIC, null);
+        exampleSchedulerImpl.scheduleJob(true, CRON_EXPRESSION, JOB_TOPIC, null);
         verify(scheduleBuilder, atLeastOnce()).cron(CRON_EXPRESSION);
 
-        when(jobManager.getScheduledJobs(JOB_TOPIC, 1, null)).thenReturn(Collections.singletonList(scheduledJobInfo));
+        when(jobManager.getScheduledJobs(JOB_TOPIC, 1, (Map<String, Object>[]) null)).thenReturn(Collections.singletonList(scheduledJobInfo));
         when(scheduleBuilder.add()).thenReturn(scheduledJobInfo);
         final Map<String, Object> payload = new HashMap<>();
         payload.put("key", "value");
-        exampleScheduler.scheduleJob(true, CRON_EXPRESSION, JOB_TOPIC, payload);
+        exampleSchedulerImpl.scheduleJob(true, CRON_EXPRESSION, JOB_TOPIC, payload);
         verify(scheduleBuilder, atLeastOnce()).cron(CRON_EXPRESSION);
 
-        exampleScheduler.scheduleJob(true, CRON_EXPRESSION, JOB_TOPIC, Collections.emptyMap());
+        exampleSchedulerImpl.scheduleJob(true, CRON_EXPRESSION, JOB_TOPIC, Collections.emptyMap());
         verify(scheduleBuilder, atLeastOnce()).cron(CRON_EXPRESSION);
     }
 
@@ -111,11 +108,11 @@ public class AbstractSlingJobSchedulerTest {
      */
     @Test
     void doesScheduledJobExist() {
-        when(jobManager.getScheduledJobs(JOB_TOPIC, 1, null)).thenReturn(Collections.emptyList());
-        assertFalse(exampleScheduler.doesScheduledJobExist(JOB_TOPIC));
+        when(jobManager.getScheduledJobs(JOB_TOPIC, 1, (Map<String, Object>[]) null)).thenReturn(Collections.emptyList());
+        assertFalse(exampleSchedulerImpl.doesScheduledJobExist(JOB_TOPIC));
 
-        when(jobManager.getScheduledJobs(JOB_TOPIC, 1, null)).thenReturn(Collections.singletonList(scheduledJobInfo));
-        assertTrue(exampleScheduler.doesScheduledJobExist(JOB_TOPIC));
+        when(jobManager.getScheduledJobs(JOB_TOPIC, 1, (Map<String, Object>[]) null)).thenReturn(Collections.singletonList(scheduledJobInfo));
+        assertTrue(exampleSchedulerImpl.doesScheduledJobExist(JOB_TOPIC));
     }
 
     /**
@@ -123,12 +120,12 @@ public class AbstractSlingJobSchedulerTest {
      */
     @Test
     void unscheduleJob() {
-        when(jobManager.getScheduledJobs(JOB_TOPIC, 0, null)).thenReturn(Collections.singletonList(scheduledJobInfo));
-        exampleScheduler.unscheduleJob(JOB_TOPIC);
+        when(jobManager.getScheduledJobs(JOB_TOPIC, 0, (Map<String, Object>[]) null)).thenReturn(Collections.singletonList(scheduledJobInfo));
+        exampleSchedulerImpl.unscheduleJob(JOB_TOPIC);
         verify(scheduledJobInfo, times(1)).unschedule();
     }
 
-    private static class ExampleScheduler extends AbstractSlingJobScheduler {
+    private static class ExampleSchedulerImpl extends AbstractSlingJobScheduler {
 
         @Reference
         private RunModeService runModeService;
@@ -137,17 +134,17 @@ public class AbstractSlingJobSchedulerTest {
         private JobManager jobManager;
 
         @Override
-        protected String getServiceName() {
+        protected @NonNull String getServiceName() {
             return "Example Scheduled Service";
         }
 
         @Override
-        protected RunModeService getRunModeService() {
+        protected @NonNull RunModeService getRunModeService() {
             return runModeService;
         }
 
         @Override
-        protected JobManager getJobManager() {
+        protected @NonNull JobManager getJobManager() {
             return jobManager;
         }
 
