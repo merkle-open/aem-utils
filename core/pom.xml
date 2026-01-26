@@ -9,7 +9,7 @@
     <parent>
         <groupId>com.merkle.oss.aem</groupId>
         <artifactId>aem-utils</artifactId>
-        <version>0.0.2-SNAPSHOT</version>
+        <version>0.0.3-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
@@ -40,9 +40,9 @@
                         </goals>
                         <configuration>
                             <bnd><![CDATA[
-Bundle-Category: merkle.oss
-Bundle-SymbolicName: aem-utils.core-bundle
-Import-Package: javax.annotation;version=0.0.0,*
+                                    Bundle-Category: merkle.oss
+                                    Bundle-SymbolicName: aem-utils.core-bundle
+                                    Import-Package: javax.annotation;version=0.0.0,*
                                 ]]></bnd>
                         </configuration>
                     </execution>
@@ -87,16 +87,20 @@ Import-Package: javax.annotation;version=0.0.0,*
     <!-- ====================================================================== -->
     <dependencies>
         <dependency>
-            <groupId>org.jspecify</groupId>
-            <artifactId>jspecify</artifactId>
-        </dependency>
-        <dependency>
             <groupId>org.jsoup</groupId>
             <artifactId>jsoup</artifactId>
         </dependency>
         <dependency>
             <groupId>com.google.re2j</groupId>
             <artifactId>re2j</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.jspecify</groupId>
+            <artifactId>jspecify</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.github.ben-manes.caffeine</groupId>
+            <artifactId>caffeine</artifactId>
         </dependency>
         <!-- Testing -->
         <dependency>
@@ -122,6 +126,11 @@ Import-Package: javax.annotation;version=0.0.0,*
         <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>

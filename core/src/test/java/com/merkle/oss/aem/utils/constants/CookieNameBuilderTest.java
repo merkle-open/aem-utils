@@ -45,7 +45,7 @@ public class CookieNameBuilderTest {
         assertEquals("projectName.segmentA.segmentB", new CookieNameBuilder(NAMESPACE, SEGMENT_NAME_A, SEGMENT_NAME_B).toString());
         assertEquals("projectName.segmentA.segmentB", new CookieNameBuilder(NAMESPACE, SEGMENT_NAME_A).appendSegmentName(SEGMENT_NAME_B).toString());
         assertEquals("projectName.segmentA", new CookieNameBuilder(NAMESPACE, SEGMENT_NAME_A).appendSegmentName(null).toString());
-        assertThrows(NullPointerException.class, () -> new CookieNameBuilder(NAMESPACE, null).toString());
+        assertThrows(NullPointerException.class, () -> new CookieNameBuilder(NAMESPACE, (String[]) null).toString());
     }
 
     @Test

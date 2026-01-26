@@ -299,17 +299,17 @@ class PageUtilTest {
     }
 
     /**
-     * Method under test: {@link PageUtil#propertyFromPage(Page, String)}
+     * Method under test: {@link PageUtil#getProperty(Page, String)}
      */
     @Test
-    void propertyFromPage() {
-        assertThrows(NullPointerException.class, () -> PageUtil.propertyFromPage(single, null));
+    void getProperty() {
+        assertThrows(NullPointerException.class, () -> PageUtil.getProperty(single, null));
 
         when(single.getProperties()).thenReturn(new ValueMapDecorator(Collections.emptyMap()));
-        assertEquals(StringUtils.EMPTY, PageUtil.propertyFromPage(single, NameConstants.NN_TEMPLATE));
+        assertEquals(StringUtils.EMPTY, PageUtil.getProperty(single, NameConstants.NN_TEMPLATE));
 
         when(single.getProperties()).thenReturn(new ValueMapDecorator(Collections.singletonMap(NameConstants.NN_TEMPLATE, TEMPLATE_PATH_1)));
-        assertEquals(TEMPLATE_PATH_1, PageUtil.propertyFromPage(single, NameConstants.NN_TEMPLATE));
+        assertEquals(TEMPLATE_PATH_1, PageUtil.getProperty(single, NameConstants.NN_TEMPLATE));
     }
 
 }

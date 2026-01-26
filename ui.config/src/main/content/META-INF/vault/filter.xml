@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <workspaceFilter version="1.0">
-    <filter root="/apps/utils/osgiconfig"/>
+    <filter root="/apps/merkle/utils/config.author"/>
+    <filter root="/apps/merkle/utils/config.dev"/>
+    <filter root="/apps/merkle/utils/config.prod"/>
+    <filter root="/apps/merkle/utils/config.publish"/>
+    <filter root="/apps/merkle/utils/config.rde"/>
+    <filter root="/apps/merkle/utils/config.stage"/>
 </workspaceFilter>
