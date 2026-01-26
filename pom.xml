@@ -370,6 +370,7 @@
                     <version>${mvn.surefire.plugin.version}</version>
                     <configuration>
                         <argLine>
+                            @{argLine}
                             -XX:+EnableDynamicAgentLoading
                             -Xshare:off
                         </argLine>
