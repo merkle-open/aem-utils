@@ -77,9 +77,7 @@ public class UtilsTestServlet extends SlingSafeMethodsServlet {
         response.setContentType(FileType.JSON.getMimeType());
 
         final SortedMap<String, String> informationDto = new TreeMap<>();
-
         final String path = request.getParameter(PATH_PARAMETER_NAME);
-
         if (StringUtils.isNotBlank(path)) {
             informationDto.put(EXTERNALIZE_PATH_KEY, LinkExternalizerUtil.externalize(path, request));
             informationDto.put(RESOURCE_MAP_WITH_REQUEST_KEY, LinkMappingUtil.map(path, request));

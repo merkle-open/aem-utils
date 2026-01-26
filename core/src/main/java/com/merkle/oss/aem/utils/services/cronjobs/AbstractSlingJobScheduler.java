@@ -22,7 +22,7 @@ import java.util.Map;
  * <ul>
  * <li>Idempotency: Automatically unschedules existing jobs before creating a new one to
  * ensure configuration updates (like changed cron expressions) are applied correctly.</li>
- * <li>Runmode Safety: Prevents scheduling on incorrect instance types (Author vs. Publish)
+ * <li>Run Mode Safety: Prevents scheduling on incorrect instance types (Author vs. Publish)
  * via the {@link RunModeService}.</li>
  * <li>Payload Support: Transparently passes metadata into the Sling Job properties.</li>
  * </ul>
@@ -35,14 +35,12 @@ import java.util.Map;
  *     //...
  *     @ObjectClassDefinition(name = "ExampleScheduler Config")
  *     public @interface ExampleSchedulerConfig {
- *
  *         @AttributeDefinition(name = "Enabled")
  *         boolean enabled() default false;
- *
  *         @AttributeDefinition(name = "Scheduler Expression")
  *         String scheduler_expression() default "0 0 0 1 * ? *";
- *
  *     }
+ *     //...
  * }
  *}
  * @implNote extending services should register and unregister scheduled jobs on activate/deactivate lifecycle methods.
@@ -53,10 +51,12 @@ import java.util.Map;
  * public class ExampleScheduler extends AbstractSlingJobScheduler {
  *     //...
  *     @Activate
- *     @Modified protected void activate(final ExampleSchedulerConfig config) {
+ *     @Modified
+ *     protected void activate(final ExampleSchedulerConfig config) {
  *         //schedule a job here
  *     }
- *     @Deactivate protected void deactivate() {
+ *     @Deactivate
+ *     protected void deactivate() {
  *         if (runModeService.isPublish()) {
  *             unscheduleJob(MailJob.JOB_TOPIC_VALUE);
  *         }
@@ -70,19 +70,19 @@ public abstract class AbstractSlingJobScheduler implements SlingJobScheduler {
     private static final Logger LOG = LoggerFactory.getLogger(AbstractSlingJobScheduler.class);
 
     /**
-     * @return A descriptive name for the service used in logging (e.g., "Daily Report Service").
+     * @return A descriptive name for the service for unique identification.
      */
-    protected abstract String getServiceName();
+    protected abstract @NonNull String getServiceName();
 
     /**
      * @return An implementation of the {@link RunModeService} to determine environment state.
      */
-    protected abstract RunModeService getRunModeService();
+    protected abstract @NonNull RunModeService getRunModeService();
 
     /**
      * @return The {@link org.apache.sling.event.jobs.JobManager} service required to interact with the Sling Eventing system.
      */
-    protected abstract JobManager getJobManager();
+    protected abstract @NonNull JobManager getJobManager();
 
     /**
      * {@inheritDoc}

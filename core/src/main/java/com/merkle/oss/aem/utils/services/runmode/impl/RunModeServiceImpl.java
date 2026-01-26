@@ -61,7 +61,7 @@ public class RunModeServiceImpl implements RunModeService {
         }
 
         environmenType = EnvironmentTypeRunMode.Type.of(config.environmentType());
-        runModes.put(EnvironmentTypeRunMode.getKey(), environmenType.getMode());
+        runModes.put(EnvironmentTypeRunMode.getKey(), Objects.requireNonNull(environmenType).getMode());
     }
 
     /**
@@ -143,7 +143,7 @@ public class RunModeServiceImpl implements RunModeService {
      * <p>
      * The properties defined here are used to identify the environment type.
      */
-    @ObjectClassDefinition(name = "AEM Utils Run Mode Config", description = "Configures run modes for current instance and makes this information accessible for other services.")
+    @ObjectClassDefinition(name = "AEM Utils Run Mode Service Config", description = "Configures run modes for current instance and makes this information accessible for other services.")
     public @interface RunModeServiceConfig {
 
         /**
@@ -153,8 +153,8 @@ public class RunModeServiceImpl implements RunModeService {
                 name = "Service Type",
                 description = "Specifies if the instance behaves as an Author or Publish server.",
                 options = {
-                        @Option(value = ServiceTypeRunMode.MODE_TYPE_AUTHOR_VALUE, label = "Author"),
-                        @Option(value = ServiceTypeRunMode.MODE_TYPE_PUBLISH_VALUE, label = "Publish"),
+                        @Option(value = ServiceTypeRunMode.MODE_TYPE_AUTHOR_VALUE, label = "author"),
+                        @Option(value = ServiceTypeRunMode.MODE_TYPE_PUBLISH_VALUE, label = "publish"),
                 })
         String serviceType() default "";
 
