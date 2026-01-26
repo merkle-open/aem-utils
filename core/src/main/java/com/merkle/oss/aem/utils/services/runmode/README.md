@@ -1,3 +1,5 @@
+## Example usage
+
 ```java
 
 import com.merkle.oss.aem.utils.services.runmode.RunModeService;
@@ -23,7 +25,7 @@ public class ExampleServlet extends SlingSafeMethodsServlet implements OptingSer
     }
 
     @Override
-    protected void doGet(@NonNull final SlingHttpServletRequest request, @NonNull final SlingHttpServletResponse response) throws IOException {
+    protected void doGet(@NonNull final SlingHttpServletRequest request, @NonNull final SlingHttpServletResponse response) {
         //Servlet logic will only be executed on author instances
     }
 
