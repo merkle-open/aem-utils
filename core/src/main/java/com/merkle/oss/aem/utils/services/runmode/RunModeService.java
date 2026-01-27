@@ -8,8 +8,8 @@ import java.util.Map;
  * Service for detecting the current AEM execution environment (run modes).
  * <p>
  * This service provides a modern alternative to the deprecated {@code SlingSettingsService}.
- * It identifies whether the instance is an <b>author</b> or <b>publish</b> environment,
- * as well as specific stage identifiers like <b>local</b>, <b>rde</b>, <b>dev</b>, <b>stage</b>, or <b>prod</b>.
+ * It identifies whether the instance is an {@code author} or {@code publish} environment,
+ * as well as specific stage identifiers like {@code local}, {@code rde}, {@code dev}, {@code stage}, or {@code prod}.
  *
  * @apiNote This service relies on OSGi configurations that must be
  * deployed specifically to the target run mode folders (e.g., {@code config.author.prod}).

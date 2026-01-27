@@ -1,8 +1,8 @@
-package com.merkle.oss.aem.utils.services.cache.memory.impl;
+package com.merkle.oss.aem.utils.services.inmemorycache.memory.impl;
 
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
-import com.merkle.oss.aem.utils.services.cache.memory.InMemoryCacheService;
+import com.merkle.oss.aem.utils.services.inmemorycache.memory.InMemoryCacheService;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 import org.osgi.service.component.annotations.Component;
@@ -16,7 +16,7 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * OSGi implementation of {@link InMemoryCacheService} that manages a registry of
- * Caffeine {@link Cache} instances.
+ * Caffeine {@link com.github.benmanes.caffeine.cache.Cache} instances.
  * <p>
  * This implementation uses a {@link HashMap} to store cache instances indexed by name.
  * Note that while the individual Caffeine caches are thread-safe, the internal map

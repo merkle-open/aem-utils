@@ -6,8 +6,6 @@ import com.merkle.oss.aem.utils.services.runmode.RunModeService;
 import com.merkle.oss.aem.utils.services.runmode.impl.RunModeServiceImpl;
 import io.wcm.testing.mock.aem.junit5.AemContext;
 import io.wcm.testing.mock.aem.junit5.AemContextExtension;
-import org.apache.sling.api.SlingHttpServletRequest;
-import org.apache.sling.api.SlingHttpServletResponse;
 import org.apache.sling.testing.mock.sling.servlet.MockSlingHttpServletRequest;
 import org.apache.sling.testing.mock.sling.servlet.MockSlingHttpServletResponse;
 import org.junit.jupiter.api.Test;
@@ -15,6 +13,9 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.MockedStatic;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
@@ -68,16 +69,33 @@ public class UtilsTestServletTest {
      * Method under test: {@link UtilsTestServlet@doGet(SlingHttpServletRequest, SlingHttpServletResponse)}.
      */
     @Test
-    void doGet_runMode(final AemContext context) {
+    void doGet_runMode(final AemContext context) throws InvocationTargetException, IllegalAccessException {
         final MockSlingHttpServletRequest request = context.request();
         final MockSlingHttpServletResponse response = context.response();
 
+        final RunModeServiceImpl service = new RunModeServiceImpl();
         final Map<String, Object> config = Map.of(
                 "serviceType", "author",
                 "environmentType", "prod"
         );
 
-        final RunModeService service = context.registerInjectActivateService(new RunModeServiceImpl(), config);
+        final Class<?> configClass = RunModeServiceImpl.RunModeServiceConfig.class;
+        Object configProxy = Proxy.newProxyInstance(
+                configClass.getClassLoader(),
+                new Class<?>[]{configClass},
+                (proxy, method, args) -> config.get(method.getName())
+        );
+
+        try {
+            Method activateMethod = RunModeServiceImpl.class.getDeclaredMethod("activate", configClass);
+            activateMethod.setAccessible(true);
+            activateMethod.invoke(service, configProxy);
+        } catch (NoSuchMethodException e) {
+            throw new RuntimeException("Could not find a protected void activate(Map) method in RunModeServiceImpl. " +
+                    "Check the method signature in your service implementation.", e);
+        }
+
+        context.registerService(RunModeService.class, service);
         injectField(fixture, "runModeService", service);
 
         assertDoesNotThrow(() -> fixture.doGet(request, response));
@@ -87,18 +105,36 @@ public class UtilsTestServletTest {
      * Method under test: {@link UtilsTestServlet@doGet(SlingHttpServletRequest, SlingHttpServletResponse)}.
      */
     @Test
-    void doGet_pathParameter(final AemContext context) {
+    void doGet_pathParameter(final AemContext context) throws InvocationTargetException, IllegalAccessException {
         final MockSlingHttpServletRequest request = context.request();
         request.addRequestParameter("path", "/content/tenant/ch/de/home");
         final MockSlingHttpServletResponse response = context.response();
 
+        final RunModeServiceImpl service = new RunModeServiceImpl();
         final Map<String, Object> config = Map.of(
                 "serviceType", "author",
                 "environmentType", "prod"
         );
 
-        final RunModeService service = context.registerInjectActivateService(new RunModeServiceImpl(), config);
+        final Class<?> configClass = RunModeServiceImpl.RunModeServiceConfig.class;
+        Object configProxy = Proxy.newProxyInstance(
+                configClass.getClassLoader(),
+                new Class<?>[]{configClass},
+                (proxy, method, args) -> config.get(method.getName())
+        );
+
+        try {
+            Method activateMethod = RunModeServiceImpl.class.getDeclaredMethod("activate", configClass);
+            activateMethod.setAccessible(true);
+            activateMethod.invoke(service, configProxy);
+        } catch (NoSuchMethodException e) {
+            throw new RuntimeException("Could not find a protected void activate(Map) method in RunModeServiceImpl. " +
+                    "Check the method signature in your service implementation.", e);
+        }
+
+        context.registerService(RunModeService.class, service);
         injectField(fixture, "runModeService", service);
+
         try (MockedStatic<LinkExternalizerUtil> linkExternalizerUtilMockedStatic = mockStatic(LinkExternalizerUtil.class)) {
             try (MockedStatic<LinkMappingUtil> linkMappingUtilMockedStatic = mockStatic(LinkMappingUtil.class)) {
                 linkExternalizerUtilMockedStatic.when(() -> LinkExternalizerUtil.externalize("/content/tenant/ch/de/home", request)).thenReturn("https://www.domain.ch/de/home");

@@ -1,13 +1,13 @@
-package com.merkle.oss.aem.utils.services.cache.provider;
+package com.merkle.oss.aem.utils.services.inmemorycache.provider;
 
-import com.merkle.oss.aem.utils.services.cache.memory.InMemoryCacheService;
+import com.merkle.oss.aem.utils.services.inmemorycache.memory.InMemoryCacheService;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
 import java.util.Objects;
 
 /**
- * An abstract base class that facilitates the implementation of {@link CacheServiceProvider}.
+ * An abstract base class that facilitates the implementation of {@link InMemoryCacheServiceProvider}.
  * <p>
  * This class acts as a bridge to the central {@link InMemoryCacheService}. By extending this
  * class, specific implementations can provide a simplified, type-safe API for a named cache.
@@ -17,11 +17,11 @@ import java.util.Objects;
  * @param <V> The type of mapped values.
  * @implSpec extending services must implement cache config
  * {@snippet :
- * @Component(service = ExampleCacheServiceImpl.class, immediate = true)
- * @Designate(ocd = ExampleCacheServiceImpl.ExampleCacheConfig.class)
- * public class ExampleCacheServiceImpl extends AbstractCacheProviderService<String, String> {
+ * @Component(service = ExampleInMemoryCacheProviderServiceImpl.class, immediate = true)
+ * @Designate(ocd = ExampleInMemoryCacheProviderServiceImpl.ExampleCacheConfig.class)
+ * public class ExampleInMemoryCacheProviderServiceImpl extends AbstractInMemoryCacheProviderService<String, String> {
  *     //...
- *     @ObjectClassDefinition(name = "ExampleCacheService")
+ *     @ObjectClassDefinition(name = "ExampleInMemoryCacheProviderService - Config")
  *     public @interface ExampleCacheConfig {
  *         @AttributeDefinition(name = "Cache time to live", description = "Time to live in seconds for cached items.")
  *         int cache_ttl_seconds() default 180;
@@ -34,9 +34,9 @@ import java.util.Objects;
  * @implNote extending services should register and unregister the new cache on activate/deactivate lifecycle methods.
  * It is advised to clean up caches on deactivation.
  * {@snippet :
- * @Component(immediate = true, configurationPolicy = ConfigurationPolicy.REQUIRE)
- * @Designate(ocd = ExampleScheduler.ExampleSchedulerConfig.class)
- * public class ExampleScheduler extends AbstractSlingJobScheduler {
+ * @Component(service = ExampleInMemoryCacheProviderServiceImpl.class, immediate = true)
+ * @Designate(ocd = ExampleInMemoryCacheProviderServiceImpl.ExampleCacheConfig.class)
+ * public class ExampleInMemoryCacheProviderServiceImpl extends AbstractInMemoryCacheProviderService<String, String> {
  *     //...
  *     @Activate
  *     @Modified
@@ -51,7 +51,7 @@ import java.util.Objects;
  * }
  *}
  */
-public abstract class AbstractCacheProviderService<K, V> implements CacheServiceProvider<K, V> {
+public abstract class AbstractInMemoryCacheProviderService<K, V> implements InMemoryCacheServiceProvider<K, V> {
 
     /**
      * @return A descriptive name for the service for unique identification.

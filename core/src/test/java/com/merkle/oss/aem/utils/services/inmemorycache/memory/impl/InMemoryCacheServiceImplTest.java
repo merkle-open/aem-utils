@@ -1,4 +1,4 @@
-package com.merkle.oss.aem.utils.services.cache.memory.impl;
+package com.merkle.oss.aem.utils.services.inmemorycache.memory.impl;
 
 import com.github.benmanes.caffeine.cache.Cache;
 import org.junit.jupiter.api.Test;
