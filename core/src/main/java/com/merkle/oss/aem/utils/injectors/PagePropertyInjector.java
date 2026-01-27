@@ -1,8 +1,8 @@
-package com.merkle.oss.aem.utils.injector;
+package com.merkle.oss.aem.utils.injectors;
 
 import com.day.cq.commons.inherit.HierarchyNodeInheritanceValueMap;
 import com.day.cq.wcm.api.Page;
-import com.merkle.oss.aem.utils.injector.annotation.PageProperty;
+import com.merkle.oss.aem.utils.injectors.annotations.PageProperty;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.sling.api.resource.ValueMap;
 import org.apache.sling.models.annotations.injectorspecific.InjectionStrategy;
@@ -40,7 +40,7 @@ public class PagePropertyInjector implements Injector, StaticInjectAnnotationPro
 
     private static final Logger LOG = LoggerFactory.getLogger(PagePropertyInjector.class);
 
-    public static final String INJECTOR_NAME_PAGE_PROPERTY = "adapt-to";
+    public static final String INJECTOR_NAME_PAGE_PROPERTY = "page-property";
 
     /**
      * {@inheritDoc}

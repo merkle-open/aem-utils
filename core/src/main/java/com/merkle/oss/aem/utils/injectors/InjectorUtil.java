@@ -1,4 +1,4 @@
-package com.merkle.oss.aem.utils.injector;
+package com.merkle.oss.aem.utils.injectors;
 
 import com.day.cq.commons.inherit.InheritanceValueMap;
 import com.day.cq.wcm.api.Page;
@@ -48,9 +48,9 @@ public class InjectorUtil {
      * <p>
      * The resolution follows a prioritized fallback strategy:
      * <ol>
-     * <li><b>Direct Adaptation:</b> Tries {@code adaptable.adaptTo(Page.class)}.</li>
-     * <li><b>Resource Context:</b> If the adaptable is a {@link org.apache.sling.api.resource.Resource}, finds its containing page.</li>
-     * <li><b>Request Context:</b> If the adaptable is a {@link org.apache.sling.api.SlingHttpServletRequest}, finds the page containing the request's resource.</li>
+     * <li>Direct Adaptation: Tries {@code adaptable.adaptTo(Page.class)}.</li>
+     * <li>Resource Context: If the adaptable is a {@link org.apache.sling.api.resource.Resource}, finds its containing page.</li>
+     * <li>Request Context: If the adaptable is a {@link org.apache.sling.api.SlingHttpServletRequest}, finds the page containing the request's resource.</li>
      * </ol>
      *
      * @param adaptable The source object (typically the one being adapted into a Sling Model).
@@ -155,8 +155,7 @@ public class InjectorUtil {
             } else {
                 final Class<?> primitiveType = ClassUtils.wrapperToPrimitive(componentType);
                 if (primitiveType != componentType) {
-                    final Object primitiveArray = getPossibleInherited(map, name, Array.newInstance(primitiveType, 0)
-                            .getClass());
+                    final Object primitiveArray = getPossibleInherited(map, name, Array.newInstance(primitiveType, 0).getClass());
                     if (primitiveArray != null) {
                         return wrapArray(primitiveArray, componentType);
                     }

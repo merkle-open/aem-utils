@@ -1,4 +1,4 @@
-package com.merkle.oss.aem.utils.injector.annotation;
+package com.merkle.oss.aem.utils.injectors.annotations;
 
 import org.apache.sling.models.annotations.Source;
 import org.apache.sling.models.annotations.injectorspecific.InjectionStrategy;
@@ -7,7 +7,7 @@ import org.apache.sling.models.spi.injectorspecific.InjectAnnotation;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
-import static com.merkle.oss.aem.utils.injector.PagePropertyInjector.INJECTOR_NAME_PAGE_PROPERTY;
+import static com.merkle.oss.aem.utils.injectors.PagePropertyInjector.INJECTOR_NAME_PAGE_PROPERTY;
 import static java.lang.annotation.ElementType.*;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
@@ -19,13 +19,22 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  *
  * @apiNote Example usage:
  * {@snippet :
- *   // Injects 'pageTitle' from the current page
- *   @PageProperty private String pageTitle;
- *   // Injects 'brandColor' from the current page or its ancestors as required
- *   @PageProperty(name = "brandColor", inherited = true, injectionStrategy = InjectionStrategy.REQUIRED)
- *   private String color;
+ * @Model(adaptables = Resource.class, defaultInjectionStrategy = DefaultInjectionStrategy.OPTIONAL)
+ * public class ClassName {
+ *     @PageProperty(name = JcrConstants.JCR_TITLE)
+ *     private String title;
+ *     @PageProperty(inherited = true)
+ *     private boolean disableSearch;
+ *     @PageProperty
+ *     private int priority;
+ *     @PageProperty(name = JcrConstants.JCR_CREATED)
+ *     private Date jcrCreated;
+ *     @PageProperty(name = "cq:tags")
+ *     private List<String> tags;
+ *     //...
+ * }
  *}
- * @see com.merkle.oss.aem.utils.injector.PagePropertyInjector
+ * @see com.merkle.oss.aem.utils.injectors.PagePropertyInjector
  */
 @Target({METHOD, FIELD, PARAMETER})
 @Retention(RUNTIME)
