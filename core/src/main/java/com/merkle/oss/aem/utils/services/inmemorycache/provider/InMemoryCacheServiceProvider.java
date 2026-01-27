@@ -1,4 +1,4 @@
-package com.merkle.oss.aem.utils.services.cache.provider;
+package com.merkle.oss.aem.utils.services.inmemorycache.provider;
 
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
@@ -13,7 +13,7 @@ import org.jspecify.annotations.Nullable;
  * @param <K> The type of keys maintained by this cache provider.
  * @param <V> The type of mapped values.
  */
-public interface CacheServiceProvider<K, V> {
+public interface InMemoryCacheServiceProvider<K, V> {
 
     /**
      * Associates the specified value with the specified key in the provider's cache.
@@ -48,8 +48,6 @@ public interface CacheServiceProvider<K, V> {
 
     /**
      * Invalidates all entries within this specific provider's cache.
-     * <p>
-     * Use this with caution as it affects all consumers of this specific cache instance.
      */
     void removeAllFromCache();
 

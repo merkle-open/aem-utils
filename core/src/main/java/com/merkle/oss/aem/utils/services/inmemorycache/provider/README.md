@@ -2,14 +2,14 @@
 
 ```java
 
-package com.merkle.oss.aem.utils.services.cache.provider;
+package com.merkle.oss.aem.utils.services.inmemorycache.provider;
 
-import com.merkle.oss.aem.utils.services.cache.memory.InMemoryCacheService;
+import com.merkle.oss.aem.utils.services.inmemorycache.memory.InMemoryCacheService;
 //... other imports
 
-@Component(service = ExampleCacheServiceImpl.class, immediate = true)
-@Designate(ocd = ExampleCacheServiceImpl.ExampleCacheConfig.class)
-public class ExampleCacheServiceImpl extends AbstractCacheProviderService<String, String> {
+@Component(service = ExampleInMemoryCacheProviderServiceImpl.class, immediate = true)
+@Designate(ocd = ExampleInMemoryCacheProviderServiceImpl.ExampleCacheConfig.class)
+public class ExampleInMemoryCacheProviderServiceImpl extends AbstractInMemoryCacheProviderService<String, String> {
 
     @Reference
     private InMemoryCacheService inMemoryCacheService;
@@ -27,7 +27,7 @@ public class ExampleCacheServiceImpl extends AbstractCacheProviderService<String
 
     @Override
     public @NonNull String getServiceName() {
-        return this.getClass().getName();
+        return this.getClass().getCanonicalName();
     }
 
     @Override
@@ -35,7 +35,7 @@ public class ExampleCacheServiceImpl extends AbstractCacheProviderService<String
         return inMemoryCacheService;
     }
 
-    @ObjectClassDefinition(name = "ExampleCacheService")
+    @ObjectClassDefinition(name = "ExampleInMemoryCacheProviderService - Config")
     public @interface ExampleCacheConfig {
 
         @AttributeDefinition(name = "Cache time to live", description = "Time to live in seconds for cached items.")

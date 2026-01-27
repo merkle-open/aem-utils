@@ -10,9 +10,7 @@ import org.apache.sling.event.jobs.JobManager;
 @Component(immediate = true, configurationPolicy = ConfigurationPolicy.REQUIRE)
 @Designate(ocd = ExampleScheduler.ExampleSchedulerConfig.class)
 public class ExampleScheduler extends AbstractSlingJobScheduler {
-
-    private static final String SERVICE_NAME_IDENTIFIER = "Example Scheduled Service";
-
+    
     @Reference
     private RunModeService runModeService;
 
@@ -44,10 +42,10 @@ public class ExampleScheduler extends AbstractSlingJobScheduler {
 
     @Override
     protected String getServiceName() {
-        return SERVICE_NAME_IDENTIFIER;
+        return this.getClass().getSimpleName();
     }
 
-    @ObjectClassDefinition(name = "ExampleScheduler Config")
+    @ObjectClassDefinition(name = "ExampleScheduler - Config")
     public @interface ExampleSchedulerConfig {
 
         @AttributeDefinition(name = "Enabled")

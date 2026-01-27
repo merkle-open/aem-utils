@@ -1,4 +1,4 @@
-package com.merkle.oss.aem.utils.services.cache.memory;
+package com.merkle.oss.aem.utils.services.inmemorycache.memory;
 
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
