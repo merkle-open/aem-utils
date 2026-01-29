@@ -116,7 +116,7 @@
         <build.helper.mvn.plugin.version>3.6.1</build.helper.mvn.plugin.version>
         <lifecycle.mapping.plugin.version>3.6.1</lifecycle.mapping.plugin.version>
         <mvn.gpg.plugin.version>3.2.8</mvn.gpg.plugin.version>
-        <mvn.sonatype.publishing.plugin.version>0.9.0</mvn.sonatype.publishing.plugin.version>
+        <mvn.sonatype.publishing.plugin.version>0.10.0</mvn.sonatype.publishing.plugin.version>
 
         <org.jsoup.version>1.22.1</org.jsoup.version>
         <google.re2j.version>1.8</google.re2j.version>
