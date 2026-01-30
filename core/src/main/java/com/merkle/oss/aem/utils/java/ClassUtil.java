@@ -1,8 +1,7 @@
 package com.merkle.oss.aem.utils.java;
 
+import com.merkle.oss.aem.utils.annotations.Generated;
 import org.jspecify.annotations.NonNull;
-
-import javax.annotation.processing.Generated;
 
 
 /**
@@ -21,7 +20,7 @@ public final class ClassUtil {
      *
      * @see #assertNoInstance(Class)
      */
-    @Generated("Manual coverage bypass for utility class constructor")
+    @Generated
     private ClassUtil() {
         assertNoInstance(this.getClass());
     }

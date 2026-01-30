@@ -1,8 +1,8 @@
 package com.merkle.oss.aem.utils.java;
 
+import com.merkle.oss.aem.utils.annotations.Generated;
 import org.jspecify.annotations.NonNull;
 
-import javax.annotation.processing.Generated;
 import java.util.Iterator;
 import java.util.Objects;
 import java.util.Set;
@@ -17,7 +17,7 @@ import java.util.stream.StreamSupport;
  */
 public final class FunctionalUtil {
 
-    @Generated("Manual coverage bypass for utility class constructor")
+    @Generated
     private FunctionalUtil() {
         ClassUtil.assertNoInstance(this.getClass());
     }
