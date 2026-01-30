@@ -55,46 +55,46 @@ public class Links {
         TOP("_top", StringUtils.EMPTY),
         DOWNLOAD("download", StringUtils.EMPTY);
 
-        private final String target;
+        private final String value;
         private final String rel;
 
         /**
-         * @param target The HTML {@code target} attribute value.
+         * @param value The HTML {@code target} attribute value.
          * @param rel    The HTML {@code rel} attribute value.
          */
-        Target(@NonNull final String target, @NonNull final String rel) {
-            this.target = target;
+        Target(@NonNull final String value, @NonNull final String rel) {
+            this.value = value;
             this.rel = rel;
         }
 
         /**
          * Resolves a string value to a {@link Target} constant.
          *
-         * @param target The raw string target attribute.
+         * @param value The raw string target attribute value.
          * @return The matching Target constant, or {@link #NONE} if no match is found.
          */
-        public static @NonNull Target of(@Nullable final String target) {
+        public static @NonNull Target of(@Nullable final String value) {
             return Arrays.stream(Target.values())
-                    .filter(linkTarget -> Strings.CS.equals(linkTarget.getTarget(), target))
+                    .filter(linkTarget -> Strings.CS.equals(linkTarget.getValue(), value))
                     .findFirst()
                     .orElse(NONE);
         }
 
         /**
-         * Checks if the provided target string represents a "New Window" action.
+         * Checks if the provided target value represents a "New Window" action.
          *
-         * @param target The target attribute to check.
+         * @param value The target attribute value to check.
          * @return {@code true} if the target is {@code _blank}.
          */
-        public static boolean isOpenInNewWindow(@Nullable final String target) {
-            return BLANK == of(target);
+        public static boolean isOpenInNewWindow(@Nullable final String value) {
+            return BLANK == of(value);
         }
 
         /**
          * @return The value for the {@code target} HTML attribute.
          */
-        public @NonNull String getTarget() {
-            return target;
+        public @NonNull String getValue() {
+            return value;
         }
 
         /**
@@ -106,7 +106,7 @@ public class Links {
 
         @Override
         public @NonNull String toString() {
-            return getTarget();
+            return getValue();
         }
 
     }

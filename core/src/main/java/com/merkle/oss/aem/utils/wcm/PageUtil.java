@@ -8,7 +8,6 @@ import com.merkle.oss.aem.utils.annotations.Generated;
 import com.merkle.oss.aem.utils.java.ClassUtil;
 import com.merkle.oss.aem.utils.java.FunctionalUtil;
 import org.apache.commons.lang3.ArrayUtils;
-import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Strings;
 import org.jspecify.annotations.NonNull;
@@ -19,7 +18,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
@@ -180,7 +178,7 @@ public final class PageUtil {
 
         return FunctionalUtil.asStream(currentPage.listChildren(filterFor(templates)))
                 .filter(PageUtil::isValid)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     private static @NonNull Filter<Page> filterFor(@Nullable final String... templates) {
@@ -195,7 +193,7 @@ public final class PageUtil {
      * @return {@code true} if both are non-null and have identical paths; {@code false} otherwise.
      */
     public static boolean equals(@Nullable final Page targetPage, @Nullable final Page currentPage) {
-        if (ObjectUtils.allNotNull(targetPage, currentPage)) {
+        if (targetPage != null && currentPage != null) {
             return Strings.CS.equals(targetPage.getPath(), currentPage.getPath());
         }
 

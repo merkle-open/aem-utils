@@ -17,7 +17,7 @@ import static org.mockito.Mockito.when;
  * Unit tests for the {@link RunModeServiceImpl} class.
  */
 @ExtendWith(MockitoExtension.class)
-public class RunModeServiceImplTest {
+class RunModeServiceImplTest {
 
     @Mock
     private RunModeServiceImpl.RunModeServiceConfig config;

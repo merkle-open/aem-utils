@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 /**
  * Unit tests for the {@link EnvironmentTypeRunMode} class.
  */
-public class EnvironmentTypeRunModeTest {
+class EnvironmentTypeRunModeTest {
 
     /**
      * Methods under test:

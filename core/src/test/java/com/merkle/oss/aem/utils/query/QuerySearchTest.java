@@ -59,9 +59,9 @@ class QuerySearchTest {
         querySearch.setHitsPerPage(2);
         querySearch.setAllRequiredTags(List.of(tag));
         querySearch.addAdditionalPredicates(new PredicateGroup("Type"));
-        final Query query = querySearch.toQuery(queryBuilder, resourceResolver);
+        final Query queryTest = querySearch.toQuery(queryBuilder, resourceResolver);
 
-        assertEquals(2L, query.getHitsPerPage());
+        assertEquals(2L, queryTest.getHitsPerPage());
     }
 
     /**
@@ -79,9 +79,9 @@ class QuerySearchTest {
         querySearch.setAddOnOffTimePredicate(true);
         querySearch.setOneRequiredTags(List.of(tag));
         querySearch.setAllRequiredTags(Collections.emptyList());
-        final Query query = querySearch.toQuery(queryBuilder, resourceResolver);
+        final Query queryTest = querySearch.toQuery(queryBuilder, resourceResolver);
 
-        assertEquals(2L, query.getHitsPerPage());
+        assertEquals(2L, queryTest.getHitsPerPage());
     }
 
     /**

@@ -56,7 +56,8 @@ class AdaptToInjectorTest {
     @Test
     void getValue() {
         assertThrows(NullPointerException.class, () -> adaptToInjector.getValue(null, "", null, null, null));
-        assertThrows(NullPointerException.class, () -> adaptToInjector.getValue(new Object(), "", null, null, null));
+        final Object object = new Object();
+        assertThrows(NullPointerException.class, () -> adaptToInjector.getValue(object, "", null, null, null));
 
         when(annotatedElement.isAnnotationPresent(AdaptTo.class)).thenReturn(false);
         assertNull(adaptToInjector.getValue(new Object(), "myTitle", String.class, annotatedElement, registry));

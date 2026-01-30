@@ -20,7 +20,7 @@ import static org.mockito.Mockito.when;
  */
 
 @ExtendWith(MockitoExtension.class)
-public class QuerySearchUtilTest {
+class QuerySearchUtilTest {
 
     private static final String TAG_PROPERTY_PATH = "Tag";
     private static final List<String> TAG_LIST = List.of("tag1", "tag2");

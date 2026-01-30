@@ -4,20 +4,19 @@ import org.junit.jupiter.api.Test;
 
 import java.util.*;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Unit tests for the {@link FunctionalUtil} class.
  */
-public class FunctionalUtilTest {
+class FunctionalUtilTest {
 
     /**
      * Method under test: {@link FunctionalUtil#asStream(Iterator)}
      */
     @Test
-    public void asStream() {
+    void asStream() {
         final String test = "test";
         final Iterator<String> iterator = Arrays.asList(test, null).iterator();
 
@@ -48,9 +47,9 @@ public class FunctionalUtilTest {
         final ArrayList<String> noCopies = new ArrayList<>(Arrays.asList("A", "C"));
         final ArrayList<String> cleanedNoCopies = new ArrayList<>(Arrays.asList("A", "B", "C", "D"));
 
-        assertEquals(cleanedNoCopies, containsCopies.stream().filter(FunctionalUtil.distinctByKey(s -> s)).collect(Collectors.toList()));
-        assertEquals(noCopies, noCopies.stream().filter(FunctionalUtil.distinctByKey(s -> s)).collect(Collectors.toList()));
-        assertEquals(cleanedNoCopies, cleanedNoCopies.stream().filter(FunctionalUtil.distinctByKey(s -> s)).collect(Collectors.toList()));
+        assertEquals(cleanedNoCopies, containsCopies.stream().filter(FunctionalUtil.distinctByKey(s -> s)).toList());
+        assertEquals(noCopies, noCopies.stream().filter(FunctionalUtil.distinctByKey(s -> s)).toList());
+        assertEquals(cleanedNoCopies, cleanedNoCopies.stream().filter(FunctionalUtil.distinctByKey(s -> s)).toList());
         assertEquals(4, (int) containsCopies.stream().filter(FunctionalUtil.distinctByKey(s -> s)).count());
         assertEquals(2, (int) noCopies.stream().filter(FunctionalUtil.distinctByKey(s -> s)).count());
 

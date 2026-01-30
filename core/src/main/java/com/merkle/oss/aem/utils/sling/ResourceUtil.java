@@ -15,7 +15,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.*;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
@@ -111,7 +110,7 @@ public final class ResourceUtil {
 
         return childrenAsStream(parent)
                 .filter(resource -> resourceTypeList.contains(resource.getResourceType()))
-                .collect(Collectors.toList());
+                .toList();
     }
 
     /**

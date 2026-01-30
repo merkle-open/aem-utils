@@ -18,7 +18,7 @@ import static org.mockito.Mockito.when;
  * Unit tests for the {@link LinkUtil} class.
  */
 @ExtendWith(MockitoExtension.class)
-public class LinkUtilTest {
+class LinkUtilTest {
 
     private static final String INTERNAL_LINK_NO_EXTENSION = "/content/domain/ch/de/home";
     private static final String INTERNAL_LINK = "/content/domain/ch/de/home.html";
@@ -123,7 +123,7 @@ public class LinkUtilTest {
      * Method under test: {@link LinkUtil#appendHtml(String)}
      */
     @Test
-    public void appendHtml() {
+    void appendHtml() {
         assertThrows(NullPointerException.class, () -> LinkUtil.appendHtml(null));
         assertEquals(INTERNAL_LINK, LinkUtil.appendHtml(INTERNAL_LINK));
         assertEquals(INTERNAL_LINK, LinkUtil.appendHtml(INTERNAL_LINK));
@@ -133,7 +133,7 @@ public class LinkUtilTest {
      * Method under test: {@link LinkUtil#isMissingHtmlExtension(String)}
      */
     @Test
-    public void isMissingHtmlExtension() {
+    void isMissingHtmlExtension() {
         assertThrows(NullPointerException.class, () -> LinkUtil.isMissingHtmlExtension(null));
 
         assertFalse(LinkUtil.isMissingHtmlExtension(""));
@@ -160,15 +160,15 @@ public class LinkUtilTest {
      */
     @Test
     void getTarget() {
-        assertEquals(Links.Target.SELF.getTarget(), LinkUtil.getTarget(false));
-        assertEquals(Links.Target.BLANK.getTarget(), LinkUtil.getTarget(true));
+        assertEquals(Links.Target.SELF.getValue(), LinkUtil.getTarget(false));
+        assertEquals(Links.Target.BLANK.getValue(), LinkUtil.getTarget(true));
     }
 
     /**
      * Method under test: {@link LinkUtil#isRelativ(String)}
      */
     @Test
-    public void isRelativ() {
+    void isRelativ() {
         assertTrue(LinkUtil.isRelativ(INTERNAL_LINK));
         assertFalse(LinkUtil.isRelativ(EXTERNAL_LINK));
     }
@@ -177,7 +177,7 @@ public class LinkUtilTest {
      * Method under test: {@link LinkUtil#isDAMPath(String)}
      */
     @Test
-    public void isDAMPath() {
+    void isDAMPath() {
         assertFalse(LinkUtil.isDAMPath(null));
         assertFalse(LinkUtil.isDAMPath(StringUtils.EMPTY));
         assertFalse(LinkUtil.isDAMPath(INTERNAL_LINK));

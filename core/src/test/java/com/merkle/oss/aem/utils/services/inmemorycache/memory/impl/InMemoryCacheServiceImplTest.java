@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * Unit tests for the {@link InMemoryCacheServiceImpl} class.
  */
 @ExtendWith(MockitoExtension.class)
-public class InMemoryCacheServiceImplTest {
+class InMemoryCacheServiceImplTest {
 
     private static Map<String, Cache<?, ?>> getCache(final InMemoryCacheServiceImpl service) {
         try {

@@ -26,7 +26,7 @@ import static org.mockito.Mockito.mockStatic;
  * Unit tests for the {@link UtilsTestServlet} class.
  */
 @ExtendWith(AemContextExtension.class)
-public class UtilsTestServletTest {
+class UtilsTestServletTest {
 
     private final UtilsTestServlet fixture = new UtilsTestServlet();
 

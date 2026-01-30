@@ -65,11 +65,8 @@ public class AdaptToInjector implements Injector, StaticInjectAnnotationProcesso
     @Override
     public @Nullable Object getValue(@NonNull final Object adaptable, final String name, @NonNull final Type declaredType,
                                      @NonNull final AnnotatedElement annotatedElement, @NonNull final DisposalCallbackRegistry disposalCallbackRegistry) {
-        if (annotatedElement.isAnnotationPresent(AdaptTo.class)) {
-            //Only supports direct injection with AdaptTo (skip @Inject annotations)
-            if (adaptable instanceof Adaptable a) {
-                return a.adaptTo((Class<?>) declaredType);
-            }
+        if (annotatedElement.isAnnotationPresent(AdaptTo.class) && adaptable instanceof Adaptable a) {
+            return a.adaptTo((Class<?>) declaredType);
         }
 
         return null;
@@ -109,6 +106,7 @@ public class AdaptToInjector implements Injector, StaticInjectAnnotationProcesso
          *
          * @return the configured via, null if the via is set to empty or resourceResolver if via is not configured.
          */
+        @Override
         public @Nullable String getVia() {
             if (StringUtils.isBlank(annotation.via())) {
                 LOG.warn("AdaptTo annotation should not be used with an empty via. Use the @Self annotation instead.");

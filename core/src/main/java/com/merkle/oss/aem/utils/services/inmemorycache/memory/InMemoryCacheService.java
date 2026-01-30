@@ -47,12 +47,11 @@ public interface InMemoryCacheService {
      * Checks for the existence of a mapping for the specified key within the named cache.
      *
      * @param <K>         The key type.
-     * @param <V>         The value type.
      * @param serviceName The name of the target cache.
      * @param key         The key whose presence is to be tested.
      * @return {@code true} if a mapping exists; {@code false} otherwise.
      */
-    <K, V> boolean cacheContainsKey(@NonNull final String serviceName, @NonNull final K key);
+    <K> boolean cacheContainsKey(@NonNull final String serviceName, @NonNull final K key);
 
     /**
      * Returns the value to which the specified key is mapped, or {@code null} if the
@@ -70,19 +69,16 @@ public interface InMemoryCacheService {
      * Discards any cached value for the specified key in the named cache.
      *
      * @param <K>         The key type.
-     * @param <V>         The value type.
      * @param serviceName The name of the target cache.
      * @param key         The key whose mapping is to be removed from the cache.
      */
-    <K, V> void removeFromCache(@NonNull final String serviceName, @NonNull final K key);
+    <K> void removeFromCache(@NonNull final String serviceName, @NonNull final K key);
 
     /**
      * Discards all entries in the named cache but does not remove the cache instance itself.
      *
-     * @param <K>         The key type.
-     * @param <V>         The value type.
      * @param serviceName The name of the target cache.
      */
-    <K, V> void removeAllFromCache(@NonNull final String serviceName);
+    void removeAllFromCache(@NonNull final String serviceName);
 
 }

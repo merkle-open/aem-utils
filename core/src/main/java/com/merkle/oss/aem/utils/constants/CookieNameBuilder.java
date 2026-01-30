@@ -2,7 +2,6 @@ package com.merkle.oss.aem.utils.constants;
 
 import com.day.cq.wcm.api.Page;
 import org.apache.commons.lang3.ArrayUtils;
-import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
@@ -59,7 +58,7 @@ public class CookieNameBuilder {
      *}
      */
     public @NonNull CookieNameBuilder appendPathSegmentNames(@Nullable final Page page, final int... depths) {
-        if (ObjectUtils.anyNull(page)) {
+        if (page == null) {
             return this;
         }
 

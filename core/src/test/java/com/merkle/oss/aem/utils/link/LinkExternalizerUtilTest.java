@@ -18,7 +18,7 @@ import static org.mockito.Mockito.when;
  * Unit tests for the {@link LinkExternalizerUtil} class.
  */
 @ExtendWith(MockitoExtension.class)
-public class LinkExternalizerUtilTest {
+class LinkExternalizerUtilTest {
 
     private static final String HTTPS_SCHEME = "https";
 
@@ -36,13 +36,13 @@ public class LinkExternalizerUtilTest {
 
     private static final String QUERY_EXTENSION = "?param=value";
 
-    private static final String EXTERNAL_LINk_HTTPS = "https://www.google.ch";
+    private static final String EXTERNAL_LINK_HTTPS = "https://www.google.ch";
 
-    private static final String EXTERNAL_LINk_HTTP = "http://www.google.ch";
+    private static final String EXTERNAL_LINK_HTTP = "http://www.google.ch";
 
-    private static final String RICH_TEXT = "<p>follow <a href=\"/content/tenant/ch/de/home" + HTML_EXTENSION + "\">here</a>. External <a href=\"" + EXTERNAL_LINk_HTTPS + "\">link</a></p>";
+    private static final String RICH_TEXT = "<p>follow <a href=\"/content/tenant/ch/de/home" + HTML_EXTENSION + "\">here</a>. External <a href=\"" + EXTERNAL_LINK_HTTPS + "\">link</a></p>";
 
-    private static final String RICH_TEXT_EXTERNALIZED = "<p>follow <a href=\"" + BASE_URL + MAPPED_PATH + HTML_EXTENSION + "\">here</a>. External <a href=\"" + EXTERNAL_LINk_HTTPS + "\">link</a></p>";
+    private static final String RICH_TEXT_EXTERNALIZED = "<p>follow <a href=\"" + BASE_URL + MAPPED_PATH + HTML_EXTENSION + "\">here</a>. External <a href=\"" + EXTERNAL_LINK_HTTPS + "\">link</a></p>";
 
     @Mock
     private SlingHttpServletRequest request;
@@ -107,8 +107,8 @@ public class LinkExternalizerUtilTest {
      */
     @Test
     void externalize_path_external() {
-        assertEquals((EXTERNAL_LINk_HTTPS), LinkExternalizerUtil.externalize(EXTERNAL_LINk_HTTPS, request));
-        assertEquals((EXTERNAL_LINk_HTTP), LinkExternalizerUtil.externalize(EXTERNAL_LINk_HTTP, request));
+        assertEquals((EXTERNAL_LINK_HTTPS), LinkExternalizerUtil.externalize(EXTERNAL_LINK_HTTPS, request));
+        assertEquals((EXTERNAL_LINK_HTTP), LinkExternalizerUtil.externalize(EXTERNAL_LINK_HTTP, request));
     }
 
     /**
@@ -150,7 +150,7 @@ public class LinkExternalizerUtilTest {
         when(request.getResourceResolver()).thenReturn(resourceResolver);
         when(resourceResolver.adaptTo(Externalizer.class)).thenReturn(externalizer);
         when(externalizer.absoluteLink(request, request.getScheme(), FULL_PATH + HTML_EXTENSION)).thenReturn(BASE_URL + MAPPED_PATH + HTML_EXTENSION);
-        when(externalizer.absoluteLink(request, request.getScheme(), EXTERNAL_LINk_HTTPS)).thenReturn(EXTERNAL_LINk_HTTPS);
+        when(externalizer.absoluteLink(request, request.getScheme(), EXTERNAL_LINK_HTTPS)).thenReturn(EXTERNAL_LINK_HTTPS);
         assertEquals((RICH_TEXT_EXTERNALIZED), LinkExternalizerUtil.externalizeRichTextLinks(RICH_TEXT, request));
     }
 

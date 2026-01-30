@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 /**
  * Unit tests for the {@link Links} class.
  */
-public class LinksTest {
+class LinksTest {
 
     /**
      * Method under test: {@link Links.Target#of(String)}
@@ -36,7 +36,7 @@ public class LinksTest {
     /**
      * Methods under test:
      * <ul>
-     *   <li>{@link Links.Target#getTarget()}
+     *   <li>{@link Links.Target#getValue()}
      *   <li>{@link Links.Target#getRel()}
      *   <li>{@link Links.Target#toString()}
      * </ul>
@@ -45,13 +45,13 @@ public class LinksTest {
     void target_gettersAndSetters() {
         final Links.Target target = Links.Target.valueOf("BLANK");
 
-        assertEquals("_blank", target.getTarget());
+        assertEquals("_blank", target.getValue());
         assertEquals("noopener", target.getRel());
         assertEquals("_blank", target.toString());
 
         final Links.Target targetNone = Links.Target.valueOf("NONE");
 
-        assertEquals("", targetNone.getTarget());
+        assertEquals("", targetNone.getValue());
         assertEquals("", targetNone.getRel());
         assertEquals("", targetNone.toString());
     }

@@ -135,6 +135,7 @@ public class PagePropertyInjector implements Injector, StaticInjectAnnotationPro
             this.annotation = annotation;
         }
 
+        @Override
         public @Nullable String getName() {
             return StringUtils.isNotEmpty(this.annotation.name()) ? this.annotation.name() : null;
         }

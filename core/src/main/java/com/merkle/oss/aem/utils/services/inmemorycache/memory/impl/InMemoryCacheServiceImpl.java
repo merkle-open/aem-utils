@@ -90,11 +90,11 @@ public class InMemoryCacheServiceImpl implements InMemoryCacheService {
      * {@inheritDoc}
      */
     @Override
-    public <K, V> boolean cacheContainsKey(@NonNull final String serviceName, @NonNull final K key) {
+    public <K> boolean cacheContainsKey(@NonNull final String serviceName, @NonNull final K key) {
         Objects.requireNonNull(serviceName);
         Objects.requireNonNull(key);
 
-        final Cache<K, V> cache = getCache(serviceName);
+        final Cache<K, ?> cache = getCache(serviceName);
         if (Objects.nonNull(cache)) {
             return cache.getIfPresent(key) != null;
         }
@@ -127,11 +127,11 @@ public class InMemoryCacheServiceImpl implements InMemoryCacheService {
      * {@inheritDoc}
      */
     @Override
-    public <K, V> void removeFromCache(@NonNull final String serviceName, @NonNull final K key) {
+    public <K> void removeFromCache(@NonNull final String serviceName, @NonNull final K key) {
         Objects.requireNonNull(serviceName);
         Objects.requireNonNull(key);
 
-        final Cache<K, V> cache = getCache(serviceName);
+        final Cache<K, ?> cache = getCache(serviceName);
         if (Objects.nonNull(cache)) {
             cache.invalidate(key);
         }
@@ -143,10 +143,10 @@ public class InMemoryCacheServiceImpl implements InMemoryCacheService {
      * {@inheritDoc}
      */
     @Override
-    public <K, V> void removeAllFromCache(@NonNull final String serviceName) {
+    public void removeAllFromCache(@NonNull final String serviceName) {
         Objects.requireNonNull(serviceName);
 
-        final Cache<K, V> cache = getCache(serviceName);
+        final Cache<?, ?> cache = getCache(serviceName);
         if (Objects.nonNull(cache)) {
             cache.invalidateAll();
             LOG.debug("Removed all entries from cache {}", serviceName);

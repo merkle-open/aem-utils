@@ -63,7 +63,8 @@ class PagePropertyInjectorTest {
     @Test
     void getValue() {
         assertThrows(NullPointerException.class, () -> pagePropertyInjector.getValue(null, "", null, null, null));
-        assertThrows(NullPointerException.class, () -> pagePropertyInjector.getValue(new Object(), "", null, null, null));
+        final Object object = new Object();
+        assertThrows(NullPointerException.class, () -> pagePropertyInjector.getValue(object, "", null, null, null));
 
         when(annotatedElement.getAnnotation(PageProperty.class)).thenReturn(null);
         assertNull(pagePropertyInjector.getValue(new Object(), "myTitle", String.class, annotatedElement, registry));

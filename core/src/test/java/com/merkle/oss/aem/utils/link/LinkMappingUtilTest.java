@@ -14,7 +14,7 @@ import static org.mockito.Mockito.when;
  * Unit tests for the {@link LinkMappingUtil} class.
  */
 @ExtendWith(MockitoExtension.class)
-public class LinkMappingUtilTest {
+class LinkMappingUtilTest {
 
     private static final String TEST_URL = "https://www.domain.com";
 
@@ -36,7 +36,7 @@ public class LinkMappingUtilTest {
      * </ul>
      */
     @Test
-    public void map_null() {
+    void map_null() {
         final SlingHttpServletRequest nullRequest = null;
         final ResourceResolver nullResolver = null;
 
@@ -50,7 +50,7 @@ public class LinkMappingUtilTest {
      * Method under test: {@link LinkMappingUtil#map(String, ResourceResolver)}
      */
     @Test
-    public void map_resolver() {
+    void map_resolver() {
         assertTrue(LinkMappingUtil.map("", resourceResolver).isEmpty());
         assertEquals(TEST_URL, LinkMappingUtil.map(TEST_URL, resourceResolver));
 
@@ -62,7 +62,7 @@ public class LinkMappingUtilTest {
      * Method under test: {@link LinkMappingUtil#map(String, SlingHttpServletRequest)}
      */
     @Test
-    public void map_request() {
+    void map_request() {
         when(request.getResourceResolver()).thenReturn(resourceResolver);
         assertTrue(LinkMappingUtil.map("", request).isEmpty());
         assertEquals(TEST_URL, LinkMappingUtil.map(TEST_URL, request));

@@ -106,8 +106,8 @@ public class InjectorUtil {
                 LOG.debug("Handle case of primitive/wrapper arrays for property {}", name, e);
                 return handlePrimitiveArrays(map, name, clazz);
             }
-        } else if (type instanceof ParameterizedType) {
-            return handleParameterizedType(map, name, (ParameterizedType) type);
+        } else if (type instanceof ParameterizedType parameterizedType) {
+            return handleParameterizedType(map, name, parameterizedType);
         } else {
             LOG.debug("ValueMap-based injection does not support non-class types: {}", type);
             return null;
@@ -143,24 +143,25 @@ public class InjectorUtil {
      * wrapper objects (or vice versa), this method performs manual array transformation.
      */
     private static @Nullable Object handlePrimitiveArrays(@NonNull final ValueMap map, @NonNull final String name, @NonNull final Class<?> clazz) {
-        if (clazz.isArray()) {
-            final Class<?> componentType = clazz.getComponentType();
-            if (componentType.isPrimitive()) {
-                final Class<?> wrapper = ClassUtils.primitiveToWrapper(componentType);
-                if (wrapper != componentType) {
-                    final Object wrapperArray = getPossibleInherited(map, name, Array.newInstance(wrapper, 0)
-                            .getClass());
-                    if (wrapperArray != null) {
-                        return unwrapArray(wrapperArray, componentType);
-                    }
+        if (!clazz.isArray()) {
+            return null;
+        }
+        final Class<?> componentType = clazz.getComponentType();
+        if (componentType.isPrimitive()) {
+            final Class<?> wrapper = ClassUtils.primitiveToWrapper(componentType);
+            if (wrapper != componentType) {
+                final Object wrapperArray = getPossibleInherited(map, name, Array.newInstance(wrapper, 0)
+                        .getClass());
+                if (wrapperArray != null) {
+                    return unwrapArray(wrapperArray, componentType);
                 }
-            } else {
-                final Class<?> primitiveType = ClassUtils.wrapperToPrimitive(componentType);
-                if (primitiveType != componentType) {
-                    final Object primitiveArray = getPossibleInherited(map, name, Array.newInstance(primitiveType, 0).getClass());
-                    if (primitiveArray != null) {
-                        return wrapArray(primitiveArray, componentType);
-                    }
+            }
+        } else {
+            final Class<?> primitiveType = ClassUtils.wrapperToPrimitive(componentType);
+            if (primitiveType != componentType) {
+                final Object primitiveArray = getPossibleInherited(map, name, Array.newInstance(primitiveType, 0).getClass());
+                if (primitiveArray != null) {
+                    return wrapArray(primitiveArray, componentType);
                 }
             }
         }
@@ -172,8 +173,8 @@ public class InjectorUtil {
      * Determines the correct ValueMap retrieval method based on whether inheritance is supported.
      */
     private static @Nullable Object getPossibleInherited(@NonNull final ValueMap map, @NonNull final String name, @NonNull final Class<?> type) {
-        if (map instanceof InheritanceValueMap) {
-            return ((InheritanceValueMap) map).getInherited(name, type);
+        if (map instanceof InheritanceValueMap inheritanceValueMap) {
+            return (inheritanceValueMap).getInherited(name, type);
         } else {
             return map.get(name, type);
         }

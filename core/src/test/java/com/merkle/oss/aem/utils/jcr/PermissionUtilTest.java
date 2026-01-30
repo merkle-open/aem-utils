@@ -36,7 +36,7 @@ import static org.mockito.Mockito.*;
  * Unit tests for the {@link PermissionUtil} class.
  */
 @ExtendWith(MockitoExtension.class)
-public class PermissionUtilTest {
+class PermissionUtilTest {
 
     private static final String USER_ID = "userID";
 

@@ -21,7 +21,7 @@ import static org.mockito.Mockito.when;
  * Unit tests for the {@link SlingUtil} class.
  */
 @ExtendWith(MockitoExtension.class)
-public class SlingUtilTest {
+class SlingUtilTest {
 
     private static class MyConfigClass {
         // Implementation details of the config class
@@ -48,11 +48,11 @@ public class SlingUtilTest {
     @Test
     void to() {
         when(this.resourceResolver.adaptTo(Session.class)).thenReturn(session);
-        final Session session = Optional.of(resourceResolver)
+        final Session sessionTest = Optional.of(resourceResolver)
                 .map(SlingUtil.to(Session.class))
                 .orElse(null);
 
-        assertEquals(session, this.session);
+        assertEquals(sessionTest, this.session);
     }
 
     /**

@@ -14,7 +14,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Optional;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -246,8 +245,8 @@ class PageUtilTest {
         when(child2.getDepth()).thenReturn(3);
         when(child3.getDepth()).thenReturn(4);
 
-        assertIterableEquals(Stream.of(child1, child2, child3).collect(Collectors.toList()), PageUtil.streamDescendants(parent, MAX_DEPTH_ROOT).collect(Collectors.toList()));
-        assertIterableEquals(Stream.of(child1, child2).collect(Collectors.toList()), PageUtil.streamDescendants(parent, 3).collect(Collectors.toList()));
+        assertIterableEquals(Stream.of(child1, child2, child3).toList(), PageUtil.streamDescendants(parent, MAX_DEPTH_ROOT).toList());
+        assertIterableEquals(Stream.of(child1, child2).toList(), PageUtil.streamDescendants(parent, 3).toList());
     }
 
     /**
@@ -265,8 +264,8 @@ class PageUtilTest {
         when(child2.getDepth()).thenReturn(3);
         when(child3.getDepth()).thenReturn(4);
 
-        assertIterableEquals(Stream.of(parent, child1, child2, child3).collect(Collectors.toList()), PageUtil.streamTree(parent, MAX_DEPTH_ROOT).collect(Collectors.toList()));
-        assertIterableEquals(Stream.of(parent, child1, child2).collect(Collectors.toList()), PageUtil.streamTree(parent, 3).collect(Collectors.toList()));
+        assertIterableEquals(Stream.of(parent, child1, child2, child3).toList(), PageUtil.streamTree(parent, MAX_DEPTH_ROOT).toList());
+        assertIterableEquals(Stream.of(parent, child1, child2).toList(), PageUtil.streamTree(parent, 3).toList());
     }
 
     /**

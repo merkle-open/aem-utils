@@ -190,7 +190,7 @@ public class LinkUtil {
         }
 
         return !path.matches(".+\\.html(|\\?.*|#.*)$")
-                && !path.matches(".+/(([#][^#/?]*)?|([?][^#/?]*))$");
+                && !path.matches(".+/((#[^#/?]*)?|([?][^#/?]*))$");
     }
 
     /**
@@ -200,7 +200,7 @@ public class LinkUtil {
      * @return Returns _blank if openNewWindow is true. Otherwise, _self
      */
     public static String getTarget(final boolean openNewWindow) {
-        return openNewWindow ? Links.Target.BLANK.getTarget() : Links.Target.SELF.getTarget();
+        return openNewWindow ? Links.Target.BLANK.getValue() : Links.Target.SELF.getValue();
     }
 
     /**

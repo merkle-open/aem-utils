@@ -223,7 +223,7 @@ class HttpClientServiceImplTest {
             verify(httpClientBuilder).setSSLSocketFactory(any(SSLConnectionSocketFactory.class));
 
             final SSLContextBuilder createdSslBuilder = mockSslBuilder.constructed().getFirst();
-            verify(createdSslBuilder).loadKeyMaterial(eq(keyStore), eq(password.toCharArray()));
+            verify(createdSslBuilder).loadKeyMaterial(keyStore, password.toCharArray());
         }
     }
 
@@ -258,7 +258,7 @@ class HttpClientServiceImplTest {
             verify(httpClientBuilder).setSSLSocketFactory(any(SSLConnectionSocketFactory.class));
 
             final SSLContextBuilder createdSslBuilder = mockSslBuilder.constructed().getFirst();
-            verify(createdSslBuilder).loadKeyMaterial(eq(keyStore), eq(password.toCharArray()));
+            verify(createdSslBuilder).loadKeyMaterial(keyStore, password.toCharArray());
         }
     }
 
@@ -270,7 +270,8 @@ class HttpClientServiceImplTest {
         when(resourceResolverService.createTruststoreReader()).thenThrow(new org.apache.sling.api.resource.LoginException("Simulated Login Failure"));
 
         try (MockedConstruction<SSLContextBuilder> ignored = mockConstruction(SSLContextBuilder.class)) {
-            final SecurityException exception = assertThrows(SecurityException.class, () -> httpClientService.httpGetWithTrustStore(new HttpGet("https://example.com")));
+            final HttpGet httpGet = new HttpGet("https://example.com");
+            final SecurityException exception = assertThrows(SecurityException.class, () -> httpClientService.httpGetWithTrustStore(httpGet));
             assertInstanceOf(LoginException.class, exception.getCause());
         }
     }
@@ -291,7 +292,8 @@ class HttpClientServiceImplTest {
                      })) {
 
             staticHttpClientBuilder.when(HttpClientBuilder::create).thenReturn(httpClientBuilder);
-            assertThrows(SecurityException.class, () -> httpClientService.httpGetWithTrustStore(new HttpGet("https://secure.example.com")));
+            final HttpGet httpGet = new HttpGet("https://example.com");
+            assertThrows(SecurityException.class, () -> httpClientService.httpGetWithTrustStore(httpGet));
         }
     }
 
@@ -326,7 +328,8 @@ class HttpClientServiceImplTest {
 
 
             staticHttpClientBuilder.when(HttpClientBuilder::create).thenReturn(httpClientBuilder);
-            assertThrows(SecurityException.class, () -> httpClientService.httpGetWithKeyStore(new HttpGet("https://secure.example.com"), userId, password));
+            final HttpGet httpGet = new HttpGet("https://example.com");
+            assertThrows(SecurityException.class, () -> httpClientService.httpGetWithKeyStore(httpGet, userId, password));
         }
     }
 
@@ -350,7 +353,8 @@ class HttpClientServiceImplTest {
 
 
             staticHttpClientBuilder.when(HttpClientBuilder::create).thenReturn(httpClientBuilder);
-            assertThrows(SecurityException.class, () -> httpClientService.httpGetWithKeyStore(new HttpGet("https://secure.example.com"), userId, password));
+            final HttpGet httpGet = new HttpGet("https://example.com");
+            assertThrows(SecurityException.class, () -> httpClientService.httpGetWithKeyStore(httpGet, userId, password));
         }
     }
 
@@ -379,7 +383,8 @@ class HttpClientServiceImplTest {
         when(resourceResolverService.createUsersReader()).thenThrow(new org.apache.sling.api.resource.LoginException("Simulated Login Failure"));
 
         try (MockedConstruction<SSLContextBuilder> ignored = mockConstruction(SSLContextBuilder.class)) {
-            final SecurityException exception = assertThrows(SecurityException.class, () -> httpClientService.httpGetWithKeyStore(new HttpGet("https://example.com"), userId, password));
+            final HttpGet httpGet = new HttpGet("https://example.com");
+            final SecurityException exception = assertThrows(SecurityException.class, () -> httpClientService.httpGetWithKeyStore(httpGet, userId, password));
             assertInstanceOf(LoginException.class, exception.getCause());
         }
     }
@@ -418,7 +423,8 @@ class HttpClientServiceImplTest {
         try (MockedStatic<HttpClientBuilder> staticHttpClientBuilder = mockStatic(HttpClientBuilder.class)) {
             staticHttpClientBuilder.when(HttpClientBuilder::create).thenReturn(httpClientBuilder);
             when(httpClientBuilder.build()).thenReturn(null);
-            assertThrows(NullPointerException.class, () -> httpClientService.httpGet(new HttpGet("http://example.com")));
+            final HttpGet httpGet = new HttpGet("https://example.com");
+            assertThrows(NullPointerException.class, () -> httpClientService.httpGet(httpGet));
         }
     }
 
@@ -430,7 +436,8 @@ class HttpClientServiceImplTest {
         try (MockedStatic<HttpClientBuilder> staticHttpClientBuilder = mockStatic(HttpClientBuilder.class)) {
             staticHttpClientBuilder.when(HttpClientBuilder::create).thenReturn(httpClientBuilder);
             when(closeableHttpClient.execute(any(HttpUriRequest.class))).thenReturn(null);
-            assertThrows(NullPointerException.class, () -> httpClientService.httpGet(new HttpGet("http://example.com")));
+            final HttpGet httpGet = new HttpGet("https://example.com");
+            assertThrows(NullPointerException.class, () -> httpClientService.httpGet(httpGet));
 
             when(closeableHttpClient.execute(any(HttpUriRequest.class))).thenThrow(IOException.class);
             assertThrows(IOException.class, () -> httpClientService.httpGet(new HttpGet("http://example.com")));

@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 /**
  * Unit tests for the {@link ServiceTypeRunMode} class.
  */
-public class ServiceTypeRunModeTest {
+class ServiceTypeRunModeTest {
 
     /**
      * Methods under test:

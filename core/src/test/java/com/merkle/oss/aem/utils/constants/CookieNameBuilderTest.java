@@ -14,7 +14,7 @@ import static org.mockito.Mockito.when;
  * Unit tests for the {@link CookieNameBuilder} class.
  */
 @ExtendWith(MockitoExtension.class)
-public class CookieNameBuilderTest {
+class CookieNameBuilderTest {
 
     private static final String NAMESPACE = "projectName";
 
@@ -45,7 +45,8 @@ public class CookieNameBuilderTest {
         assertEquals("projectName.segmentA.segmentB", new CookieNameBuilder(NAMESPACE, SEGMENT_NAME_A, SEGMENT_NAME_B).toString());
         assertEquals("projectName.segmentA.segmentB", new CookieNameBuilder(NAMESPACE, SEGMENT_NAME_A).appendSegmentName(SEGMENT_NAME_B).toString());
         assertEquals("projectName.segmentA", new CookieNameBuilder(NAMESPACE, SEGMENT_NAME_A).appendSegmentName(null).toString());
-        assertThrows(NullPointerException.class, () -> new CookieNameBuilder(NAMESPACE, (String[]) null).toString());
+        final String[] nullArray = null;
+        assertThrows(NullPointerException.class, () -> new CookieNameBuilder(NAMESPACE, nullArray));
     }
 
     @Test

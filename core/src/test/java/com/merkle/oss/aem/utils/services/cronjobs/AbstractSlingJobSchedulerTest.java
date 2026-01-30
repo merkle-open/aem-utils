@@ -24,7 +24,7 @@ import static org.mockito.Mockito.*;
  * Unit tests for the {@link AbstractSlingJobScheduler} class.
  */
 @ExtendWith(MockitoExtension.class)
-public class AbstractSlingJobSchedulerTest {
+class AbstractSlingJobSchedulerTest {
 
     private static final String CRON_EXPRESSION = "0 0 12 * * ?";
 

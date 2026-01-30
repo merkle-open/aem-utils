@@ -29,7 +29,7 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 class InjectorUtilTest {
 
-    private final static List<String> TITLE_LIST = List.of("title1", "title2");
+    private static final List<String> TITLE_LIST = List.of("title1", "title2");
 
     @Mock
     private ResourceResolver resourceResolver;

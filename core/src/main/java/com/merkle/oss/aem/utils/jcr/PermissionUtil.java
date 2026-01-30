@@ -26,7 +26,6 @@ import javax.jcr.security.AccessControlPolicy;
 import javax.jcr.security.AccessControlPolicyIterator;
 import java.security.Principal;
 import java.util.*;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
@@ -147,8 +146,8 @@ public final class PermissionUtil {
         try {
             final AccessControlPolicy[] policies = accessControlManager.getPolicies(resourcePath);
             for (final AccessControlPolicy policy : policies) {
-                if (policy instanceof PrincipalSetPolicy) {
-                    return (PrincipalSetPolicy) policy;
+                if (policy instanceof PrincipalSetPolicy principalSetPolicy) {
+                    return principalSetPolicy;
                 }
             }
             return null;
@@ -215,8 +214,8 @@ public final class PermissionUtil {
             final AccessControlPolicyIterator applicablePolicyIterator = accessControlManager.getApplicablePolicies(resourcePath);
             while (applicablePolicyIterator.hasNext()) {
                 final AccessControlPolicy accessControlPolicy = applicablePolicyIterator.nextAccessControlPolicy();
-                if (accessControlPolicy instanceof PrincipalSetPolicy) {
-                    return (PrincipalSetPolicy) accessControlPolicy;
+                if (accessControlPolicy instanceof PrincipalSetPolicy principalSetPolicy) {
+                    return principalSetPolicy;
                 }
             }
             return null;
@@ -261,7 +260,7 @@ public final class PermissionUtil {
             return cugPolicy.getPrincipals().stream()
                     .map(Principal::getName)
                     .flatMap(name -> getUserGroupMembers(name, resourceResolver).stream())
-                    .collect(Collectors.toList());
+                    .toList();
 
         } catch (RepositoryException e) {
             LOG.error("Unable to retrieve access control manager", e);
@@ -282,11 +281,10 @@ public final class PermissionUtil {
             final Iterator<Authorizable> iterator = group.getDeclaredMembers();
             while (iterator.hasNext()) {
                 final Authorizable groupMemberAuthorizable = iterator.next();
-                if (groupMemberAuthorizable.isGroup()) {
-                    if (!Strings.CS.equals(groupMemberAuthorizable.getPrincipal().getName(), PermissionUtil.USER_GROUP_ID_EVERYONE)) {
-                        groupNames.add(groupMemberAuthorizable.getPrincipal().getName());
-                    }
+                if (groupMemberAuthorizable.isGroup() && !Strings.CS.equals(groupMemberAuthorizable.getPrincipal().getName(), PermissionUtil.USER_GROUP_ID_EVERYONE)) {
+                    groupNames.add(groupMemberAuthorizable.getPrincipal().getName());
                 }
+
             }
         } catch (RepositoryException e) {
             LOG.error("Unable to retrieve group member of for {}", principalName, e);
@@ -309,13 +307,13 @@ public final class PermissionUtil {
      * @param request The current request (used to derive the resource and session).
      * @param actions A comma-separated list of actions (e.g., {@code "read,set_property"}).
      * @return {@code true} if the user has ALL requested permissions; {@code false} if denied or if an error occurs.
-     * @see javax.jcr.Session#checkPermission(String, String)
      * @apiNote Example usage:
      * {@snippet :
      * if (SecurityUtil.userHasPermissionForActions(request, "add_node,set_property")) {
      *     //handle write action
      * }
-     * }
+     *}
+     * @see javax.jcr.Session#checkPermission(String, String)
      */
     public static boolean userHasPermissionForActions(@NonNull final SlingHttpServletRequest request, @NonNull final String actions) {
         Objects.requireNonNull(request);

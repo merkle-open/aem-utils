@@ -20,7 +20,7 @@ import static org.mockito.Mockito.when;
  * Unit tests for the {@link ResourceResolverServiceImpl} class.
  */
 @ExtendWith(MockitoExtension.class)
-public class ResourceResolverServiceImplTest {
+class ResourceResolverServiceImplTest {
 
     @Mock
     private ResourceResolver resourceResolver;
