@@ -1,0 +1,6 @@
+{
+  "user.mapping": [
+    "aem-utils.core-bundle:truststore-reader=[aem-utils-truststore-reader-service]",
+    "aem-utils.core-bundle:users-reader=[aem-utils-users-reader-service]"
+  ]
+}

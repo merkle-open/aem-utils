@@ -49,7 +49,7 @@ public class RunModeServiceImpl implements RunModeService {
         runModes = new HashMap<>();
 
         if (!isConfigValid(config)) {
-            LOG.error("Invalid configuration found for Run Mode Service. Configuration must be adjusted.");
+            LOG.warn("Invalid configuration found for Run Mode Service. Service set with serviceType: {} and environmentType: {}.", config.serviceType(), config.environmentType());
             return;
         }
 
