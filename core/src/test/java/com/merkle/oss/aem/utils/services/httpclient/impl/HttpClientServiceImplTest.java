@@ -388,7 +388,7 @@ class HttpClientServiceImplTest {
      * Method under test: {@link HttpClientServiceImpl@execute(HttpUriRequest, int, int)}
      */
     @Test
-    void execute_IOException() throws IOException {
+    void execute_error() throws IOException {
         try (MockedStatic<HttpClientBuilder> staticHttpClientBuilder = mockStatic(HttpClientBuilder.class)) {
             staticHttpClientBuilder.when(HttpClientBuilder::create).thenReturn(httpClientBuilder);
             when(closeableHttpClient.execute(any(HttpUriRequest.class))).thenThrow(new IOException("Network down"));
@@ -401,7 +401,7 @@ class HttpClientServiceImplTest {
      * Method under test: {@link HttpClientServiceImpl@execute(HttpUriRequest, int, int)}
      */
     @Test
-    void testExecute_NullEntity() throws IOException {
+    void testExecute_null() throws IOException {
         try (MockedStatic<HttpClientBuilder> staticHttpClientBuilder = mockStatic(HttpClientBuilder.class)) {
             staticHttpClientBuilder.when(HttpClientBuilder::create).thenReturn(httpClientBuilder);
             when(closeableHttpResponse.getEntity()).thenReturn(null);

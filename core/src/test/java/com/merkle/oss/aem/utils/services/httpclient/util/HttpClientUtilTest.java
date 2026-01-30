@@ -36,23 +36,21 @@ class HttpClientUtilTest {
     }
 
     /**
-     * Method under test: {@link HttpClientUtil#buildBasicAuthenticationHeader}
+     * Method under test: {@link HttpClientUtil#buildBasicAuthenticationHeader(String, String)}
      */
     @Test
-    void buildBasicAuthenticationHeader_WithCredentials() {
+    void buildBasicAuthenticationHeader_withCredentials() {
         final Header header = HttpClientUtil.buildBasicAuthenticationHeader(USERNAME, PASSWORD);
 
-        assertAll(
-                () -> assertEquals(HttpHeaders.AUTHORIZATION, header.getName(), "Header name must be Authorization"),
-                () -> assertEquals("Basic " + EXPECTED_BASIC_ENCODED, header.getValue(), "Value should be 'Basic ' followed by Base64(user:pass)")
-        );
+        assertEquals(HttpHeaders.AUTHORIZATION, header.getName(), "Header name must be Authorization");
+        assertEquals("Basic " + EXPECTED_BASIC_ENCODED, header.getValue(), "Value should be 'Basic ' followed by Base64(user:pass)");
     }
 
     /**
-     * Method under test: {@link HttpClientUtil#buildBasicAuthenticationHeader}
+     * Method under test: {@link HttpClientUtil#buildBasicAuthenticationHeader(String)}
      */
     @Test
-    void buildBasicAuthenticationHeader_WithKey() {
+    void buildBasicAuthenticationHeader_withKey() {
         final Header header = HttpClientUtil.buildBasicAuthenticationHeader(EXPECTED_BASIC_ENCODED);
 
         assertEquals(HttpHeaders.AUTHORIZATION, header.getName());
@@ -60,7 +58,7 @@ class HttpClientUtilTest {
     }
 
     /**
-     * Method under test: {@link HttpClientUtil#buildBasicAuthenticationHeader}
+     * Method under test: {@link HttpClientUtil#buildBasicAuthenticationHeader(String, String)}
      */
     @ParameterizedTest
     @CsvSource({
@@ -68,8 +66,7 @@ class HttpClientUtilTest {
             "admin, null",
             "null, null"
     })
-    void buildBasicAuthenticationHeader_NullChecks(String user, String pass) {
-        // Handle CSV nulls
+    void buildBasicAuthenticationHeader_nullChecks(final String user, final String pass) {
         final String u = "null".equals(user) ? null : user;
         final String p = "null".equals(pass) ? null : pass;
 
@@ -77,12 +74,11 @@ class HttpClientUtilTest {
     }
 
     /**
-     * Method under test: {@link HttpClientUtil#buildBasicAuthenticationHeader}
+     * Method under test: {@link HttpClientUtil#buildBasicAuthenticationHeader(String)}
      */
     @Test
-    void buildAuthHeaders_SingleParamNullChecks() {
+    void buildBasicAuthenticationHeader_null() {
         assertThrows(NullPointerException.class, () -> HttpClientUtil.buildBasicAuthenticationHeader(null));
-        assertThrows(NullPointerException.class, () -> HttpClientUtil.buildBearerAuthenticationHeader(null));
     }
 
     /**
@@ -92,10 +88,16 @@ class HttpClientUtilTest {
     void buildBearerAuthenticationHeader() {
         final Header header = HttpClientUtil.buildBearerAuthenticationHeader(TOKEN);
 
-        assertAll(
-                () -> assertEquals(HttpHeaders.AUTHORIZATION, header.getName()),
-                () -> assertEquals("Bearer " + TOKEN, header.getValue(), "Value should be 'Bearer ' followed by the token")
-        );
+        assertEquals(HttpHeaders.AUTHORIZATION, header.getName());
+        assertEquals("Bearer " + TOKEN, header.getValue(), "Value should be 'Bearer ' followed by the token");
+    }
+
+    /**
+     * Method under test: {@link HttpClientUtil#buildBearerAuthenticationHeader(String)}
+     */
+    @Test
+    void buildBearerAuthenticationHeader_null() {
+        assertThrows(NullPointerException.class, () -> HttpClientUtil.buildBearerAuthenticationHeader(null));
     }
 
 }
