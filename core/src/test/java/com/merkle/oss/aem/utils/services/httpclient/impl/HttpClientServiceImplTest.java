@@ -431,6 +431,9 @@ class HttpClientServiceImplTest {
             staticHttpClientBuilder.when(HttpClientBuilder::create).thenReturn(httpClientBuilder);
             when(closeableHttpClient.execute(any(HttpUriRequest.class))).thenReturn(null);
             assertThrows(NullPointerException.class, () -> httpClientService.httpGet(new HttpGet("http://example.com")));
+
+            when(closeableHttpClient.execute(any(HttpUriRequest.class))).thenThrow(IOException.class);
+            assertThrows(IOException.class, () -> httpClientService.httpGet(new HttpGet("http://example.com")));
         }
     }
 

@@ -139,8 +139,6 @@ public class LinkUtilTest {
         assertFalse(LinkUtil.isMissingHtmlExtension(""));
         assertFalse(LinkUtil.isMissingHtmlExtension("something/invalid"));
         assertFalse(LinkUtil.isMissingHtmlExtension("/content/dam/some/asset"));
-        assertFalse(LinkUtil.isMissingHtmlExtension("/content/dam/some/asset#anchorId"));
-        assertFalse(LinkUtil.isMissingHtmlExtension("/content/dam/some/asset.json?q=value"));
         assertFalse(LinkUtil.isMissingHtmlExtension("/content/dam/some/asset.json"));
         assertFalse(LinkUtil.isMissingHtmlExtension("https://www.domain.com/is/absolute"));
         assertFalse(LinkUtil.isMissingHtmlExtension("https://www.domain.com/is/absolute.html"));
@@ -149,6 +147,9 @@ public class LinkUtilTest {
         assertFalse(LinkUtil.isMissingHtmlExtension("/internal/not/to/be/extended.html?test=testValue"));
         assertFalse(LinkUtil.isMissingHtmlExtension("/internal/not/to/be/extended.html?test=testValue&b=b"));
         assertFalse(LinkUtil.isMissingHtmlExtension("/internal/not/to/be/extended.html#test"));
+        assertFalse(LinkUtil.isMissingHtmlExtension("/content/we-retail/us/en/"));
+        assertFalse(LinkUtil.isMissingHtmlExtension("/content/we-retail/us/en/#anchor"));
+        assertFalse(LinkUtil.isMissingHtmlExtension("/content/we-retail/us/en/?query=value"));
 
         assertTrue(LinkUtil.isMissingHtmlExtension("/internal/not/to/be/extended"));
         assertTrue(LinkUtil.isMissingHtmlExtension("/internal/not/to/be/extended.test"));
