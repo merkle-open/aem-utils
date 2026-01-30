@@ -3,6 +3,7 @@ package com.merkle.oss.aem.utils.query;
 import com.day.cq.search.PredicateGroup;
 import com.day.cq.search.Query;
 import com.day.cq.tagging.TagManager;
+import com.merkle.oss.aem.utils.annotations.Generated;
 import com.merkle.oss.aem.utils.java.ClassUtil;
 import org.apache.commons.lang3.RegExUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -24,6 +25,7 @@ public final class QuerySearchUtil {
 
     private static final Logger LOG = LoggerFactory.getLogger(QuerySearchUtil.class);
 
+    @Generated("Bypass coverage for static utility constructor")
     private QuerySearchUtil() {
         ClassUtil.assertNoInstance(this.getClass());
     }

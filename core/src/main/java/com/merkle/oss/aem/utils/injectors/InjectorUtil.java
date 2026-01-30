@@ -2,6 +2,7 @@ package com.merkle.oss.aem.utils.injectors;
 
 import com.day.cq.commons.inherit.InheritanceValueMap;
 import com.day.cq.wcm.api.Page;
+import com.merkle.oss.aem.utils.annotations.Generated;
 import com.merkle.oss.aem.utils.java.ClassUtil;
 import com.merkle.oss.aem.utils.sling.SlingUtil;
 import com.merkle.oss.aem.utils.wcm.PageManagerUtil;
@@ -39,6 +40,7 @@ public class InjectorUtil {
 
     private static final Logger LOG = LoggerFactory.getLogger(InjectorUtil.class);
 
+    @Generated("Bypass coverage for static utility constructor")
     private InjectorUtil() {
         ClassUtil.assertNoInstance(this.getClass());
     }

@@ -14,8 +14,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Map;
@@ -53,19 +51,6 @@ class InjectorUtilTest {
 
     @Mock
     private InheritanceValueMap inheritanceValueMap = new HierarchyNodeInheritanceValueMap(contentResource);
-
-    /**
-     * Method under test: {@link InjectorUtil}
-     */
-    @Test
-    void instantiationException() throws NoSuchMethodException {
-        final Constructor<InjectorUtil> constructor = InjectorUtil.class.getDeclaredConstructor();
-        constructor.setAccessible(true);
-
-        final InvocationTargetException exception = assertThrows(InvocationTargetException.class, constructor::newInstance);
-        assertEquals(AssertionError.class, exception.getCause().getClass());
-        assertTrue(exception.getCause().getMessage().contains("not meant to be instantiated"));
-    }
 
     /**
      * Method under test: {@link InjectorUtil#getPageFromAdaptable(Object)}

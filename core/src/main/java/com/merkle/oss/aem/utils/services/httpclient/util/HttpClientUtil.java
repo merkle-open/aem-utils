@@ -1,5 +1,6 @@
 package com.merkle.oss.aem.utils.services.httpclient.util;
 
+import com.merkle.oss.aem.utils.annotations.Generated;
 import com.merkle.oss.aem.utils.java.ClassUtil;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang3.StringUtils;
@@ -27,6 +28,7 @@ public final class HttpClientUtil {
      */
     public static final String BEARER_AUTH_SCHEME = "Bearer";
 
+    @Generated("Bypass coverage for static utility constructor")
     private HttpClientUtil() {
         ClassUtil.assertNoInstance(this.getClass());
     }

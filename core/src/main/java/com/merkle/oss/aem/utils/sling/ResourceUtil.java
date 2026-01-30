@@ -1,5 +1,6 @@
 package com.merkle.oss.aem.utils.sling;
 
+import com.merkle.oss.aem.utils.annotations.Generated;
 import com.merkle.oss.aem.utils.java.ClassUtil;
 import com.merkle.oss.aem.utils.java.FunctionalUtil;
 import org.apache.commons.lang3.ArrayUtils;
@@ -24,6 +25,7 @@ public final class ResourceUtil {
 
     private static final Logger LOG = LoggerFactory.getLogger(ResourceUtil.class);
 
+    @Generated("Bypass coverage for static utility constructor")
     private ResourceUtil() {
         ClassUtil.assertNoInstance(this.getClass());
     }

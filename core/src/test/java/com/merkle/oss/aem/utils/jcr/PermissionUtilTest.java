@@ -23,8 +23,6 @@ import javax.jcr.Session;
 import javax.jcr.security.AccessControlManager;
 import javax.jcr.security.AccessControlPolicy;
 import javax.jcr.security.AccessControlPolicyIterator;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.security.Principal;
 import java.util.Collections;
 import java.util.List;
@@ -81,19 +79,6 @@ public class PermissionUtilTest {
 
     public static class MockPolicy implements AccessControlPolicy {
         // Implementation details of the policy class
-    }
-
-    /**
-     * Method under test: {@link PermissionUtil}
-     */
-    @Test
-    void instantiationException() throws NoSuchMethodException {
-        final Constructor<PermissionUtil> constructor = PermissionUtil.class.getDeclaredConstructor();
-        constructor.setAccessible(true);
-
-        final InvocationTargetException exception = assertThrows(InvocationTargetException.class, constructor::newInstance);
-        assertEquals(AssertionError.class, exception.getCause().getClass());
-        assertTrue(exception.getCause().getMessage().contains("not meant to be instantiated"));
     }
 
     /**

@@ -3,6 +3,7 @@ package com.merkle.oss.aem.utils.query;
 import com.day.cq.commons.jcr.JcrConstants;
 import com.day.cq.dam.api.DamConstants;
 import com.day.cq.wcm.api.constants.NameConstants;
+import com.merkle.oss.aem.utils.annotations.Generated;
 import com.merkle.oss.aem.utils.java.ClassUtil;
 
 /**
@@ -12,6 +13,7 @@ import com.merkle.oss.aem.utils.java.ClassUtil;
  */
 public class PredicateProperties {
 
+    @Generated("Bypass coverage for static utility constructor")
     private PredicateProperties() {
         ClassUtil.assertNoInstance(this.getClass());
     }

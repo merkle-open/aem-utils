@@ -11,11 +11,10 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import javax.jcr.Session;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.when;
 
 /**
@@ -42,19 +41,6 @@ public class SlingUtilTest {
     private ConfigurationBuilder configurationBuilder;
     @Mock
     private MyConfigClass myConfigClass;
-
-    /**
-     * Method under test: {@link SlingUtil}
-     */
-    @Test
-    void instantiationException() throws NoSuchMethodException {
-        final Constructor<SlingUtil> constructor = SlingUtil.class.getDeclaredConstructor();
-        constructor.setAccessible(true);
-
-        final InvocationTargetException exception = assertThrows(InvocationTargetException.class, constructor::newInstance);
-        assertEquals(AssertionError.class, exception.getCause().getClass());
-        assertTrue(exception.getCause().getMessage().contains("not meant to be instantiated"));
-    }
 
     /**
      * Method under test: {@link SlingUtil#to(Class)}

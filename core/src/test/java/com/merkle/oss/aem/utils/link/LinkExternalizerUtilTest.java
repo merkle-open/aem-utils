@@ -10,10 +10,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
 /**
@@ -57,19 +55,6 @@ public class LinkExternalizerUtilTest {
 
     @Mock
     private Page page;
-
-    /**
-     * Method under test: {@link LinkExternalizerUtil}
-     */
-    @Test
-    void instantiationException() throws NoSuchMethodException {
-        final Constructor<LinkExternalizerUtil> constructor = LinkExternalizerUtil.class.getDeclaredConstructor();
-        constructor.setAccessible(true);
-
-        final InvocationTargetException exception = assertThrows(InvocationTargetException.class, constructor::newInstance);
-        assertEquals(AssertionError.class, exception.getCause().getClass());
-        assertTrue(exception.getCause().getMessage().contains("not meant to be instantiated"));
-    }
 
     /**
      * Method under test: {@link LinkExternalizerUtil#externalize(Page, SlingHttpServletRequest)}

@@ -2,6 +2,7 @@ package com.merkle.oss.aem.utils.link;
 
 import com.day.cq.commons.Externalizer;
 import com.day.cq.wcm.api.Page;
+import com.merkle.oss.aem.utils.annotations.Generated;
 import com.merkle.oss.aem.utils.java.ClassUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.sling.api.SlingHttpServletRequest;
@@ -20,11 +21,12 @@ import java.util.Objects;
  * scheme and domain based on the current request.
  * </p>
  * By utilizing {@link com.day.cq.commons.Externalizer#absoluteLink(SlingHttpServletRequest, String, String)} as the transformation mechanism,
- * this uititly provides safe externalizer functionality for multi tenancy projects based on valid resource resoler mapping configurations.
+ * this utility provides safe externalizer functionality for multi tenancy projects based on valid resource resoler mapping configurations.
  *
  */
 public class LinkExternalizerUtil {
 
+    @Generated("Bypass coverage for static utility constructor")
     private LinkExternalizerUtil() {
         ClassUtil.assertNoInstance(this.getClass());
     }

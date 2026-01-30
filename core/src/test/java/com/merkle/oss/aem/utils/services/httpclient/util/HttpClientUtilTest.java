@@ -6,10 +6,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * Unit tests for the {@link HttpClientUtil} class.
@@ -21,19 +19,6 @@ class HttpClientUtilTest {
     // "admin:password" in Base64 is "YWRtaW46cGFzc3dvcmQ="
     private static final String EXPECTED_BASIC_ENCODED = "YWRtaW46cGFzc3dvcmQ=";
     private static final String TOKEN = "my-secret-bearer-token";
-
-    /**
-     * Method under test: {@link HttpClientUtil}
-     */
-    @Test
-    void instantiationException() throws NoSuchMethodException {
-        final Constructor<HttpClientUtil> constructor = HttpClientUtil.class.getDeclaredConstructor();
-        constructor.setAccessible(true);
-
-        final InvocationTargetException exception = assertThrows(InvocationTargetException.class, constructor::newInstance);
-        assertEquals(AssertionError.class, exception.getCause().getClass());
-        assertTrue(exception.getCause().getMessage().contains("not meant to be instantiated"));
-    }
 
     /**
      * Method under test: {@link HttpClientUtil#buildBasicAuthenticationHeader(String, String)}

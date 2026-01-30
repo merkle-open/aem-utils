@@ -20,7 +20,7 @@ public final class ClassUtil {
      *
      * @see #assertNoInstance(Class)
      */
-    @Generated
+    @Generated("Bypass coverage for static utility constructor")
     private ClassUtil() {
         assertNoInstance(this.getClass());
     }

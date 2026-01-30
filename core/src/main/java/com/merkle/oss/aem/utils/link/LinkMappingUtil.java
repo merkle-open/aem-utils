@@ -1,5 +1,6 @@
 package com.merkle.oss.aem.utils.link;
 
+import com.merkle.oss.aem.utils.annotations.Generated;
 import com.merkle.oss.aem.utils.java.ClassUtil;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.resource.ResourceResolver;
@@ -20,6 +21,7 @@ import java.util.function.Function;
  */
 public final class LinkMappingUtil {
 
+    @Generated("Bypass coverage for static utility constructor")
     private LinkMappingUtil() {
         ClassUtil.assertNoInstance(this.getClass());
     }

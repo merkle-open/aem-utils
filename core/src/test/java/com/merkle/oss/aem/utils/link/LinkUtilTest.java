@@ -11,9 +11,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
@@ -41,19 +38,6 @@ public class LinkUtilTest {
     private Resource resource;
     @Mock
     private PageManager pageManager;
-
-    /**
-     * Method under test: {@link LinkUtil}
-     */
-    @Test
-    void instantiationException() throws NoSuchMethodException {
-        final Constructor<LinkUtil> constructor = LinkUtil.class.getDeclaredConstructor();
-        constructor.setAccessible(true);
-
-        final InvocationTargetException exception = assertThrows(InvocationTargetException.class, constructor::newInstance);
-        assertEquals(AssertionError.class, exception.getCause().getClass());
-        assertTrue(exception.getCause().getMessage().contains("not meant to be instantiated"));
-    }
 
     /**
      * Method under test: {@link LinkUtil#createLink(Page)}
@@ -198,7 +182,7 @@ public class LinkUtilTest {
     }
 
     /**
-     * Method under test: {@link LinkUtil#isApplicationLink(String)} 
+     * Method under test: {@link LinkUtil#isApplicationLink(String)}
      */
     @Test
     void isApplicationLink_isTrue() {

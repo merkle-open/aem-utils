@@ -17,7 +17,7 @@ import java.util.stream.StreamSupport;
  */
 public final class FunctionalUtil {
 
-    @Generated
+    @Generated("Bypass coverage for static utility constructor")
     private FunctionalUtil() {
         ClassUtil.assertNoInstance(this.getClass());
     }

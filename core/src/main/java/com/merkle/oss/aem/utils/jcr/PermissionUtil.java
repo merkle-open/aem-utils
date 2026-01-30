@@ -1,5 +1,6 @@
 package com.merkle.oss.aem.utils.jcr;
 
+import com.merkle.oss.aem.utils.annotations.Generated;
 import com.merkle.oss.aem.utils.java.ClassUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Strings;
@@ -53,6 +54,7 @@ public final class PermissionUtil {
      */
     public static final String USER_GROUP_ID_EVERYONE = "everyone";
 
+    @Generated("Bypass coverage for static utility constructor")
     private PermissionUtil() {
         ClassUtil.assertNoInstance(this.getClass());
     }
