@@ -401,7 +401,7 @@ class HttpClientServiceImplTest {
      * Method under test: {@link HttpClientServiceImpl@execute(HttpUriRequest, int, int)}
      */
     @Test
-    void testExecute_null() throws IOException {
+    void execute_entityNull() throws IOException {
         try (MockedStatic<HttpClientBuilder> staticHttpClientBuilder = mockStatic(HttpClientBuilder.class)) {
             staticHttpClientBuilder.when(HttpClientBuilder::create).thenReturn(httpClientBuilder);
             when(closeableHttpResponse.getEntity()).thenReturn(null);
@@ -409,4 +409,29 @@ class HttpClientServiceImplTest {
             assertThrows(IOException.class, () -> httpClientService.httpGet(new HttpGet("http://example.com")));
         }
     }
+
+    /**
+     * Method under test: {@link HttpClientServiceImpl@execute(HttpUriRequest, int, int)}
+     */
+    @Test
+    void execute_builderNull() {
+        try (MockedStatic<HttpClientBuilder> staticHttpClientBuilder = mockStatic(HttpClientBuilder.class)) {
+            staticHttpClientBuilder.when(HttpClientBuilder::create).thenReturn(httpClientBuilder);
+            when(httpClientBuilder.build()).thenReturn(null);
+            assertThrows(NullPointerException.class, () -> httpClientService.httpGet(new HttpGet("http://example.com")));
+        }
+    }
+
+    /**
+     * Method under test: {@link HttpClientServiceImpl@execute(HttpUriRequest, int, int)}
+     */
+    @Test
+    void execute_clientNull() throws IOException {
+        try (MockedStatic<HttpClientBuilder> staticHttpClientBuilder = mockStatic(HttpClientBuilder.class)) {
+            staticHttpClientBuilder.when(HttpClientBuilder::create).thenReturn(httpClientBuilder);
+            when(closeableHttpClient.execute(any(HttpUriRequest.class))).thenReturn(null);
+            assertThrows(NullPointerException.class, () -> httpClientService.httpGet(new HttpGet("http://example.com")));
+        }
+    }
+
 }

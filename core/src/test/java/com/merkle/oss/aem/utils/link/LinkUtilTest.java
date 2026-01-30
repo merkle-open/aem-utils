@@ -139,6 +139,8 @@ public class LinkUtilTest {
         assertFalse(LinkUtil.isMissingHtmlExtension(""));
         assertFalse(LinkUtil.isMissingHtmlExtension("something/invalid"));
         assertFalse(LinkUtil.isMissingHtmlExtension("/content/dam/some/asset"));
+        assertFalse(LinkUtil.isMissingHtmlExtension("/content/dam/some/asset#anchorId"));
+        assertFalse(LinkUtil.isMissingHtmlExtension("/content/dam/some/asset.json?q=value"));
         assertFalse(LinkUtil.isMissingHtmlExtension("/content/dam/some/asset.json"));
         assertFalse(LinkUtil.isMissingHtmlExtension("https://www.domain.com/is/absolute"));
         assertFalse(LinkUtil.isMissingHtmlExtension("https://www.domain.com/is/absolute.html"));

@@ -1,5 +1,7 @@
 package com.merkle.oss.aem.utils.services.runmode.modes.impl;
 
+import com.merkle.oss.aem.utils.annotations.Generated;
+import com.merkle.oss.aem.utils.java.ClassUtil;
 import com.merkle.oss.aem.utils.services.runmode.modes.RunMode;
 import org.apache.commons.lang3.Strings;
 import org.jspecify.annotations.NonNull;
@@ -14,6 +16,11 @@ import java.util.Arrays;
  * local development machines to production environments.
  */
 public class EnvironmentTypeRunMode implements RunMode {
+
+    @Generated("Bypass coverage for static utility constructor")
+    private EnvironmentTypeRunMode() {
+        ClassUtil.assertNoInstance(this.getClass());
+    }
 
     public static final String MODE_ENV_LOCAL_VALUE = "local";
 
