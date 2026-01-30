@@ -120,8 +120,8 @@
 
         <org.jsoup.version>1.22.1</org.jsoup.version>
         <google.re2j.version>1.8</google.re2j.version>
-        <org.jspecify.version>1.0.0</org.jspecify.version>
         <caffeine.version>3.2.3</caffeine.version>
+        <org.jspecify.version>1.0.0</org.jspecify.version>
         <junit.version>6.0.2</junit.version>
         <mockito.version>5.21.0</mockito.version>
         <io.wcm.testing.aem-mock.junit5.version>5.6.14</io.wcm.testing.aem-mock.junit5.version>
@@ -670,15 +670,15 @@
                 <scope>compile</scope>
             </dependency>
             <dependency>
-                <groupId>org.jspecify</groupId>
-                <artifactId>jspecify</artifactId>
-                <version>${org.jspecify.version}</version>
-                <scope>compile</scope>
-            </dependency>
-            <dependency>
                 <groupId>com.github.ben-manes.caffeine</groupId>
                 <artifactId>caffeine</artifactId>
                 <version>${caffeine.version}</version>
+                <scope>compile</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.jspecify</groupId>
+                <artifactId>jspecify</artifactId>
+                <version>${org.jspecify.version}</version>
                 <scope>compile</scope>
             </dependency>
             <dependency>
@@ -715,6 +715,10 @@
                     <exclusion>
                         <groupId>org.apache.sling</groupId>
                         <artifactId>org.apache.sling.scripting.api</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.slf4j</groupId>
+                        <artifactId>slf4j-simple</artifactId>
                     </exclusion>
                 </exclusions>
             </dependency>
