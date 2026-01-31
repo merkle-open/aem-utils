@@ -1,4 +1,4 @@
-package com.merkle.oss.aem.utils.services.httpclient.util;
+package com.merkle.oss.aem.utils.services.httpclient;
 
 import com.merkle.oss.aem.utils.annotations.Generated;
 import com.merkle.oss.aem.utils.java.ClassUtil;

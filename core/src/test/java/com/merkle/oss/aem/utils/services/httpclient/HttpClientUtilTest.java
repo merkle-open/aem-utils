@@ -1,4 +1,4 @@
-package com.merkle.oss.aem.utils.services.httpclient.util;
+package com.merkle.oss.aem.utils.services.httpclient;
 
 import org.apache.http.Header;
 import org.apache.http.HttpHeaders;
