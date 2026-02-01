@@ -1,5 +1,7 @@
 ## Example usage
 
+### AbstractSlingJobScheduler
+
 ```java
 
 import com.merkle.oss.aem.utils.services.cronjobs.AbstractSlingJobScheduler;

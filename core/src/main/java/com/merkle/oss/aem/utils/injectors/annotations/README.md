@@ -1,5 +1,8 @@
 ## Example usage
 
+* [AdaptTo](#adaptto)
+* [PageProperty](#pageproperty)
+
 ### AdaptTo
 
 ```java

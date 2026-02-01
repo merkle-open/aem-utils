@@ -1,5 +1,15 @@
 ## Example usage
 
+* [ResourceUtil](#resourceutil)
+    * [isValid()](#isvalid)
+    * [childrenAsStream()](#childrenasstream)
+    * [childrenOfTypes()](#childrenoftypes)
+    * [descendantsOfTypes()](#descendantsoftypes)
+    * [findClosestAncestorOfResourceTypes()](#findclosestancestorofresourcetypes)
+* [SlingUtil](#slingutil)
+    * [to()](#to)
+    * [caConfigOf()](#caconfigof)
+
 ### ResourceUtil
 
 #### isValid()

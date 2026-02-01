@@ -1,5 +1,11 @@
 ## Example usage
 
+* [Link Handling](#link-handling)
+* [Links](#links)
+    * [Target](#target)
+* [LinkExternalizerUtil](#linkexternalizerutil)
+    * [externalizeRichTextLinks()](#externalizerichtextlinks)
+
 ### Link Handling
 
 Examples on various link handling scenarios

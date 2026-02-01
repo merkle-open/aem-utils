@@ -1,5 +1,15 @@
 ## Example usage
 
+* [PageManagerUtil](#pagemanagerutil)
+    * [containingPage()](#containingpage)
+* [PageUtil](#pageutil)
+    * [Fetch properties](#fetch-properties)
+    * [equals() & isValid()](#equals--isvalid)
+    * [findClosestAncestorByTemplate()](#findclosestancestorbytemplate)
+    * [childrenByTemplate()](#childrenbytemplate)
+    * [streamDescendants()](#streamdescendants)
+    * [streamTree()](#streamtree)
+
 ### PageManagerUtil
 
 #### containingPage()

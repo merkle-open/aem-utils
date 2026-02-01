@@ -1,5 +1,10 @@
 ## Example usage
 
+* [ClassUtil](#classutil)
+* [FunctionalUtil](#functionalutil)
+    * [asStream()](#asstream)
+    * [distinctByKey()](#distinctbykey)
+
 ### ClassUtil
 
 ```java
@@ -37,19 +42,19 @@ public class ExampleComponent {
 
     @Self
     private Resource resource;
-    
+
     @ValueMapValue
     private String rootPagePath;
 
     @ValueMapValue
     private String damFolderPath;
 
-    final List<ChildPageTeaserModel> childPageTeaserModelList(){
+    final List<ChildPageTeaserModel> childPageTeaserModelList() {
         if (StringUtils.isBlank(rootPagePath)) {
             return Collections.emptyList();
         }
         final Page rootPage = PageManagerUtil.containingPage(rootPagePath, resource.getResourceResolver());
-        if (rootPage == null){
+        if (rootPage == null) {
             return Collections.emptyList();
         }
 
@@ -89,7 +94,7 @@ public class ExampleComponent {
 import com.merkle.oss.aem.utils.java.FunctionalUtil;
 //other imports...
 
-public List<User> getDistinctUser(final List<User> commentedUsers){
+public List<User> getDistinctUser(final List<User> commentedUsers) {
     return commentedUsers.stream()
             .filter(FunctionalUtil.distinctByKey(User::getEmail))
             .toList();

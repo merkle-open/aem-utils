@@ -1,5 +1,7 @@
 ## Example usage
 
+### QuerySearch
+
 ```java
 
 import com.day.cq.search.Query;
@@ -75,7 +77,7 @@ public class QueryExampleComponent {
 //Query execution
 final QueryResultHelper queryResultHelper = QueryResultHelper.create(resource.getResourceResolver());
 final Query query = querySearch.toQuery(queryBuilder, resource.getResourceResolver());
-searchResultItem = query.getResult().getHits().stream()
+final List<Object> searchResultItem = query.getResult().getHits().stream()
         .map(queryResultHelper::getResource)
         .filter(Objects::nonNull)
         //...

@@ -1,5 +1,7 @@
 ## Example usage
 
+### RunModeService
+
 ```java
 
 import com.merkle.oss.aem.utils.services.runmode.RunModeService;

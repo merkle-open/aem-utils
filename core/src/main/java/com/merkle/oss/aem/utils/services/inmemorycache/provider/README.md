@@ -1,5 +1,7 @@
 ## Example usage
 
+### AbstractInMemoryCacheProviderService
+
 ```java
 
 import com.merkle.oss.aem.utils.services.inmemorycache.memory.InMemoryCacheService;

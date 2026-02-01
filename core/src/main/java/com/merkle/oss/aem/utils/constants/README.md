@@ -1,5 +1,10 @@
 ## Example usage
 
+* [CookieNameBuilder](#cookienamebuilder)
+* [FileType](#filetype)
+    * [mimeType](#mimetype)
+    * [extension](#extension)
+
 ### CookieNameBuilder
 
 ```java
@@ -51,13 +56,13 @@ import com.merkle.oss.aem.utils.constants.FileType;
 //other imports...
 
 @Override
-protected void doGet(@NonNull final SlingHttpServletRequest request, 
+protected void doGet(@NonNull final SlingHttpServletRequest request,
                      @NonNull final SlingHttpServletResponse response) {
-    
+
     //handle servlet logic...
-    
+
     response.setContentType(FileType.JSON.getMimeType());
-    
+
     //handle response...
 }
 

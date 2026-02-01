@@ -1,6 +1,14 @@
 ## Example usage
 
-### Simple GET request
+* [HttpClientService](#httpclientservice)
+    * [Simple GET request](#simple-get-request)
+    * [Simple authenticated GET request](#simple-authenticated-get-request)
+    * [Verify POST request with TrustStore SSL Context](#verify-post-request-with-truststore-ssl-context)
+    * [POST request with service user KeyStore SSL Context](#post-request-with-service-user-keystore-ssl-context)
+
+### HttpClientService
+
+#### Simple GET request
 
 ```java
 
@@ -32,7 +40,7 @@ public class ExampleWebClientImpl implements ExampleWebClient {
 
 ```
 
-### Simple authenticated GET request
+#### Simple authenticated GET request
 
 ```java
 
@@ -68,7 +76,7 @@ public class ExampleWebClientImpl implements ExampleWebClient {
 
 ```
 
-### Verify POST request with TrustStore SSL Context
+#### Verify POST request with TrustStore SSL Context
 
 For requests which require Mutual TLS, self-signed certificates or etc., http client requests can be executed with the
 context of
@@ -100,13 +108,13 @@ public class ExampleWebClientImpl implements ExampleWebClient {
         final HttpClientResponse httpClientResponse = httpClientService.httpPostWithTrustStore(httpPost);
         return httpClientResponse.getStatusCode();
     }
-    
+
 }
 
 
 ```
 
-### POST request with service user KeyStore SSL Context
+#### POST request with service user KeyStore SSL Context
 
 For requests which require Mutual TLS, self-signed certificates or etc., http client requests can be executed with the
 context of a
@@ -137,7 +145,7 @@ public class ExampleWebClientImpl implements ExampleWebClient {
 
         return httpClientService.httpPostWithKeyStore(httpPost, "keyStoreServiceUserId", "keyStorePassword");
     }
-    
+
 }
 
 

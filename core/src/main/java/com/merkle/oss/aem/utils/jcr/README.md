@@ -1,5 +1,12 @@
 ## Example usage
 
+* [PermissionUtil](#permissionutil)
+    * [getUserId()](#getuserid)
+    * [getAuthorizable()](#getauthorizable)
+    * [getPolicy()](#getpolicy)
+    * [getAuthorizedUserGroups()](#getauthorizedusergroups)
+    * [userHasPermissionForActions()](#userhaspermissionforactions)
+
 ### PermissionUtil
 
 #### getUserId()
@@ -67,7 +74,7 @@ public class ExampleComponent {
 
     @ValueMapValue
     private List<String> userGroups = Collections.emptyList();
-    
+
     public boolean currentUserIsMemberOfAnyAssignedUserGroup() {
         return userGroups.stream()
                 /* <--- EXAMPLE ---> */
@@ -160,7 +167,7 @@ protected void doGet(@NonNull final SlingHttpServletRequest request,
         response.setStatus(HttpStatus.SC_UNAUTHORIZED);
         return;
     }
-    
+
     //handle servlet logic where user may commence content manipulation not caught by jcr
 }
 
