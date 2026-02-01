@@ -53,7 +53,7 @@ public class CookieNameBuilder {
      * @apiNote Example usage:
      * {@snippet :
      * // Given path: /content/mysite/us/en (us=depth 3, en=depth 4)
-     * stringBuilder.appendPathSegmentNames(currentPage, 3, 4).toString();
+     * cookieNameBuilder.appendPathSegmentNames(currentPage, 3, 4).toString();
      * // Result: "{cookieName}.us.en"
      *}
      */

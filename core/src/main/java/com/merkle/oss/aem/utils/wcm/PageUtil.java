@@ -35,7 +35,7 @@ public final class PageUtil {
     }
 
     /**
-     * Retrieves the basic title of the page (jcr:title).
+     * Retrieves the basic title of the page {@code jcr:title}.
      *
      * @param page The page to inspect.
      * @return The page title, or an empty string if not available.
@@ -106,6 +106,63 @@ public final class PageUtil {
     }
 
     /**
+     * Retrieves a generic string property from the page's content resource (jcr:content).
+     *
+     * @param page         The page to inspect.
+     * @param propertyName The property name (e.g., "jcr:title").
+     * @return The property value, or an empty string if the page/property does not exist.
+     * @throws NullPointerException if {@code propertyName} is null.
+     */
+    public static @NonNull String getProperty(@Nullable final Page page, @NonNull final String propertyName) {
+        Objects.requireNonNull(propertyName);
+
+        return forPage(page, p -> Objects.requireNonNull(p.getProperties()).get(propertyName, StringUtils.EMPTY));
+    }
+
+    /**
+     * Internal helper to apply a function to a page with null-safety.
+     *
+     * @param page     The page input.
+     * @param function The function to execute if the page is not null.
+     * @return The result of the function, or an empty string if the page is null.
+     */
+    private static @NonNull String forPage(@Nullable final Page page, @NonNull final Function<Page, String> function) {
+        Objects.requireNonNull(function);
+
+        if (page == null) {
+            return StringUtils.EMPTY;
+        }
+
+        return function.apply(page);
+    }
+
+    /**
+     * Checks if two {@link com.day.cq.wcm.api.Page} objects represent the exact same content path.
+     *
+     * @param targetPage  The first page to compare.
+     * @param currentPage The second page to compare.
+     * @return {@code true} if both are non-null and have identical paths; {@code false} otherwise.
+     */
+    public static boolean equals(@Nullable final Page targetPage, @Nullable final Page currentPage) {
+        if (targetPage != null && currentPage != null) {
+            return Strings.CS.equals(targetPage.getPath(), currentPage.getPath());
+        }
+
+        return false;
+    }
+
+    /**
+     * Validates if the page object is non-null and represents a valid AEM page.
+     *
+     * @param page The page to check.
+     * @return {@code true} if the page is not null and {@link com.day.cq.wcm.api.Page#isValid()} returns true.
+     * @see com.day.cq.wcm.api.Page#isValid()
+     */
+    public static boolean isValid(@Nullable final Page page) {
+        return page != null && page.isValid();
+    }
+
+    /**
      * Searches upwards through the page hierarchy to find the nearest ancestor matching one of the given templates.
      * <p>
      * The search starts from the <b>parent</b> of the {@code currentPage}.
@@ -140,27 +197,6 @@ public final class PageUtil {
     }
 
     /**
-     * Finds the first <b>direct child</b> page that matches one of the given templates.
-     *
-     * @param currentPage The parent page to search beneath.
-     * @param templates   The template paths to filter by.
-     * @return An {@link Optional} containing the first matching child page.
-     */
-    public static @NonNull Optional<Page> firstChildByTemplate(@Nullable final Page currentPage, @Nullable final String... templates) {
-        if (currentPage == null) {
-            return Optional.empty();
-        }
-
-        if (ArrayUtils.isEmpty(templates)) {
-            return Optional.empty();
-        }
-
-        return FunctionalUtil.asStream(currentPage.listChildren(filterFor(templates)))
-                .filter(PageUtil::isValid)
-                .findFirst();
-    }
-
-    /**
      * Finds all <b>direct child</b> pages that match one of the given templates.
      *
      * @param currentPage The parent page to search beneath.
@@ -183,21 +219,6 @@ public final class PageUtil {
 
     private static @NonNull Filter<Page> filterFor(@Nullable final String... templates) {
         return page -> matchesAnyTemplate(page, templates);
-    }
-
-    /**
-     * Checks if two {@link com.day.cq.wcm.api.Page} objects represent the exact same content path.
-     *
-     * @param targetPage  The first page to compare.
-     * @param currentPage The second page to compare.
-     * @return {@code true} if both are non-null and have identical paths; {@code false} otherwise.
-     */
-    public static boolean equals(@Nullable final Page targetPage, @Nullable final Page currentPage) {
-        if (targetPage != null && currentPage != null) {
-            return Strings.CS.equals(targetPage.getPath(), currentPage.getPath());
-        }
-
-        return false;
     }
 
     /**
@@ -239,48 +260,6 @@ public final class PageUtil {
         return FunctionalUtil.asStream(parent.listChildren(new PageFilter()))
                 .map(page -> streamTree(page, maxDepth))
                 .reduce(Stream.of(parent), Stream::concat);
-    }
-
-    /**
-     * Validates if the page object is non-null and represents a valid AEM page.
-     *
-     * @param page The page to check.
-     * @return {@code true} if the page is not null and {@link com.day.cq.wcm.api.Page#isValid()} returns true.
-     * @see com.day.cq.wcm.api.Page#isValid()
-     */
-    public static boolean isValid(@Nullable final Page page) {
-        return page != null && page.isValid();
-    }
-
-    /**
-     * Retrieves a generic string property from the page's content resource (jcr:content).
-     *
-     * @param page         The page to inspect.
-     * @param propertyName The property name (e.g., "jcr:title").
-     * @return The property value, or an empty string if the page/property does not exist.
-     * @throws NullPointerException if {@code propertyName} is null.
-     */
-    public static @NonNull String getProperty(@Nullable final Page page, @NonNull final String propertyName) {
-        Objects.requireNonNull(propertyName);
-
-        return forPage(page, p -> Objects.requireNonNull(p.getProperties()).get(propertyName, StringUtils.EMPTY));
-    }
-
-    /**
-     * Internal helper to apply a function to a page with null-safety.
-     *
-     * @param page     The page input.
-     * @param function The function to execute if the page is not null.
-     * @return The result of the function, or an empty string if the page is null.
-     */
-    private static @NonNull String forPage(@Nullable final Page page, @NonNull final Function<Page, String> function) {
-        Objects.requireNonNull(function);
-
-        if (page == null) {
-            return StringUtils.EMPTY;
-        }
-
-        return function.apply(page);
     }
 
 }

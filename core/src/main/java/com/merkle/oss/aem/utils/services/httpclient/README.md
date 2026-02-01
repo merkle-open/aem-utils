@@ -4,6 +4,8 @@
 
 ```java
 
+import com.merkle.oss.aem.utils.services.httpclient.HttpClientResponse;
+import com.merkle.oss.aem.utils.services.httpclient.HttpClientService;
 import org.apache.http.client.methods.HttpGet;
 //other imports...
 
@@ -22,9 +24,11 @@ public class ExampleWebClientImpl implements ExampleWebClient {
             LOG.error("Unable to fetch JSON", e);
             return null;
         }
-    }
 
+        return null;
+    }
 }
+
 
 ```
 
@@ -33,6 +37,8 @@ public class ExampleWebClientImpl implements ExampleWebClient {
 ```java
 
 import com.merkle.oss.aem.utils.constants.FileType;
+import com.merkle.oss.aem.utils.services.httpclient.HttpClientResponse;
+import com.merkle.oss.aem.utils.services.httpclient.HttpClientService;
 import org.apache.http.HttpHeaders;
 import org.apache.http.HttpStatus;
 import org.apache.http.client.methods.HttpGet;
@@ -57,8 +63,8 @@ public class ExampleWebClientImpl implements ExampleWebClient {
 
         return httpClientResponse;
     }
-
 }
+
 
 ```
 
@@ -70,6 +76,8 @@ the [AEM TrustStore](https://experienceleague.adobe.com/en/docs/experience-manag
 
 ```java
 
+import com.merkle.oss.aem.utils.services.httpclient.HttpClientResponse;
+import com.merkle.oss.aem.utils.services.httpclient.HttpClientService;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
@@ -92,8 +100,9 @@ public class ExampleWebClientImpl implements ExampleWebClient {
         final HttpClientResponse httpClientResponse = httpClientService.httpPostWithTrustStore(httpPost);
         return httpClientResponse.getStatusCode();
     }
-
+    
 }
+
 
 ```
 
@@ -106,6 +115,8 @@ specific [Users KeyStore](https://experienceleague.adobe.com/en/docs/experience-
 ```java
 
 import com.merkle.oss.aem.utils.constants.FileType;
+import com.merkle.oss.aem.utils.services.httpclient.HttpClientResponse;
+import com.merkle.oss.aem.utils.services.httpclient.HttpClientService;
 import org.apache.http.HttpHeaders;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
@@ -126,7 +137,8 @@ public class ExampleWebClientImpl implements ExampleWebClient {
 
         return httpClientService.httpPostWithKeyStore(httpPost, "keyStoreServiceUserId", "keyStorePassword");
     }
-
+    
 }
+
 
 ```

@@ -127,8 +127,8 @@ public final class QuerySearchUtil {
      */
     static void internalSetResourceResolverOn(@NonNull final ResourceResolver resolver, @Nullable final Object any) throws NoSuchFieldException, IllegalAccessException {
         if (any != null) {
-            Class<?> clazz = any.getClass();
-            Field resourceResolverField = clazz.getDeclaredField("resourceResolver");
+            final Class<?> clazz = any.getClass();
+            final Field resourceResolverField = clazz.getDeclaredField("resourceResolver");
             resourceResolverField.setAccessible(true);
             resourceResolverField.set(any, resolver);
         }

@@ -113,7 +113,7 @@ public final class PermissionUtil {
      * @param resourceResolver The resolver used to access the {@link org.apache.jackrabbit.api.security.user.UserManager}.
      * @return The Authorizable object, or {@code null} if the ID is blank, the resolver is null, or the user is not found.
      * @apiNote This resolver must have sufficient permissions to read user data.
-     * If the {@link org.apache.sling.api.resource.ResourceResolver} was retreived from the current {@link org.apache.sling.api.SlingHttpServletRequest},
+     * If the {@link org.apache.sling.api.resource.ResourceResolver} was retrieved from the current {@link org.apache.sling.api.SlingHttpServletRequest},
      * the current user does not have permission corresponding to given authorizable ID.
      */
     public static @Nullable Authorizable getAuthorizable(@Nullable final String authorizableId, @Nullable final ResourceResolver resourceResolver) {
@@ -158,48 +158,6 @@ public final class PermissionUtil {
     }
 
     /**
-     * Retrieves the effective {@link org.apache.jackrabbit.oak.spi.security.authorization.cug.CugPolicy} (Closed User Group) for the given resource path.
-     * <p>
-     * This method traverses the policy hierarchy to find the CUG policy that actually controls access
-     * to the specified path, handling inheritance logic.
-     *
-     * @param resourcePath         The absolute path to check.
-     * @param accessControlManager The AccessControlManager instance.
-     * @return The effective CugPolicy, or {@code null} if no CUG is active for this path.
-     */
-    public static @Nullable CugPolicy getEffectivePolicy(@NonNull final String resourcePath, @NonNull final AccessControlManager accessControlManager) {
-        Objects.requireNonNull(resourcePath);
-        Objects.requireNonNull(accessControlManager);
-
-        try {
-            final List<CugPolicy> cugPolicies = Stream.of(accessControlManager.getEffectivePolicies(resourcePath))
-                    .filter(CugPolicy.class::isInstance)
-                    .map(CugPolicy.class::cast)
-                    .toList();
-
-            CugPolicy closestPolicy = null;
-            for (final CugPolicy cugPolicy : cugPolicies) {
-                if (Strings.CS.equals(resourcePath, cugPolicy.getPath())) {
-                    return cugPolicy;
-                }
-
-                if (closestPolicy == null) {
-                    closestPolicy = cugPolicy;
-                }
-
-                if (Strings.CS.contains(cugPolicy.getPath(), closestPolicy.getPath())) {
-                    closestPolicy = cugPolicy;
-                }
-            }
-
-            return closestPolicy;
-        } catch (RepositoryException e) {
-            LOG.error("Unable to get existing cug policy for resource path {}", resourcePath, e);
-            return null;
-        }
-    }
-
-    /**
      * Retrieves an applicable (but not necessarily set) {@link  org.apache.jackrabbit.api.security.authorization.PrincipalSetPolicy} for a resource path.
      *
      * @param resourcePath         The absolute path where the policy would be applied.
@@ -239,7 +197,7 @@ public final class PermissionUtil {
      * they strictly enforce access. This method relies on {@link #getEffectivePolicy}, which may return
      * different results depending on the active run mode configuration.
      */
-    public static @NonNull List<String> getUserGroupNames(@Nullable final Resource resource, @Nullable final ResourceResolver resourceResolver) {
+    public static @NonNull List<String> getAuthorizedUserGroups(@Nullable final Resource resource, @Nullable final ResourceResolver resourceResolver) {
         if (resource == null || resourceResolver == null) {
             return Collections.emptyList();
         }
@@ -267,6 +225,48 @@ public final class PermissionUtil {
         }
 
         return Collections.emptyList();
+    }
+
+    /**
+     * Retrieves the effective {@link org.apache.jackrabbit.oak.spi.security.authorization.cug.CugPolicy} (Closed User Group) for the given resource path.
+     * <p>
+     * This method traverses the policy hierarchy to find the CUG policy that actually controls access
+     * to the specified path, handling inheritance logic.
+     *
+     * @param resourcePath         The absolute path to check.
+     * @param accessControlManager The AccessControlManager instance.
+     * @return The effective CugPolicy, or {@code null} if no CUG is active for this path.
+     */
+    public static @Nullable CugPolicy getEffectivePolicy(@NonNull final String resourcePath, @NonNull final AccessControlManager accessControlManager) {
+        Objects.requireNonNull(resourcePath);
+        Objects.requireNonNull(accessControlManager);
+
+        try {
+            final List<CugPolicy> cugPolicies = Stream.of(accessControlManager.getEffectivePolicies(resourcePath))
+                    .filter(CugPolicy.class::isInstance)
+                    .map(CugPolicy.class::cast)
+                    .toList();
+
+            CugPolicy closestPolicy = null;
+            for (final CugPolicy cugPolicy : cugPolicies) {
+                if (Strings.CS.equals(resourcePath, cugPolicy.getPath())) {
+                    return cugPolicy;
+                }
+
+                if (closestPolicy == null) {
+                    closestPolicy = cugPolicy;
+                }
+
+                if (Strings.CS.contains(cugPolicy.getPath(), closestPolicy.getPath())) {
+                    closestPolicy = cugPolicy;
+                }
+            }
+
+            return closestPolicy;
+        } catch (RepositoryException e) {
+            LOG.error("Unable to get existing cug policy for resource path {}", resourcePath, e);
+            return null;
+        }
     }
 
     private static @NonNull List<String> getUserGroupMembers(@Nullable final String principalName, @Nullable final ResourceResolver resourceResolver) {
@@ -309,7 +309,7 @@ public final class PermissionUtil {
      * @return {@code true} if the user has ALL requested permissions; {@code false} if denied or if an error occurs.
      * @apiNote Example usage:
      * {@snippet :
-     * if (SecurityUtil.userHasPermissionForActions(request, "add_node,set_property")) {
+     * if (PermissionUtil.userHasPermissionForActions(request, "add_node,set_property")) {
      *     //handle write action
      * }
      *}

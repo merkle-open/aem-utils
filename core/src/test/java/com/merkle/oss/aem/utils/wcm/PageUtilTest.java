@@ -159,28 +159,6 @@ class PageUtilTest {
     }
 
     /**
-     * Method under test: {@link PageUtil#firstChildByTemplate(Page, String...)}
-     */
-    @Test
-    void firstChildByTemplate() {
-        assertEquals(Optional.empty(), PageUtil.firstChildByTemplate(null, TEMPLATE_PATH_1, TEMPLATE_PATH_2));
-        assertEquals(Optional.empty(), PageUtil.firstChildByTemplate(child1));
-
-        when(parent.listChildren(ArgumentMatchers.any())).thenReturn(Collections.singletonList(child1).iterator());
-        when(child1.isValid()).thenReturn(true);
-        assertEquals(Optional.of(child1), PageUtil.firstChildByTemplate(parent, TEMPLATE_PATH_1, TEMPLATE_PATH_2));
-
-        when(parent.listChildren(ArgumentMatchers.any())).thenReturn(Arrays.asList(child1, child2).iterator());
-        when(child1.isValid()).thenReturn(false);
-        when(child2.isValid()).thenReturn(true);
-        assertEquals(Optional.of(child2), PageUtil.firstChildByTemplate(parent, TEMPLATE_PATH_1, TEMPLATE_PATH_2));
-
-        when(parent.listChildren(ArgumentMatchers.any())).thenReturn(Arrays.asList(child1, child2).iterator());
-        when(child1.isValid()).thenReturn(true);
-        assertEquals(Optional.of(child1), PageUtil.firstChildByTemplate(parent, TEMPLATE_PATH_1, TEMPLATE_PATH_2));
-    }
-
-    /**
      * Method under test: {@link PageUtil#childrenByTemplate(Page, String...)}
      */
     @Test

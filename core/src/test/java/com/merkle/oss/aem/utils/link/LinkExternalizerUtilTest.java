@@ -42,6 +42,8 @@ class LinkExternalizerUtilTest {
 
     private static final String RICH_TEXT = "<p>follow <a href=\"/content/tenant/ch/de/home" + HTML_EXTENSION + "\">here</a>. External <a href=\"" + EXTERNAL_LINK_HTTPS + "\">link</a></p>";
 
+    private static final String RICH_TEXT_NO_EXTENSION = "<p>follow <a href=\"/content/tenant/ch/de/home\">here</a>. External <a href=\"" + EXTERNAL_LINK_HTTPS + "\">link</a></p>";
+
     private static final String RICH_TEXT_EXTERNALIZED = "<p>follow <a href=\"" + BASE_URL + MAPPED_PATH + HTML_EXTENSION + "\">here</a>. External <a href=\"" + EXTERNAL_LINK_HTTPS + "\">link</a></p>";
 
     @Mock
@@ -152,6 +154,7 @@ class LinkExternalizerUtilTest {
         when(externalizer.absoluteLink(request, request.getScheme(), FULL_PATH + HTML_EXTENSION)).thenReturn(BASE_URL + MAPPED_PATH + HTML_EXTENSION);
         when(externalizer.absoluteLink(request, request.getScheme(), EXTERNAL_LINK_HTTPS)).thenReturn(EXTERNAL_LINK_HTTPS);
         assertEquals((RICH_TEXT_EXTERNALIZED), LinkExternalizerUtil.externalizeRichTextLinks(RICH_TEXT, request));
+        assertEquals((RICH_TEXT_EXTERNALIZED), LinkExternalizerUtil.externalizeRichTextLinks(RICH_TEXT_NO_EXTENSION, request));
     }
 
 }

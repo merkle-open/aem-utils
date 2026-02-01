@@ -5,20 +5,20 @@
 ```java
 
 import com.merkle.oss.aem.utils.injectors.annotations.AdaptTo;
-//... other imports
+//other imports...
 
 @Model(adaptables = SlingHttpServletRequest.class, defaultInjectionStrategy = DefaultInjectionStrategy.OPTIONAL)
-public class ClassName {
+public class ExampleComponent {
     @AdaptTo
     private PageManager pageManager;
     @AdaptTo
     private TagManager tagManager;
     @AdaptTo
     private ComponentManager componentManager;
-    //If CustomModel is implemented via adaptables = SlingHttpServletRequest.class
+    //if CustomModel is implemented via adaptables = SlingHttpServletRequest.class
     @AdaptTo
     private CustomModel customModel;
-    //If OtherCustomModel is implemented via adaptables = Resource.class
+    //if OtherCustomModel is implemented via adaptables = Resource.class
     @AdaptTo(via = "resource")
     private OtherCustomModel otherCustomModel;
     //...
@@ -30,17 +30,17 @@ public class ClassName {
 ```java
 
 import com.merkle.oss.aem.utils.injectors.annotations.AdaptTo;
-//... other imports
+//other imports...
 
 @Model(adaptables = Resource.class, defaultInjectionStrategy = DefaultInjectionStrategy.OPTIONAL)
-public class ClassName {
+public class ExampleComponent {
     @AdaptTo
     private PageManager pageManager;
     @AdaptTo
     private TagManager tagManager;
     @AdaptTo
     private ComponentManager componentManager;
-    //If OtherCustomModel is implemented via adaptables = Resource.class
+    //if OtherCustomModel is implemented via adaptables = Resource.class
     @AdaptTo
     private OtherCustomModel otherCustomModel;
     //...
@@ -54,10 +54,10 @@ public class ClassName {
 ```java
 
 import com.merkle.oss.aem.utils.injectors.annotations.PageProperty;
-//... other imports
+//other imports...
 
 @Model(adaptables = Resource.class, defaultInjectionStrategy = DefaultInjectionStrategy.OPTIONAL)
-public class ClassName {
+public class ExampleComponent {
     @PageProperty(name = JcrConstants.JCR_TITLE)
     private String title;
     @PageProperty(inherited = true)
@@ -71,15 +71,16 @@ public class ClassName {
     //...
 }
 
+
 ```
 
 ```java
 
 import com.merkle.oss.aem.utils.injectors.annotations.PageProperty;
-//... other imports
+//other imports...
 
 @Model(adaptables = Resource.class)
-public class ClassName {
+public class ExampleComponent {
     @PageProperty(name = JcrConstants.JCR_TITLE, defaultInjectionStrategy = DefaultInjectionStrategy.REQUIRED)
     private String title;
     @PageProperty(inherited = true, defaultInjectionStrategy = DefaultInjectionStrategy.OPTIONAL)
@@ -92,5 +93,6 @@ public class ClassName {
     private List<String> tags;
     //...
 }
+
 
 ```

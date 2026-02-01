@@ -5,7 +5,7 @@
 import com.merkle.oss.aem.utils.services.cronjobs.AbstractSlingJobScheduler;
 import com.merkle.oss.aem.utils.services.runmode.RunModeService;
 import org.apache.sling.event.jobs.JobManager;
-//... other imports
+//other imports...
 
 @Component(immediate = true, configurationPolicy = ConfigurationPolicy.REQUIRE)
 @Designate(ocd = ExampleScheduler.ExampleSchedulerConfig.class)
@@ -56,5 +56,6 @@ public class ExampleScheduler extends AbstractSlingJobScheduler {
     }
 
 }
+
 
 ```

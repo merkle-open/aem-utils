@@ -208,19 +208,19 @@ class PermissionUtilTest {
     }
 
     /**
-     * Method under test: {@link PermissionUtil#getUserGroupNames(Resource, ResourceResolver)}
+     * Method under test: {@link PermissionUtil#getAuthorizedUserGroups(Resource, ResourceResolver)}
      */
     @Test
-    void getUserGroupNames() throws RepositoryException {
-        assertEquals(Collections.emptyList(), PermissionUtil.getUserGroupNames(null, null));
-        assertEquals(Collections.emptyList(), PermissionUtil.getUserGroupNames(resource, null));
-        assertEquals(Collections.emptyList(), PermissionUtil.getUserGroupNames(null, resourceResolver));
+    void getAuthorizedUserGroups() throws RepositoryException {
+        assertEquals(Collections.emptyList(), PermissionUtil.getAuthorizedUserGroups(null, null));
+        assertEquals(Collections.emptyList(), PermissionUtil.getAuthorizedUserGroups(resource, null));
+        assertEquals(Collections.emptyList(), PermissionUtil.getAuthorizedUserGroups(null, resourceResolver));
 
         try (MockedStatic<AccessControlUtil> accessControlUtilMockedStatic = mockStatic(AccessControlUtil.class)) {
             accessControlUtilMockedStatic.when(() -> AccessControlUtil.getAccessControlManager(any())).thenReturn(accessControlManager);
             when(resource.getPath()).thenReturn(RESOURCE_PATH);
             when(accessControlManager.getEffectivePolicies(any())).thenReturn(new PrincipalSetPolicy[]{});
-            assertEquals(Collections.emptyList(), PermissionUtil.getUserGroupNames(resource, resourceResolver));
+            assertEquals(Collections.emptyList(), PermissionUtil.getAuthorizedUserGroups(resource, resourceResolver));
 
             AccessControlPolicy[] policies = {cugPolicy};
             when(cugPolicy.getPrincipals()).thenReturn(Set.of(principal));
@@ -230,59 +230,59 @@ class PermissionUtilTest {
             when(resourceResolver.adaptTo(UserManager.class)).thenReturn(userManager);
             when(userManager.getAuthorizable(CUG_PRINCIPLE_NAME)).thenReturn(authorizable);
             when(authorizable.isGroup()).thenReturn(false);
-            assertEquals(Collections.emptyList(), PermissionUtil.getUserGroupNames(resource, resourceResolver));
+            assertEquals(Collections.emptyList(), PermissionUtil.getAuthorizedUserGroups(resource, resourceResolver));
 
             when(userManager.getAuthorizable(CUG_PRINCIPLE_NAME)).thenReturn(null);
-            assertEquals(Collections.emptyList(), PermissionUtil.getUserGroupNames(resource, resourceResolver));
+            assertEquals(Collections.emptyList(), PermissionUtil.getAuthorizedUserGroups(resource, resourceResolver));
 
             when(authorizable.isGroup()).thenReturn(true);
-            assertEquals(Collections.emptyList(), PermissionUtil.getUserGroupNames(resource, resourceResolver));
+            assertEquals(Collections.emptyList(), PermissionUtil.getAuthorizedUserGroups(resource, resourceResolver));
 
             when(userManager.getAuthorizable(CUG_PRINCIPLE_NAME)).thenReturn(group);
             when(group.isGroup()).thenReturn(true);
             when(group.getDeclaredMembers()).thenReturn(Collections.emptyIterator());
-            assertEquals(List.of(CUG_PRINCIPLE_NAME), PermissionUtil.getUserGroupNames(resource, resourceResolver));
+            assertEquals(List.of(CUG_PRINCIPLE_NAME), PermissionUtil.getAuthorizedUserGroups(resource, resourceResolver));
 
             when(userManager.getAuthorizable(CUG_PRINCIPLE_NAME)).thenReturn(group);
             when(group.isGroup()).thenReturn(true);
             when(authorizable.isGroup()).thenReturn(false);
-            assertEquals(List.of(CUG_PRINCIPLE_NAME), PermissionUtil.getUserGroupNames(resource, resourceResolver));
+            assertEquals(List.of(CUG_PRINCIPLE_NAME), PermissionUtil.getAuthorizedUserGroups(resource, resourceResolver));
 
             when(group.getDeclaredMembers()).thenReturn(List.of(authorizable).iterator());
             when(authorizable.getPrincipal()).thenReturn(principal2);
             when(principal2.getName()).thenReturn("everyone");
-            assertEquals(List.of(CUG_PRINCIPLE_NAME), PermissionUtil.getUserGroupNames(resource, resourceResolver));
+            assertEquals(List.of(CUG_PRINCIPLE_NAME), PermissionUtil.getAuthorizedUserGroups(resource, resourceResolver));
 
             when(authorizable.isGroup()).thenReturn(true);
             when(group.getDeclaredMembers()).thenReturn(List.of(authorizable).iterator());
             when(authorizable.getPrincipal()).thenReturn(principal2);
             when(principal2.getName()).thenReturn("everyone");
-            assertEquals(List.of(CUG_PRINCIPLE_NAME), PermissionUtil.getUserGroupNames(resource, resourceResolver));
+            assertEquals(List.of(CUG_PRINCIPLE_NAME), PermissionUtil.getAuthorizedUserGroups(resource, resourceResolver));
 
             when(principal2.getName()).thenReturn("anyone");
             when(group.getDeclaredMembers()).thenReturn(List.of(authorizable).iterator());
-            assertEquals(List.of(CUG_PRINCIPLE_NAME, "anyone"), PermissionUtil.getUserGroupNames(resource, resourceResolver));
+            assertEquals(List.of(CUG_PRINCIPLE_NAME, "anyone"), PermissionUtil.getAuthorizedUserGroups(resource, resourceResolver));
 
             when(group.getDeclaredMembers()).thenThrow(RepositoryException.class);
-            assertEquals(List.of(CUG_PRINCIPLE_NAME), PermissionUtil.getUserGroupNames(resource, resourceResolver));
+            assertEquals(List.of(CUG_PRINCIPLE_NAME), PermissionUtil.getAuthorizedUserGroups(resource, resourceResolver));
 
             accessControlUtilMockedStatic.when(() -> AccessControlUtil.getAccessControlManager(any())).thenThrow(RepositoryException.class);
-            assertEquals(Collections.emptyList(), PermissionUtil.getUserGroupNames(resource, resourceResolver));
+            assertEquals(Collections.emptyList(), PermissionUtil.getAuthorizedUserGroups(resource, resourceResolver));
         }
 
     }
 
     /**
-     * Method under test: {@link PermissionUtil#getUserGroupNames(Resource, ResourceResolver)}
+     * Method under test: {@link PermissionUtil#getAuthorizedUserGroups(Resource, ResourceResolver)}
      */
     @Test
-    void getUserGroupNames_nullPolicy() throws RepositoryException {
+    void getAuthorizedUserGroups_nullPolicy() throws RepositoryException {
         try (MockedStatic<AccessControlUtil> accessControlUtilMockedStatic = mockStatic(AccessControlUtil.class)) {
             accessControlUtilMockedStatic.when(() -> AccessControlUtil.getAccessControlManager(any())).thenReturn(accessControlManager);
             when(resourceResolver.adaptTo(Session.class)).thenReturn(session);
             when(resource.getPath()).thenReturn(RESOURCE_PATH);
             when(accessControlManager.getEffectivePolicies(any())).thenThrow(RepositoryException.class);
-            assertEquals(Collections.emptyList(), PermissionUtil.getUserGroupNames(resource, resourceResolver));
+            assertEquals(Collections.emptyList(), PermissionUtil.getAuthorizedUserGroups(resource, resourceResolver));
         }
 
     }

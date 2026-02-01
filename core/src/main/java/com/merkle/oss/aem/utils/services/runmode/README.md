@@ -3,7 +3,7 @@
 ```java
 
 import com.merkle.oss.aem.utils.services.runmode.RunModeService;
-//... other imports
+//other imports...
 
 @Component(service = Servlet.class)
 @SlingServletResourceTypes(
@@ -25,10 +25,13 @@ public class ExampleServlet extends SlingSafeMethodsServlet implements OptingSer
     }
 
     @Override
-    protected void doGet(@NonNull final SlingHttpServletRequest request, @NonNull final SlingHttpServletResponse response) {
-        //Servlet logic will only be executed on author instances
+    protected void doGet(@NonNull final SlingHttpServletRequest request,
+                         @NonNull final SlingHttpServletResponse response) {
+        
+        //servlet logic will only be executed on author instances
     }
 
 }
+
 
 ```

@@ -7,7 +7,8 @@ import java.lang.annotation.Target;
 import static java.lang.annotation.ElementType.*;
 
 /**
- * Custom com.merkle.oss.aem.utils.annotations.Generated annotation with CLASS retention so JaCoCo can see it in bytecode.
+ * Custom com.merkle.oss.aem.utils.annotations.Generated annotation with CLASS retention
+ * so JaCoCo can see it in bytecode.
  */
 @Retention(RetentionPolicy.CLASS)
 @Target({TYPE, METHOD, CONSTRUCTOR})

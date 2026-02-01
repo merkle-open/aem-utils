@@ -2,10 +2,8 @@
 
 ```java
 
-package com.merkle.oss.aem.utils.services.inmemorycache.provider;
-
 import com.merkle.oss.aem.utils.services.inmemorycache.memory.InMemoryCacheService;
-//... other imports
+//other imports...
 
 @Component(service = ExampleInMemoryCacheProviderServiceImpl.class, immediate = true)
 @Designate(ocd = ExampleInMemoryCacheProviderServiceImpl.ExampleCacheConfig.class)
@@ -17,7 +15,13 @@ public class ExampleInMemoryCacheProviderServiceImpl extends AbstractInMemoryCac
     @Activate
     @Modified
     protected void activate(final ExampleCacheConfig config) {
-        inMemoryCacheService.buildCache(getServiceName(), config.cache_ttl_seconds(), config.cache_size(), String.class, String.class);
+        inMemoryCacheService.buildCache(
+                getServiceName(),
+                config.cache_ttl_seconds(),
+                config.cache_size(),
+                String.class,
+                String.class
+        );
     }
 
     @Deactivate

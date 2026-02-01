@@ -21,7 +21,7 @@ import java.util.Objects;
  * scheme and domain based on the current request.
  * </p>
  * By utilizing {@link com.day.cq.commons.Externalizer#absoluteLink(SlingHttpServletRequest, String, String)} as the transformation mechanism,
- * this utility provides safe externalizer functionality for multi tenancy projects based on valid resource resoler mapping configurations.
+ * this utility provides safe externalizer functionality for multi tenancy projects based on valid resource resolver mapping configurations.
  *
  */
 public class LinkExternalizerUtil {
@@ -87,7 +87,7 @@ public class LinkExternalizerUtil {
     /**
      * Parses a Rich Text string and externalizes all {@code <a>} tag {@code href} attributes.
      * <p>
-     * This method uses JSoup to parse the HTML, appends {@code .html} extensions where
+     * This method uses Jsoup to parse the HTML, appends {@code .html} extensions where
      * missing via {@link LinkUtil}, and then externalizes the resulting paths.
      * </p>
      * Externalizes the given resource paths within the text as an absolute URL based on the request.
