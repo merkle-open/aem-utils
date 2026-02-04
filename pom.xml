@@ -9,7 +9,7 @@
     <groupId>com.merkle.oss.aem</groupId>
     <artifactId>aem-utils</artifactId>
     <packaging>pom</packaging>
-    <version>0.0.3-SNAPSHOT</version>
+    <version>0.0.2-SNAPSHOT</version>
     <name>AEM Utils</name>
     <description>Maven Multimodule project for AEM Java Utilities</description>
     <url>https://github.com/merkle-open/aem-utils</url>
@@ -155,6 +155,14 @@
                 <artifactId>maven-source-plugin</artifactId>
                 <version>${mvn.source.plugin.version}</version>
                 <inherited>true</inherited>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar-no-fork</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
             <!-- Maven Javadocs Plugin -->
             <plugin>
