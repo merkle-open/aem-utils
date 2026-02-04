@@ -38,14 +38,14 @@
                         <cloudManagerTarget>none</cloudManagerTarget>
                     </properties>
                     <filters>
-                        <!-- /apps root -->
-                        <filter><root>/apps</root></filter>
-                        <filter><root>/apps/merkle/utils/config.author</root></filter>
-                        <filter><root>/apps/merkle/utils/config.dev</root></filter>
-                        <filter><root>/apps/merkle/utils/config.prod</root></filter>
-                        <filter><root>/apps/merkle/utils/config.publish</root></filter>
-                        <filter><root>/apps/merkle/utils/config.rde</root></filter>
-                        <filter><root>/apps/merkle/utils/config.stage</root></filter>
+                        <!-- merkle open source space shared by all projects -->
+                        <filter>
+                            <root>/apps/merkle</root>
+                            <mode>merge</mode>
+                        </filter>
+                        <filter>
+                            <root>/apps/merkle/utils</root>
+                        </filter>
                     </filters>
                 </configuration>
             </plugin>

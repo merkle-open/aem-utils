@@ -42,6 +42,10 @@
                             <artifactId>aem-utils.ui.apps.structure</artifactId>
                         </repositoryStructurePackage>
                     </repositoryStructurePackages>
+                    <thumbnailImage>${project.basedir}/src/main/content/META-INF/vault/definition/thumbnail.png</thumbnailImage>
+                    <excludes>
+                        <exclude>META-INF/vault/definition/thumbnail.png</exclude>
+                    </excludes>
                 </configuration>
             </plugin>
             <plugin>
