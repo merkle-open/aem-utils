@@ -3,7 +3,7 @@
 * [ClassUtil](#classutil)
 * [FunctionalUtil](#functionalutil)
     * [asStream()](#asstream)
-    * [distinctByKey()](#distinctbykey)
+    * [toDistinctList()](#todistinctlist)
 
 ### ClassUtil
 
@@ -87,17 +87,17 @@ public class ExampleComponent {
 
 ```
 
-#### distinctByKey()
+#### toDistinctList()
 
 ```java
 
 import com.merkle.oss.aem.utils.java.FunctionalUtil;
 //other imports...
 
-public List<User> getDistinctUser(final List<User> commentedUsers) {
-    return commentedUsers.stream()
-            .filter(FunctionalUtil.distinctByKey(User::getEmail))
-            .toList();
+public List<User> getDistinctUser(final List<User> userList) {
+  return userList.stream()
+          /* <--- EXAMPLE ---> */
+          .toList(FunctionalUtil.toDistinctList(User::getEmail));
 }
 
 

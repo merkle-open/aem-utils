@@ -4,11 +4,12 @@ import com.merkle.oss.aem.utils.annotations.Generated;
 import org.jspecify.annotations.NonNull;
 
 import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Objects;
-import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
-import java.util.function.Predicate;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
@@ -68,30 +69,38 @@ public final class FunctionalUtil {
     }
 
     /**
-     * Returns a stateful {@link Predicate} that maintains a set of seen keys to allow
-     * filtering a stream by a specific property of its elements.
+     * Returns a {@link Collector} that accumulates the input elements into a new unmodifiable {@link List},
+     * deduplicating them based on a key extracted by the provided {@link Function}.
      * <p>
-     * Unlike {@link Stream#distinct()}, which uses the {@code equals()} method of the object itself,
-     * this method allows for distinction based on a mapped key (e.g., a specific field or ID).
-     * </p>
+     * If multiple elements generate the same key, the first element encountered in the stream
+     * is preserved, and subsequent duplicates are discarded (First-In-Wins).
      * <p>
-     * <b>Thread Safety:</b> This uses a {@link ConcurrentHashMap} and is safe for use with parallel streams.
-     * However, for parallel streams, the specific element preserved among duplicates is non-deterministic.
+     * This collector preserves the encounter order of the stream elements.
      *
-     * @param keyExtractor A function to extract the comparison key from the element.
-     * @param <T>          The type of the stream elements.
-     * @return A predicate that returns {@code true} the first time it encounters a specific key.
-     * @apiNote Example usage:
+     * @param <T>          the type of the input elements
+     * @param <K>          the type of the key used for deduplication
+     * @param keyExtractor a non-interfering, stateless function to extract the comparison key
+     * @return a {@code Collector} which collects elements into a distinct, unmodifiable {@code List} in encounter order
+     * @apiNote This implementation uses a {@link LinkedHashMap} internally to ensure order preservation and
+     * {@link List#copyOf(java.util.Collection)} to ensure the resulting list is immutable.
+     * Unlike stateful predicates, this collector is safe for use with parallel streams.
+     * <p>
+     * Example usage:
      * {@snippet :
-     * final List<User> distinctUsers = stream.filter(FunctionalUtil.distinctByKey(User::getEmail))
-     *     .collect(Collectors.toList());
+     * final List<User> distinctUsers = userList.stream()
+     * .collect(FunctionalUtil.toDistinctList(User::getEmail));
      *}
      */
-    public static @NonNull <T> Predicate<T> distinctByKey(@NonNull final Function<? super T, ?> keyExtractor) {
-        Objects.requireNonNull(keyExtractor);
-
-        final Set<Object> seen = ConcurrentHashMap.newKeySet();
-        return t -> seen.add(keyExtractor.apply(t));
+    public static <T, K> Collector<T, ?, List<T>> toDistinctList(Function<? super T, K> keyExtractor) {
+        return Collectors.collectingAndThen(
+                Collectors.toMap(
+                        keyExtractor,
+                        t -> t,
+                        (existing, replacement) -> existing,
+                        LinkedHashMap::new
+                ),
+                map -> List.copyOf(map.values())
+        );
     }
 
 }

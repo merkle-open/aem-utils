@@ -9,7 +9,7 @@
     <parent>
         <groupId>com.merkle.oss.aem</groupId>
         <artifactId>aem-utils</artifactId>
-        <version>0.0.2</version>
+        <version>1.0.0-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
@@ -18,7 +18,7 @@
     <!-- ====================================================================== -->
     <artifactId>aem-utils.core-bundle</artifactId>
     <name>AEM Utils - Core</name>
-    <description>Core bundle for AEM Java Utilities</description>
+    <description>Core bundle for AEM Utils</description>
 
     <!-- ====================================================================== -->
     <!-- B U I L D   D E F I N I T I O N                                        -->
