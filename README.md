@@ -68,7 +68,7 @@ Add the `aem-utils.all` and `aem-utils.core-bundle` artifact to the `<dependenci
 <dependency>
     <groupId>com.merkle.oss.aem</groupId>
     <artifactId>aem-utils.all</artifactId>
-    <version>0.0.2</version>
+    <version>1.0.0</version>
     <type>zip</type>
 </dependency>
 
@@ -79,7 +79,7 @@ Add the `aem-utils.all` and `aem-utils.core-bundle` artifact to the `<dependenci
 <dependency>
     <groupId>com.merkle.oss.aem</groupId>
     <artifactId>aem-utils.core-bundle</artifactId>
-    <version>0.0.2</version>
+    <version>1.0.0</version>
     <scope>provided</scope>
 </dependency>
 
