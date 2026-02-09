@@ -1,5 +1,9 @@
 ## Example usage
 
+* [RequestUtil](#requestutil)
+    * [Selector handling](#selector-handling)
+    * [Suffix handling](#suffix-handling)
+    * [Parameter handling](#parameter-handling)
 * [ResourceUtil](#resourceutil)
     * [isValid()](#isvalid)
     * [childrenAsStream()](#childrenasstream)
@@ -9,6 +13,97 @@
 * [SlingUtil](#slingutil)
     * [to()](#to)
     * [caConfigOf()](#caconfigof)
+
+### RequestUtil
+
+#### Selector handling
+
+```java
+
+import com.merkle.oss.aem.utils.sling.RequestUtil;
+import org.apache.sling.api.SlingHttpServletRequest;
+//other imports...
+
+@Override
+protected void doGet(@NonNull final SlingHttpServletRequest request,
+                     @NonNull final SlingHttpServletResponse response) {
+
+    /* <--- EXAMPLE ---> */
+    final boolean hasSelector = RequestUtil.hasSelector(request, "selectorValue");
+    /* <--- EXAMPLE ---> */
+    final List<String> selectors = RequestUtil.getSelectors(request);
+    /* <--- EXAMPLE ---> */
+    final String selector = RequestUtil.getSelector(request, 1, "defaultValue");
+    /* <--- EXAMPLE ---> */
+    final String firstSelector = RequestUtil.getFirstSelector(request, "defaultValue");
+
+    //handle servlet logic...
+}
+
+
+```
+
+#### Suffix handling
+
+```java
+
+import com.merkle.oss.aem.utils.sling.RequestUtil;
+import org.apache.sling.api.SlingHttpServletRequest;
+//other imports...
+
+@Override
+protected void doGet(@NonNull final SlingHttpServletRequest request,
+                     @NonNull final SlingHttpServletResponse response) {
+
+    /* <--- EXAMPLE ---> */
+    final boolean hasSuffix = RequestUtil.hasSuffix(request);
+    /* <--- EXAMPLE ---> */
+    final String suffix = RequestUtil.getSuffix(request);
+    /* <--- EXAMPLE ---> */
+    final List<String> suffixSegments = RequestUtil.getSuffixSegments(request);
+    /* <--- EXAMPLE ---> */
+    final String suffixSegment = RequestUtil.getSuffixSegment(request, 1, "defaultValue");
+    /* <--- EXAMPLE ---> */
+    final String firstSuffixSegment = RequestUtil.getFirstSuffixSegment(request, "defaultValue");
+
+    //handle servlet logic...
+}
+
+
+```
+
+#### Parameter handling
+
+```java
+
+import com.merkle.oss.aem.utils.sling.RequestUtil;
+import org.apache.sling.api.SlingHttpServletRequest;
+//other imports...
+
+@Override
+protected void doGet(@NonNull final SlingHttpServletRequest request,
+                     @NonNull final SlingHttpServletResponse response) {
+    
+    /* <--- EXAMPLE ---> */
+    final boolean hasParameter = RequestUtil.hasParameter(request, "parameterName");
+    /* <--- EXAMPLE ---> */
+    final List<String> parameterList = RequestUtil.getParameterList(request, "arrayParameterName");
+    /* <--- EXAMPLE ---> */
+    final String parameterValue = RequestUtil.getParameter(request, "parameterName", "defaultValue");
+    /* <--- EXAMPLE ---> */
+    final int parameterIntValue = RequestUtil.getParameterAsInt(request, "parameterName", 0);
+    /* <--- EXAMPLE ---> */
+    final long parameterLongValue = RequestUtil.getParameterAsLong(request, "parameterName", 0L);
+    /* <--- EXAMPLE ---> */
+    final float parameterFloatValue = RequestUtil.getParameterAsFloat(request, "parameterName", 0.0f);
+    /* <--- EXAMPLE ---> */
+    final boolean parameterBooleanValue = RequestUtil.getParameterAsBoolean(request, "parameterName", false);
+
+    //handle servlet logic...
+}
+
+
+```
 
 ### ResourceUtil
 
