@@ -36,7 +36,7 @@ import java.util.function.Function;
  * <li>Supporting {@link com.day.cq.commons.inherit.InheritanceValueMap} for hierarchical property lookups.</li>
  * </ul>
  */
-public class InjectorUtil {
+public final class InjectorUtil {
 
     private static final Logger LOG = LoggerFactory.getLogger(InjectorUtil.class);
 

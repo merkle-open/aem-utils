@@ -235,7 +235,7 @@ public final class PermissionUtil {
      *
      * @param resourcePath         The absolute path to check.
      * @param accessControlManager The AccessControlManager instance.
-     * @return The effective CugPolicy, or {@code null} if no CUG is active for this path.
+     * @return The effective {@code CugPolicy}, or {@code null} if no CUG is active for this path.
      */
     public static @Nullable CugPolicy getEffectivePolicy(@NonNull final String resourcePath, @NonNull final AccessControlManager accessControlManager) {
         Objects.requireNonNull(resourcePath);

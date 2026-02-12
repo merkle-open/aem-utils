@@ -13,7 +13,7 @@ import org.jspecify.annotations.Nullable;
  * This class distinguishes between the two primary roles an AEM instance can play:
  * {@code author} and {@code publish}.
  */
-public class ServiceTypeRunMode implements RunMode {
+public final class ServiceTypeRunMode implements RunMode {
 
     @Generated("Bypass coverage for static utility constructor")
     private ServiceTypeRunMode() {

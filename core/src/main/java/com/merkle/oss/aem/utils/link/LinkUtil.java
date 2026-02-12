@@ -28,7 +28,7 @@ import java.util.stream.Stream;
  * mapping paths, use {@link LinkMappingUtil}.
  *
  */
-public class LinkUtil {
+public final class LinkUtil {
 
     @Generated("Bypass coverage for static utility constructor")
     private LinkUtil() {

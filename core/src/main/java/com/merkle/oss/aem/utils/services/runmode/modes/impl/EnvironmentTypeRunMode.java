@@ -15,7 +15,7 @@ import java.util.Arrays;
  * This class categorizes the deployment stages of an AEM instance, ranging from
  * local development machines to production environments.
  */
-public class EnvironmentTypeRunMode implements RunMode {
+public final class EnvironmentTypeRunMode implements RunMode {
 
     @Generated("Bypass coverage for static utility constructor")
     private EnvironmentTypeRunMode() {

@@ -15,7 +15,7 @@ import java.util.*;
  * Provides convenient access to request selectors, suffixes, and parameters with
  * built-in null safety and default value handling.
  */
-public class RequestUtil {
+public final class RequestUtil {
 
     @Generated("Bypass coverage for static utility constructor")
     private RequestUtil() {

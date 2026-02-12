@@ -24,7 +24,7 @@ import java.util.Objects;
  * this utility provides safe externalizer functionality for multi tenancy projects based on valid resource resolver mapping configurations.
  *
  */
-public class LinkExternalizerUtil {
+public final class LinkExternalizerUtil {
 
     @Generated("Bypass coverage for static utility constructor")
     private LinkExternalizerUtil() {
