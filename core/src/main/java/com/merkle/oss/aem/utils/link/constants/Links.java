@@ -12,7 +12,7 @@ import java.util.Arrays;
 /**
  * Common constants and definitions for URL handling and URI manipulation within AEM.
  */
-public class Links {
+public final class Links {
 
     @Generated("Bypass coverage for static utility constructor")
     private Links() {

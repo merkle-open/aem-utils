@@ -11,7 +11,7 @@ import com.merkle.oss.aem.utils.java.ClassUtil;
  * <p>
  * Path abstraction is always originated from the page node.
  */
-public class PredicateProperties {
+public final class PredicateProperties {
 
     @Generated("Bypass coverage for static utility constructor")
     private PredicateProperties() {
