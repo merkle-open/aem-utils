@@ -2,7 +2,7 @@ package com.merkle.oss.aem.utils.wcm;
 
 import com.day.cq.wcm.api.Page;
 import com.day.cq.wcm.api.PageManager;
-import com.merkle.oss.aem.utils.annotations.Generated;
+import com.merkle.oss.aem.utils.annotations.tooling.Generated;
 import com.merkle.oss.aem.utils.java.ClassUtil;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.resource.Resource;

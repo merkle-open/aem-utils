@@ -1,7 +1,8 @@
 package com.merkle.oss.aem.utils.injectors;
 
 import com.day.cq.wcm.api.Page;
-import com.merkle.oss.aem.utils.injectors.annotations.PageProperty;
+import com.merkle.oss.aem.utils.annotations.injectors.PageProperty;
+import com.merkle.oss.aem.utils.injectors.impl.PagePropertyInjector;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ValueMap;
 import org.apache.sling.models.annotations.injectorspecific.InjectionStrategy;

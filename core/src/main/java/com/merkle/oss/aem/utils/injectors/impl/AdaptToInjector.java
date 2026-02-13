@@ -1,6 +1,6 @@
-package com.merkle.oss.aem.utils.injectors;
+package com.merkle.oss.aem.utils.injectors.impl;
 
-import com.merkle.oss.aem.utils.injectors.annotations.AdaptTo;
+import com.merkle.oss.aem.utils.annotations.injectors.AdaptTo;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.sling.api.adapter.Adaptable;
 import org.apache.sling.models.spi.DisposalCallbackRegistry;

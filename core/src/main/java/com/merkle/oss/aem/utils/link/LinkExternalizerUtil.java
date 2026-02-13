@@ -2,7 +2,7 @@ package com.merkle.oss.aem.utils.link;
 
 import com.day.cq.commons.Externalizer;
 import com.day.cq.wcm.api.Page;
-import com.merkle.oss.aem.utils.annotations.Generated;
+import com.merkle.oss.aem.utils.annotations.tooling.Generated;
 import com.merkle.oss.aem.utils.java.ClassUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.sling.api.SlingHttpServletRequest;

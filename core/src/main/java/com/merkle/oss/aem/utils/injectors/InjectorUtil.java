@@ -2,7 +2,7 @@ package com.merkle.oss.aem.utils.injectors;
 
 import com.day.cq.commons.inherit.InheritanceValueMap;
 import com.day.cq.wcm.api.Page;
-import com.merkle.oss.aem.utils.annotations.Generated;
+import com.merkle.oss.aem.utils.annotations.tooling.Generated;
 import com.merkle.oss.aem.utils.java.ClassUtil;
 import com.merkle.oss.aem.utils.sling.SlingUtil;
 import com.merkle.oss.aem.utils.wcm.PageManagerUtil;

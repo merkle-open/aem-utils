@@ -1,8 +1,9 @@
-package com.merkle.oss.aem.utils.injectors;
+package com.merkle.oss.aem.utils.injectors.impl;
 
 import com.day.cq.commons.inherit.HierarchyNodeInheritanceValueMap;
 import com.day.cq.wcm.api.Page;
-import com.merkle.oss.aem.utils.injectors.annotations.PageProperty;
+import com.merkle.oss.aem.utils.injectors.InjectorUtil;
+import com.merkle.oss.aem.utils.annotations.injectors.PageProperty;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.sling.api.resource.ValueMap;
 import org.apache.sling.models.annotations.injectorspecific.InjectionStrategy;

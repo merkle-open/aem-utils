@@ -3,7 +3,7 @@ package com.merkle.oss.aem.utils.link;
 import com.day.cq.dam.api.DamConstants;
 import com.day.cq.wcm.api.Page;
 import com.day.cq.wcm.api.PageManager;
-import com.merkle.oss.aem.utils.annotations.Generated;
+import com.merkle.oss.aem.utils.annotations.tooling.Generated;
 import com.merkle.oss.aem.utils.constants.FileType;
 import com.merkle.oss.aem.utils.java.ClassUtil;
 import com.merkle.oss.aem.utils.link.constants.Links;
