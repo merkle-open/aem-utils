@@ -7,7 +7,7 @@
 
 ```java
 
-import com.merkle.oss.aem.utils.injectors.annotations.AdaptTo;
+import com.merkle.oss.aem.utils.annotations.injectors.AdaptTo;
 //other imports...
 
 @Model(adaptables = SlingHttpServletRequest.class, defaultInjectionStrategy = DefaultInjectionStrategy.OPTIONAL)
@@ -32,7 +32,7 @@ public class ExampleComponent {
 
 ```java
 
-import com.merkle.oss.aem.utils.injectors.annotations.AdaptTo;
+import com.merkle.oss.aem.utils.annotations.injectors.AdaptTo;
 //other imports...
 
 @Model(adaptables = Resource.class, defaultInjectionStrategy = DefaultInjectionStrategy.OPTIONAL)
@@ -56,7 +56,7 @@ public class ExampleComponent {
 
 ```java
 
-import com.merkle.oss.aem.utils.injectors.annotations.PageProperty;
+import com.merkle.oss.aem.utils.annotations.injectors.PageProperty;
 //other imports...
 
 @Model(adaptables = Resource.class, defaultInjectionStrategy = DefaultInjectionStrategy.OPTIONAL)
@@ -79,7 +79,7 @@ public class ExampleComponent {
 
 ```java
 
-import com.merkle.oss.aem.utils.injectors.annotations.PageProperty;
+import com.merkle.oss.aem.utils.annotations.injectors.PageProperty;
 //other imports...
 
 @Model(adaptables = Resource.class)

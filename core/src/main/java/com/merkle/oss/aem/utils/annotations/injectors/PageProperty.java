@@ -1,5 +1,6 @@
-package com.merkle.oss.aem.utils.injectors.annotations;
+package com.merkle.oss.aem.utils.annotations.injectors;
 
+import com.merkle.oss.aem.utils.injectors.impl.PagePropertyInjector;
 import org.apache.sling.models.annotations.Source;
 import org.apache.sling.models.annotations.injectorspecific.InjectionStrategy;
 import org.apache.sling.models.spi.injectorspecific.InjectAnnotation;
@@ -7,7 +8,7 @@ import org.apache.sling.models.spi.injectorspecific.InjectAnnotation;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
-import static com.merkle.oss.aem.utils.injectors.PagePropertyInjector.INJECTOR_NAME_PAGE_PROPERTY;
+import static com.merkle.oss.aem.utils.injectors.impl.PagePropertyInjector.INJECTOR_NAME_PAGE_PROPERTY;
 import static java.lang.annotation.ElementType.*;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
@@ -34,7 +35,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  *     //...
  * }
  *}
- * @see com.merkle.oss.aem.utils.injectors.PagePropertyInjector
+ * @see PagePropertyInjector
  */
 @Target({METHOD, FIELD, PARAMETER})
 @Retention(RUNTIME)

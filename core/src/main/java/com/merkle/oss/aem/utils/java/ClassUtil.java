@@ -1,6 +1,6 @@
 package com.merkle.oss.aem.utils.java;
 
-import com.merkle.oss.aem.utils.annotations.Generated;
+import com.merkle.oss.aem.utils.annotations.tooling.Generated;
 import org.jspecify.annotations.NonNull;
 
 

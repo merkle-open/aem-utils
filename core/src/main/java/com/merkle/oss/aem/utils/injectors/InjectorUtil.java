@@ -2,7 +2,7 @@ package com.merkle.oss.aem.utils.injectors;
 
 import com.day.cq.commons.inherit.InheritanceValueMap;
 import com.day.cq.wcm.api.Page;
-import com.merkle.oss.aem.utils.annotations.Generated;
+import com.merkle.oss.aem.utils.annotations.tooling.Generated;
 import com.merkle.oss.aem.utils.java.ClassUtil;
 import com.merkle.oss.aem.utils.sling.SlingUtil;
 import com.merkle.oss.aem.utils.wcm.PageManagerUtil;
@@ -31,12 +31,12 @@ import java.util.function.Function;
  * This class contains complex reflection logic to handle type conversions between JCR properties
  * and Java fields, specifically focusing on:
  * <ul>
- * <li>Resolving {@link com.day.cq.wcm.api.Page} objects from various adaptable sources.</li>
- * <li>Mapping {@link org.apache.sling.api.resource.ValueMap} data to complex types (Collections, Arrays, Primitives).</li>
- * <li>Supporting {@link com.day.cq.commons.inherit.InheritanceValueMap} for hierarchical property lookups.</li>
+ *     <li>Resolving {@link com.day.cq.wcm.api.Page} objects from various adaptable sources.</li>
+ *     <li>Mapping {@link org.apache.sling.api.resource.ValueMap} data to complex types (Collections, Arrays, Primitives).</li>
+ *     <li>Supporting {@link com.day.cq.commons.inherit.InheritanceValueMap} for hierarchical property lookups.</li>
  * </ul>
  */
-public class InjectorUtil {
+public final class InjectorUtil {
 
     private static final Logger LOG = LoggerFactory.getLogger(InjectorUtil.class);
 
@@ -85,9 +85,9 @@ public class InjectorUtil {
      * <p>
      * This method extends the standard ValueMap behavior by:
      * <ul>
-     * <li>Automatically detecting and using {@link com.day.cq.commons.inherit.InheritanceValueMap#getInherited(String, Class)} if applicable.</li>
-     * <li>Handling conversion between primitive arrays (e.g., {@code int[]}) and wrapper arrays (e.g., {@code Integer[]}).</li>
-     * <li>Supporting {@link List} and {@link Collection} parameterized types.</li>
+     *     <li>Automatically detecting and using {@link com.day.cq.commons.inherit.InheritanceValueMap#getInherited(String, Class)} if applicable.</li>
+     *     <li>Handling conversion between primitive arrays (e.g., {@code int[]}) and wrapper arrays (e.g., {@code Integer[]}).</li>
+     *     <li>Supporting {@link List} and {@link Collection} parameterized types.</li>
      * </ul>
      *
      * @param map  The source properties map.

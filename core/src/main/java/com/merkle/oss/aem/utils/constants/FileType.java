@@ -11,7 +11,7 @@ import org.jspecify.annotations.NonNull;
 public enum FileType {
 
     HTML("text/html", "html"),
-    TXT("text/plain", "txt"),
+    TEXT("text/plain", "txt"),
     JSON("application/json", "json"),
     TEXT_XML("text/xml", "xml"),
     VCARD("text/x-vcard", "vcf");
@@ -23,7 +23,7 @@ public enum FileType {
 
     /**
      * @param mimeType  The official IANA media type.
-     * @param extension The standard file extension (without the leading dot).
+     * @param extension The standard file extension.
      */
     FileType(@NonNull final String mimeType, @NonNull final String extension) {
         this.mimeType = mimeType;

@@ -1,6 +1,6 @@
 package com.merkle.oss.aem.utils.jcr;
 
-import com.merkle.oss.aem.utils.annotations.Generated;
+import com.merkle.oss.aem.utils.annotations.tooling.Generated;
 import com.merkle.oss.aem.utils.java.ClassUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Strings;
@@ -235,7 +235,7 @@ public final class PermissionUtil {
      *
      * @param resourcePath         The absolute path to check.
      * @param accessControlManager The AccessControlManager instance.
-     * @return The effective CugPolicy, or {@code null} if no CUG is active for this path.
+     * @return The effective {@code CugPolicy}, or {@code null} if no CUG is active for this path.
      */
     public static @Nullable CugPolicy getEffectivePolicy(@NonNull final String resourcePath, @NonNull final AccessControlManager accessControlManager) {
         Objects.requireNonNull(resourcePath);
@@ -298,10 +298,10 @@ public final class PermissionUtil {
      *
      * <p>Supported actions include (comma-separated):</p>
      * <ul>
-     * <li>{@code read}: Retrieve the item and its properties.</li>
-     * <li>{@code add_node}: Add a child node at the path.</li>
-     * <li>{@code set_property}: Add or modify a property.</li>
-     * <li>{@code remove}: Delete the item.</li>
+     *     <li>{@code read}: Retrieve the item and its properties.</li>
+     *     <li>{@code add_node}: Add a child node at the path.</li>
+     *     <li>{@code set_property}: Add or modify a property.</li>
+     *     <li>{@code remove}: Delete the item.</li>
      * </ul>
      *
      * @param request The current request (used to derive the resource and session).

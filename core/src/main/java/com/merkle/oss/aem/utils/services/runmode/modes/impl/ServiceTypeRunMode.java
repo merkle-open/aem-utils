@@ -1,6 +1,6 @@
 package com.merkle.oss.aem.utils.services.runmode.modes.impl;
 
-import com.merkle.oss.aem.utils.annotations.Generated;
+import com.merkle.oss.aem.utils.annotations.tooling.Generated;
 import com.merkle.oss.aem.utils.java.ClassUtil;
 import com.merkle.oss.aem.utils.services.runmode.modes.RunMode;
 import org.apache.commons.lang3.Strings;
@@ -13,7 +13,7 @@ import org.jspecify.annotations.Nullable;
  * This class distinguishes between the two primary roles an AEM instance can play:
  * {@code author} and {@code publish}.
  */
-public class ServiceTypeRunMode implements RunMode {
+public final class ServiceTypeRunMode implements RunMode {
 
     @Generated("Bypass coverage for static utility constructor")
     private ServiceTypeRunMode() {

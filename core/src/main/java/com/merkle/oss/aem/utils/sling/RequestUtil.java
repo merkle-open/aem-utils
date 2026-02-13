@@ -1,6 +1,6 @@
 package com.merkle.oss.aem.utils.sling;
 
-import com.merkle.oss.aem.utils.annotations.Generated;
+import com.merkle.oss.aem.utils.annotations.tooling.Generated;
 import com.merkle.oss.aem.utils.java.ClassUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Strings;
@@ -15,7 +15,7 @@ import java.util.*;
  * Provides convenient access to request selectors, suffixes, and parameters with
  * built-in null safety and default value handling.
  */
-public class RequestUtil {
+public final class RequestUtil {
 
     @Generated("Bypass coverage for static utility constructor")
     private RequestUtil() {

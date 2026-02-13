@@ -1,6 +1,6 @@
 package com.merkle.oss.aem.utils.services.runmode.modes.impl;
 
-import com.merkle.oss.aem.utils.annotations.Generated;
+import com.merkle.oss.aem.utils.annotations.tooling.Generated;
 import com.merkle.oss.aem.utils.java.ClassUtil;
 import com.merkle.oss.aem.utils.services.runmode.modes.RunMode;
 import org.apache.commons.lang3.Strings;
@@ -15,7 +15,7 @@ import java.util.Arrays;
  * This class categorizes the deployment stages of an AEM instance, ranging from
  * local development machines to production environments.
  */
-public class EnvironmentTypeRunMode implements RunMode {
+public final class EnvironmentTypeRunMode implements RunMode {
 
     @Generated("Bypass coverage for static utility constructor")
     private EnvironmentTypeRunMode() {

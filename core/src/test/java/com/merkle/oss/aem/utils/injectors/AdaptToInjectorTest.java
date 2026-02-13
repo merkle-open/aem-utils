@@ -1,7 +1,8 @@
 package com.merkle.oss.aem.utils.injectors;
 
 import com.day.cq.wcm.api.PageManager;
-import com.merkle.oss.aem.utils.injectors.annotations.AdaptTo;
+import com.merkle.oss.aem.utils.annotations.injectors.AdaptTo;
+import com.merkle.oss.aem.utils.injectors.impl.AdaptToInjector;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.models.annotations.injectorspecific.InjectionStrategy;
 import org.apache.sling.models.spi.DisposalCallbackRegistry;

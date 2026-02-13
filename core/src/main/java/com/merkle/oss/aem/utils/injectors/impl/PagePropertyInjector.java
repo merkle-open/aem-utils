@@ -1,8 +1,9 @@
-package com.merkle.oss.aem.utils.injectors;
+package com.merkle.oss.aem.utils.injectors.impl;
 
 import com.day.cq.commons.inherit.HierarchyNodeInheritanceValueMap;
 import com.day.cq.wcm.api.Page;
-import com.merkle.oss.aem.utils.injectors.annotations.PageProperty;
+import com.merkle.oss.aem.utils.annotations.injectors.PageProperty;
+import com.merkle.oss.aem.utils.injectors.InjectorUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.sling.api.resource.ValueMap;
 import org.apache.sling.models.annotations.injectorspecific.InjectionStrategy;
@@ -57,12 +58,11 @@ public class PagePropertyInjector implements Injector, StaticInjectAnnotationPro
      * <p>
      * The logic follows these steps:
      * <ul>
-     * <li>Verifies the presence of the {@link PageProperty} annotation.</li>
-     * <li>Resolves the relevant {@link com.day.cq.wcm.api.Page} from the adaptable.</li>
-     * <li>Obtains either a standard {@link org.apache.sling.api.resource.ValueMap} or an inheritance-aware map.</li>
-     * <li>Extracts and returns the value matching the requested name and type.</li>
+     *     <li>Verifies the presence of the {@link PageProperty} annotation.</li>
+     *     <li>Resolves the relevant {@link com.day.cq.wcm.api.Page} from the adaptable.</li>
+     *     <li>Obtains either a standard {@link org.apache.sling.api.resource.ValueMap} or an inheritance-aware map.</li>
+     *     <li>Extracts and returns the value matching the requested name and type.</li>
      * </ul>
-     * </p>
      *
      * @param adaptable                The object being adapted (e.g., {@code SlingHttpServletRequest} or {@code Resource}).
      * @param name                     The default name of the property to look for.

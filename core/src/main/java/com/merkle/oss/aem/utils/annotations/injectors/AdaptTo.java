@@ -1,12 +1,13 @@
-package com.merkle.oss.aem.utils.injectors.annotations;
+package com.merkle.oss.aem.utils.annotations.injectors;
 
+import com.merkle.oss.aem.utils.injectors.impl.AdaptToInjector;
 import org.apache.sling.models.annotations.Source;
 import org.apache.sling.models.spi.injectorspecific.InjectAnnotation;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
-import static com.merkle.oss.aem.utils.injectors.AdaptToInjector.INJECTOR_NAME_ADAPT_TO;
+import static com.merkle.oss.aem.utils.injectors.impl.AdaptToInjector.INJECTOR_NAME_ADAPT_TO;
 import static java.lang.annotation.ElementType.*;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
@@ -30,7 +31,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  *     //...
  * }
  *}
- * @see com.merkle.oss.aem.utils.injectors.AdaptToInjector
+ * @see AdaptToInjector
  */
 @Target({METHOD, FIELD, PARAMETER})
 @Retention(RUNTIME)

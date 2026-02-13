@@ -1,6 +1,6 @@
 package com.merkle.oss.aem.utils.link.constants;
 
-import com.merkle.oss.aem.utils.annotations.Generated;
+import com.merkle.oss.aem.utils.annotations.tooling.Generated;
 import com.merkle.oss.aem.utils.java.ClassUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Strings;
@@ -12,7 +12,7 @@ import java.util.Arrays;
 /**
  * Common constants and definitions for URL handling and URI manipulation within AEM.
  */
-public class Links {
+public final class Links {
 
     @Generated("Bypass coverage for static utility constructor")
     private Links() {

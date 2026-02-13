@@ -32,8 +32,8 @@ class UtilsTestServletTest {
 
     /**
      * Method under test: helper to inject a value into a private field via reflection.
-     *
-     * <p>This is used to wire OSGi {@code @Reference}-style dependencies into the servlet instance
+     * <p>
+     * This is used to wire OSGi {@code @Reference}-style dependencies into the servlet instance
      * in a plain unit test (without starting a real OSGi container).
      *
      * @param target    Object whose field should be set.
