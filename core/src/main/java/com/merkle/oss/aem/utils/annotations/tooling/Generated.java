@@ -14,12 +14,10 @@ import static java.lang.annotation.ElementType.*;
  * is primarily intended to bypass coverage requirements for "unreachable"
  * boilerplate, such as:
  * <ul>
- *      <li>Private constructors in utility classes.</li>
- *      <li>Synthetic methods.</li>
- *      <li>Complex {@code equals}, {@code hashCode}, or {@code toString} overrides.</li>
+ *     <li>Private constructors in utility classes.</li>
+ *     <li>Synthetic methods.</li>
+ *     <li>Complex {@code equals}, {@code hashCode}, or {@code toString} overrides.</li>
  * </ul>
- * </p>
- * <p>
  * This annotation is designed to be recognized by <b>JaCoCo (version 0.8.2+)</b>
  * and other bytecode-based analysis tools. For these tools to ignore the annotated
  * code, the retention policy must be {@link RetentionPolicy#CLASS}.

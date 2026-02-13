@@ -34,11 +34,11 @@ public final class ResourceUtil {
      * <p>
      * In Sling, certain resources are placeholders. This method returns {@code false} if the resource:
      * <ul>
-     * <li>Is {@code null}</li>
-     * <li>Is an instance of {@link org.apache.sling.api.resource.NonExistingResource}</li>
-     * <li>Has a blank resource type</li>
-     * <li>Has a type matching {@link org.apache.sling.api.resource.Resource#RESOURCE_TYPE_NON_EXISTING}</li>
-     * <li>Has a type matching {@link org.apache.sling.spi.resource.provider.ResourceProvider#RESOURCE_TYPE_SYNTHETIC} (e.g., virtual folders like /apps)</li>
+     *     <li>Is {@code null}</li>
+     *     <li>Is an instance of {@link org.apache.sling.api.resource.NonExistingResource}</li>
+     *     <li>Has a blank resource type</li>
+     *     <li>Has a type matching {@link org.apache.sling.api.resource.Resource#RESOURCE_TYPE_NON_EXISTING}</li>
+     *     <li>Has a type matching {@link org.apache.sling.spi.resource.provider.ResourceProvider#RESOURCE_TYPE_SYNTHETIC} (e.g., virtual folders like /apps)</li>
      * </ul>
      *
      * @param resource The resource to validate.

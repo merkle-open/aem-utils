@@ -298,10 +298,10 @@ public final class PermissionUtil {
      *
      * <p>Supported actions include (comma-separated):</p>
      * <ul>
-     * <li>{@code read}: Retrieve the item and its properties.</li>
-     * <li>{@code add_node}: Add a child node at the path.</li>
-     * <li>{@code set_property}: Add or modify a property.</li>
-     * <li>{@code remove}: Delete the item.</li>
+     *     <li>{@code read}: Retrieve the item and its properties.</li>
+     *     <li>{@code add_node}: Add a child node at the path.</li>
+     *     <li>{@code set_property}: Add or modify a property.</li>
+     *     <li>{@code remove}: Delete the item.</li>
      * </ul>
      *
      * @param request The current request (used to derive the resource and session).

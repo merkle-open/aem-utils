@@ -31,9 +31,9 @@ import java.util.function.Function;
  * This class contains complex reflection logic to handle type conversions between JCR properties
  * and Java fields, specifically focusing on:
  * <ul>
- * <li>Resolving {@link com.day.cq.wcm.api.Page} objects from various adaptable sources.</li>
- * <li>Mapping {@link org.apache.sling.api.resource.ValueMap} data to complex types (Collections, Arrays, Primitives).</li>
- * <li>Supporting {@link com.day.cq.commons.inherit.InheritanceValueMap} for hierarchical property lookups.</li>
+ *     <li>Resolving {@link com.day.cq.wcm.api.Page} objects from various adaptable sources.</li>
+ *     <li>Mapping {@link org.apache.sling.api.resource.ValueMap} data to complex types (Collections, Arrays, Primitives).</li>
+ *     <li>Supporting {@link com.day.cq.commons.inherit.InheritanceValueMap} for hierarchical property lookups.</li>
  * </ul>
  */
 public final class InjectorUtil {
@@ -85,9 +85,9 @@ public final class InjectorUtil {
      * <p>
      * This method extends the standard ValueMap behavior by:
      * <ul>
-     * <li>Automatically detecting and using {@link com.day.cq.commons.inherit.InheritanceValueMap#getInherited(String, Class)} if applicable.</li>
-     * <li>Handling conversion between primitive arrays (e.g., {@code int[]}) and wrapper arrays (e.g., {@code Integer[]}).</li>
-     * <li>Supporting {@link List} and {@link Collection} parameterized types.</li>
+     *     <li>Automatically detecting and using {@link com.day.cq.commons.inherit.InheritanceValueMap#getInherited(String, Class)} if applicable.</li>
+     *     <li>Handling conversion between primitive arrays (e.g., {@code int[]}) and wrapper arrays (e.g., {@code Integer[]}).</li>
+     *     <li>Supporting {@link List} and {@link Collection} parameterized types.</li>
      * </ul>
      *
      * @param map  The source properties map.

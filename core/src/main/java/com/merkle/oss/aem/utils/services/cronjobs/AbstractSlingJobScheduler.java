@@ -20,11 +20,11 @@ import java.util.Map;
  * This abstract class facilitates the registration and management of Scheduled Sling Jobs using
  * the {@link org.apache.sling.event.jobs.JobManager}. It enforces best practices such as:
  * <ul>
- * <li>Idempotency: Automatically unschedules existing jobs before creating a new one to
- * ensure configuration updates (like changed cron expressions) are applied correctly.</li>
- * <li>Run Mode Safety: Prevents scheduling on incorrect instance types (Author vs. Publish)
- * via the {@link RunModeService}.</li>
- * <li>Payload Support: Transparently passes metadata into the Sling Job properties.</li>
+ *     <li>Idempotency: Automatically unschedules existing jobs before creating a new one to
+ *     ensure configuration updates (like changed cron expressions) are applied correctly.</li>
+ *     <li>Run Mode Safety: Prevents scheduling on incorrect instance types (Author vs. Publish)
+ *     via the {@link RunModeService}.</li>
+ *     <li>Payload Support: Transparently passes metadata into the Sling Job properties.</li>
  * </ul>
  *
  * @implSpec extending services must implement scheduler config
@@ -44,7 +44,7 @@ import java.util.Map;
  * }
  *}
  * @implNote extending services should register and unregister scheduled jobs on activate/deactivate lifecycle methods.
- * It is adviced to unschedule jobs on {@code publish} instances on deactivation.
+ * It is advised to unschedule jobs on {@code publish} instances on deactivation.
  * {@snippet :
  * @Component(immediate = true, configurationPolicy = ConfigurationPolicy.REQUIRE)
  * @Designate(ocd = ExampleScheduler.ExampleSchedulerConfig.class)
