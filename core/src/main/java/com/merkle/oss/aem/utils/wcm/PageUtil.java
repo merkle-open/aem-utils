@@ -171,7 +171,7 @@ public final class PageUtil {
      * @param templates   One or more template paths to match.
      * @return An {@link Optional} containing the matching ancestor page, or empty if none found.
      */
-    public static @NonNull Optional<Page> findClosestAncestorByTemplate(@Nullable final Page currentPage, @Nullable final String... templates) {
+    public static @NonNull Optional<Page> findClosestAncestorByTemplates(@Nullable final Page currentPage, @Nullable final String... templates) {
         if (currentPage == null) {
             return Optional.empty();
         }
@@ -203,7 +203,7 @@ public final class PageUtil {
      * @param templates   The template paths to filter by.
      * @return A list of matching child pages.
      */
-    public static @NonNull List<Page> childrenByTemplate(@Nullable final Page currentPage, @Nullable final String... templates) {
+    public static @NonNull List<Page> childrenByTemplates(@Nullable final Page currentPage, @Nullable final String... templates) {
         if (currentPage == null) {
             return Collections.emptyList();
         }

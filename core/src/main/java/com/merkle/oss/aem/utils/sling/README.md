@@ -58,7 +58,7 @@ protected void doGet(@NonNull final SlingHttpServletRequest request,
     /* <--- EXAMPLE ---> */
     final boolean hasSuffix = RequestUtil.hasSuffix(request);
     /* <--- EXAMPLE ---> */
-    final String suffix = RequestUtil.getSuffix(request);
+    final String suffix = RequestUtil.getSuffix(request, "defaultValue");
     /* <--- EXAMPLE ---> */
     final List<String> suffixSegments = RequestUtil.getSuffixSegments(request);
     /* <--- EXAMPLE ---> */

@@ -133,48 +133,48 @@ class PageUtilTest {
     }
 
     /**
-     * Method under test: {@link PageUtil#findClosestAncestorByTemplate(Page, String...)}
+     * Method under test: {@link PageUtil#findClosestAncestorByTemplates(Page, String...)}
      */
     @Test
-    void findClosestAncestorByTemplate() {
-        assertEquals(Optional.empty(), PageUtil.findClosestAncestorByTemplate(null, TEMPLATE_PATH_1, TEMPLATE_PATH_2));
-        assertEquals(Optional.empty(), PageUtil.findClosestAncestorByTemplate(child2));
+    void findClosestAncestorByTemplates() {
+        assertEquals(Optional.empty(), PageUtil.findClosestAncestorByTemplates(null, TEMPLATE_PATH_1, TEMPLATE_PATH_2));
+        assertEquals(Optional.empty(), PageUtil.findClosestAncestorByTemplates(child2));
 
         when(child1.getParent()).thenReturn(null);
-        assertEquals(Optional.empty(), PageUtil.findClosestAncestorByTemplate(child1, TEMPLATE_PATH_1, TEMPLATE_PATH_2));
+        assertEquals(Optional.empty(), PageUtil.findClosestAncestorByTemplates(child1, TEMPLATE_PATH_1, TEMPLATE_PATH_2));
 
         when(child1.getParent()).thenReturn(parent);
         when(parent.getProperties()).thenReturn(new ValueMapDecorator(Collections.singletonMap(NameConstants.NN_TEMPLATE, TEMPLATE_PATH_3)));
-        assertEquals(Optional.empty(), PageUtil.findClosestAncestorByTemplate(child1, TEMPLATE_PATH_1, TEMPLATE_PATH_2));
+        assertEquals(Optional.empty(), PageUtil.findClosestAncestorByTemplates(child1, TEMPLATE_PATH_1, TEMPLATE_PATH_2));
 
         when(child1.getParent()).thenReturn(parent);
         when(parent.getProperties()).thenReturn(new ValueMapDecorator(Collections.singletonMap(NameConstants.NN_TEMPLATE, TEMPLATE_PATH_1)));
-        assertEquals(Optional.of(parent), PageUtil.findClosestAncestorByTemplate(child1, TEMPLATE_PATH_1, TEMPLATE_PATH_2));
+        assertEquals(Optional.of(parent), PageUtil.findClosestAncestorByTemplates(child1, TEMPLATE_PATH_1, TEMPLATE_PATH_2));
 
         when(child2.getParent()).thenReturn(child1);
         when(child1.getParent()).thenReturn(parent);
         when(child1.getProperties()).thenReturn(new ValueMapDecorator(Collections.singletonMap(NameConstants.NN_TEMPLATE, TEMPLATE_PATH_3)));
         when(parent.getProperties()).thenReturn(new ValueMapDecorator(Collections.singletonMap(NameConstants.NN_TEMPLATE, TEMPLATE_PATH_2)));
-        assertEquals(Optional.of(parent), PageUtil.findClosestAncestorByTemplate(child2, TEMPLATE_PATH_1, TEMPLATE_PATH_2));
+        assertEquals(Optional.of(parent), PageUtil.findClosestAncestorByTemplates(child2, TEMPLATE_PATH_1, TEMPLATE_PATH_2));
     }
 
     /**
-     * Method under test: {@link PageUtil#childrenByTemplate(Page, String...)}
+     * Method under test: {@link PageUtil#childrenByTemplates(Page, String...)}
      */
     @Test
-    void childrenByTemplate() {
-        assertEquals(Collections.emptyList(), PageUtil.childrenByTemplate(null, TEMPLATE_PATH_3));
-        assertEquals(Collections.emptyList(), PageUtil.childrenByTemplate(child1));
+    void childrenByTemplates() {
+        assertEquals(Collections.emptyList(), PageUtil.childrenByTemplates(null, TEMPLATE_PATH_3));
+        assertEquals(Collections.emptyList(), PageUtil.childrenByTemplates(child1));
 
         when(parent.listChildren(ArgumentMatchers.any())).thenReturn(Arrays.asList(child1, child2, child3).iterator());
         when(child1.isValid()).thenReturn(true);
         when(child2.isValid()).thenReturn(true);
         when(child3.isValid()).thenReturn(true);
-        assertEquals(Arrays.asList(child1, child2, child3), PageUtil.childrenByTemplate(parent, TEMPLATE_PATH_3));
+        assertEquals(Arrays.asList(child1, child2, child3), PageUtil.childrenByTemplates(parent, TEMPLATE_PATH_3));
 
         when(parent.listChildren(ArgumentMatchers.any())).thenReturn(Arrays.asList(child1, child2).iterator());
         when(child1.isValid()).thenReturn(false);
-        assertEquals(Collections.singletonList(child2), PageUtil.childrenByTemplate(parent, TEMPLATE_PATH_3));
+        assertEquals(Collections.singletonList(child2), PageUtil.childrenByTemplates(parent, TEMPLATE_PATH_3));
     }
 
     /**
