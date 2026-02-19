@@ -14,15 +14,11 @@ public interface InMemoryCacheService {
     /**
      * Initializes and registers a new Caffeine cache instance.
      *
-     * @param <K>                 The type of keys maintained by the cache.
-     * @param <V>                 The type of mapped values.
      * @param serviceName         A unique identifier for the cache instance.
      * @param timeToLiveInSeconds Duration after which an entry should be automatically removed after the last write.
      * @param cacheSize           The maximum number of entries the cache can hold before eviction occurs.
-     * @param keyType             The class representing the key type (used for runtime type safety).
-     * @param valueType           The class representing the value type (used for runtime type safety).
      */
-    <K, V> void buildCache(@NonNull final String serviceName, int timeToLiveInSeconds, int cacheSize, @NonNull final Class<K> keyType, @NonNull final Class<V> valueType);
+    void buildCache(@NonNull final String serviceName, int timeToLiveInSeconds, int cacheSize);
 
     /**
      * Invalidates all entries and removes the named cache instance from the service.
@@ -80,5 +76,13 @@ public interface InMemoryCacheService {
      * @param serviceName The name of the target cache.
      */
     void removeAllFromCache(@NonNull final String serviceName);
+
+    /**
+     * Determines is service holds cache for given service name
+     *
+     * @param serviceName The name of the cache.
+     * @return {@code true} if cache is available, else {@code false}.
+     */
+    boolean hasServiceCache(@NonNull final String serviceName);
 
 }

@@ -33,6 +33,11 @@ public class ExampleScheduler extends AbstractSlingJobScheduler {
     }
 
     @Override
+    protected String getServiceName() {
+        return this.getClass().getSimpleName();
+    }
+
+    @Override
     protected RunModeService getRunModeService() {
         return runModeService;
     }
@@ -40,11 +45,6 @@ public class ExampleScheduler extends AbstractSlingJobScheduler {
     @Override
     protected JobManager getJobManager() {
         return jobManager;
-    }
-
-    @Override
-    protected String getServiceName() {
-        return this.getClass().getSimpleName();
     }
 
     @ObjectClassDefinition(name = "ExampleScheduler - Config")

@@ -17,18 +17,12 @@ public class ExampleInMemoryCacheProviderServiceImpl extends AbstractInMemoryCac
     @Activate
     @Modified
     protected void activate(final ExampleCacheConfig config) {
-        inMemoryCacheService.buildCache(
-                getServiceName(),
-                config.cache_ttl_seconds(),
-                config.cache_size(),
-                String.class,
-                String.class
-        );
+        buildCache(config.cache_ttl_seconds(), config.cache_size());
     }
 
     @Deactivate
     protected void deactivate() {
-        inMemoryCacheService.cleanUpCache(getServiceName());
+        cleanUpCache();
     }
 
     @Override

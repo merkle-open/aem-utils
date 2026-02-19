@@ -70,7 +70,7 @@ public abstract class AbstractSlingJobScheduler implements SlingJobScheduler {
     private static final Logger LOG = LoggerFactory.getLogger(AbstractSlingJobScheduler.class);
 
     /**
-     * @return A descriptive name for the service for unique identification.
+     * @return A unique name for the service identification.
      */
     protected abstract @NonNull String getServiceName();
 
