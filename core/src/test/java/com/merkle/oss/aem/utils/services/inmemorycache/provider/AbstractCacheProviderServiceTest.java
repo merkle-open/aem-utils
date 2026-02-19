@@ -25,6 +25,22 @@ class AbstractCacheProviderServiceTest {
     private ExampleInMemoryCacheProviderServiceImpl exampleInMemoryCacheProviderService = new ExampleInMemoryCacheProviderServiceImpl();
 
     /**
+     * Method under test: {@link AbstractInMemoryCacheProviderService#buildCache(int, int)}
+     */
+    @Test
+    void buildCache() {
+        assertDoesNotThrow(() -> exampleInMemoryCacheProviderService.buildCache(200, 300));
+    }
+
+    /**
+     * Method under test: {@link AbstractInMemoryCacheProviderService#cleanUpCache()}
+     */
+    @Test
+    void cleanUpCache() {
+        assertDoesNotThrow(() -> exampleInMemoryCacheProviderService.cleanUpCache());
+    }
+
+    /**
      * Method under test: {@link AbstractInMemoryCacheProviderService#putToCache(Object, Object)}
      */
     @Test
