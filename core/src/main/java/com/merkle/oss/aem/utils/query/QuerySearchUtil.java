@@ -263,7 +263,7 @@ public final class QuerySearchUtil {
      * @param templates   One or more paths to {@code cq:template} nodes.
      * @return A PredicateGroup containing template path comparisons.
      */
-    public static @NonNull PredicateGroup createTemplatePredicate(@NonNull final QuerySearch querySearch, @NonNull final String... templates) {
+    public static @NonNull PredicateGroup createTemplatesPredicate(@NonNull final QuerySearch querySearch, @NonNull final String... templates) {
         final PredicateGroup templatesPredicate = new PredicateGroup();
         templatesPredicate.setAllRequired(false);
 

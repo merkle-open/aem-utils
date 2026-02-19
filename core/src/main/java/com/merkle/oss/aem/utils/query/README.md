@@ -50,7 +50,7 @@ public class QueryExampleComponent {
         querySearch.setHitsPerPage(10);
         querySearch.addOrderByPredicate("@jcr:content/" + JcrConstants.JCR_LASTMODIFIED, false);
         //Query search predicates
-        querySearch.addAdditionalPredicates(QuerySearchUtil.createTemplatePredicate(querySearch, "/apps/mySite/template/standard"));
+        querySearch.addAdditionalPredicates(QuerySearchUtil.createTemplatesPredicate(querySearch, "/apps/mySite/template/standard"));
         querySearch.addAdditionalPredicates(QuerySearchUtil.createFullTextPredicate(titleSearchQuery, PredicateProperties.JCR_TITLE));
         querySearch.addAdditionalPredicates(QuerySearchUtil.createFullTextPredicate(descriptionSearchQuery, PredicateProperties.JCR_DESCRIPTION));
         querySearch.addAdditionalPredicates(QuerySearchUtil.createTagListPredicateGroup(tags, PredicateProperties.CQ_TAGS, false, tagManager));

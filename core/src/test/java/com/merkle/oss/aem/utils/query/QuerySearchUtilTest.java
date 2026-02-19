@@ -317,12 +317,12 @@ class QuerySearchUtilTest {
 
 
     /**
-     * Method under test: {@link QuerySearchUtil#createTemplatePredicate(QuerySearch, String...)}
+     * Method under test: {@link QuerySearchUtil#createTemplatesPredicate(QuerySearch, String...)}
      */
     @Test
-    void createTemplatePredicate() {
-        assertNotNull(QuerySearchUtil.createTemplatePredicate(querySearch, "template"));
-        assertNotNull(QuerySearchUtil.createTemplatePredicate(querySearch, "template1, template2, template3"));
+    void createTemplatesPredicate() {
+        assertNotNull(QuerySearchUtil.createTemplatesPredicate(querySearch, "template"));
+        assertNotNull(QuerySearchUtil.createTemplatesPredicate(querySearch, "template1, template2, template3"));
     }
 
     /**
