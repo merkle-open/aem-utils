@@ -129,11 +129,22 @@ public final class RequestUtil {
      * @return the suffix or an empty string if no suffix exists
      */
     public static @NonNull String getSuffix(@NonNull final SlingHttpServletRequest request) {
+        return getSuffix(request, StringUtils.EMPTY);
+    }
+
+    /**
+     * Gets the suffix of the request.
+     *
+     * @param request      the current Sling request
+     * @param defaultValue the value to return if no suffix is available
+     * @return the suffix or a default value if no suffix exists
+     */
+    public static @NonNull String getSuffix(@NonNull final SlingHttpServletRequest request, @NonNull final String defaultValue) {
         if (hasSuffix(request)) {
             return Objects.requireNonNull(request.getRequestPathInfo().getSuffix());
         }
 
-        return StringUtils.EMPTY;
+        return defaultValue;
     }
 
     /**

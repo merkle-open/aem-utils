@@ -153,16 +153,22 @@ class RequestUtilTest {
     }
 
     /**
-     * Method under test: {@link RequestUtil#getSuffix(SlingHttpServletRequest)}
+     * Methods under test:
+     * <ul>
+     *     <li>{@link RequestUtil#getSuffix(SlingHttpServletRequest)}</li>
+     *     <li>{@link RequestUtil#getSuffix(SlingHttpServletRequest, String)}</li>
+     * </ul>
      */
     @Test
     void getSuffix(final AemContext context) {
         final MockSlingHttpServletRequest request = context.request();
         assertEquals(StringUtils.EMPTY, RequestUtil.getSuffix(request));
+        assertEquals(DEFAULT_VALUE, RequestUtil.getSuffix(request, DEFAULT_VALUE));
 
         final MockRequestPathInfo mockRequestPathInfo = (MockRequestPathInfo) request.getRequestPathInfo();
         mockRequestPathInfo.setSuffix(SUFFIX);
         assertEquals(SUFFIX, RequestUtil.getSuffix(request));
+        assertEquals(SUFFIX, RequestUtil.getSuffix(request, DEFAULT_VALUE));
     }
 
     /**

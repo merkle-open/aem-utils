@@ -5,8 +5,8 @@
 * [PageUtil](#pageutil)
     * [Fetch properties](#fetch-properties)
     * [equals() & isValid()](#equals--isvalid)
-    * [findClosestAncestorByTemplate()](#findclosestancestorbytemplate)
-    * [childrenByTemplate()](#childrenbytemplate)
+    * [findClosestAncestorByTemplates()](#findclosestancestorbytemplates)
+    * [childrenByTemplates()](#childrenbytemplates)
     * [streamDescendants()](#streamdescendants)
     * [streamTree()](#streamtree)
 
@@ -152,7 +152,7 @@ protected void doGet(@NonNull final SlingHttpServletRequest request,
 
 ```
 
-#### findClosestAncestorByTemplate()
+#### findClosestAncestorByTemplates()
 
 ```java
 
@@ -171,7 +171,7 @@ public class ExampleComponent {
     void init() {
         final Page currentPage = PageManagerUtil.containingPage(resource);
         /* <--- EXAMPLE ---> */
-        final Page targetParentPage = PageUtil.findClosestAncestorByTemplate(currentPage, "/apps/mySite/templates/home")
+        final Page targetParentPage = PageUtil.findClosestAncestorByTemplates(currentPage, "/apps/mySite/templates/home")
                 .orElse(null);
         //do init logic...
     }
@@ -181,7 +181,7 @@ public class ExampleComponent {
 
 ```
 
-#### childrenByTemplate()
+#### childrenByTemplates()
 
 ```java
 
@@ -202,7 +202,7 @@ public class ExampleComponent {
     public List<TeaserItem> getTeasers() {
         final Page currentPage = PageManagerUtil.containingPage(resource);
         /* <--- EXAMPLE ---> */
-        return PageUtil.childrenByTemplate(currentPage, "/apps/mySite/templates/article").stream()
+        return PageUtil.childrenByTemplates(currentPage, "/apps/mySite/templates/article").stream()
                 .map(to(TeaserItem.class))
                 .filter(Objects::nonNull)
                 .toList();
