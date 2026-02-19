@@ -10,7 +10,6 @@ import com.day.cq.search.eval.TypePredicateEvaluator;
 import com.day.cq.tagging.Tag;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.FastDateFormat;
-import org.apache.jackrabbit.spi.commons.query.QueryConstants;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
@@ -49,6 +48,12 @@ public class QuerySearch {
 
     private final String primaryType;
 
+    private boolean addOnOffTimePredicate;
+
+    private long hitsPerPage = DEFAULT_HITS_PER_PAGE;
+
+    private long offset = DEFAULT_SEARCH_RESULT_OFFSET;
+
     private List<String> paths = new ArrayList<>();
 
     private List<Tag> allRequiredTags;
@@ -58,12 +63,6 @@ public class QuerySearch {
     private final List<Predicate> orderByPredicates = new ArrayList<>();
 
     private final List<PredicateGroup> additionalPredicates = new LinkedList<>();
-
-    private boolean addOnOffTimePredicate;
-
-    private long hitsPerPage = DEFAULT_HITS_PER_PAGE;
-
-    private long offset = DEFAULT_SEARCH_RESULT_OFFSET;
 
     /**
      * Initializes a new search context for a specific node type.
@@ -142,18 +141,6 @@ public class QuerySearch {
     }
 
     /**
-     * Appends a pre-configured group of predicates to the query.
-     *
-     * @param predicates The predicate group to add.
-     */
-    public void addAdditionalPredicates(@Nullable final PredicateGroup predicates) {
-        if (predicates == null) {
-            return;
-        }
-        additionalPredicates.add(predicates);
-    }
-
-    /**
      * Determines whether to filter results based on activation (on/off) times.
      *
      * @param setPredicate {@code true} to enable filtering (default), {@code false} to disable.
@@ -167,18 +154,15 @@ public class QuerySearch {
     }
 
     /**
-     * Internal factory for creating a tag-based predicate.
+     * Appends a pre-configured group of predicates to the query.
      *
-     * @param tag          The tag to search for.
-     * @param propertyName The property containing tag IDs.
-     * @return A PredicateGroup for the specific tag.
+     * @param predicates The predicate group to add.
      */
-    public static @NonNull PredicateGroup createTagPredicate(@NonNull final Tag tag, @NonNull final String propertyName) {
-        final Map<String, String> tagMap = new HashMap<>();
-        tagMap.put("tagid.property", propertyName);
-        tagMap.put("tagid", tag.getTagID());
-
-        return PredicateGroup.create(tagMap);
+    public void addAdditionalPredicates(@Nullable final PredicateGroup predicates) {
+        if (predicates == null) {
+            return;
+        }
+        additionalPredicates.add(predicates);
     }
 
     /**
@@ -189,180 +173,6 @@ public class QuerySearch {
      */
     public void addOrderByPredicate(@NonNull final String orderByProperty, final boolean ascending) {
         orderByPredicates.add(new OrderByPredicate(orderByProperty, ascending));
-    }
-
-    /**
-     * Creates a simple equality predicate for a property.
-     *
-     * @param propertyName  The property name.
-     * @param propertyValue The expected value.
-     * @return A PredicateGroup representing {@code [property] = [value]}.
-     */
-    public @NonNull PredicateGroup createPropertyPredicate(@NonNull final String propertyName, @NonNull final String propertyValue) {
-        final Map<String, String> propertyMap = new HashMap<>();
-        propertyMap.put(JcrPropertyPredicateEvaluator.PROPERTY, propertyName);
-        propertyMap.put("property.value", propertyValue);
-
-        return PredicateGroup.create(propertyMap);
-    }
-
-    /**
-     * Creates a full-text search predicate.
-     *
-     * @param propertyValue The search term.
-     * @param propertyName  The relative path to search within.
-     * @return A full-text PredicateGroup, or {@code null} if the term is blank.
-     */
-    public @NonNull PredicateGroup createFullTextPredicate(@NonNull final String propertyValue, @NonNull final String propertyName) {
-        final Map<String, String> propertyMap = new HashMap<>();
-        propertyMap.put("fulltext", propertyValue);
-        propertyMap.put("fulltext.relPath", propertyName);
-
-        return PredicateGroup.create(propertyMap);
-    }
-
-    /**
-     * Creates a PredicateGroup based on the specified property, operation, and value.
-     * This method prepares a predicate configuration for evaluating properties.
-     * Operation of a type:
-     * <ul>
-     *     <li>{@code equals} for exact match (default)</li>
-     *     <li>{@code unequals} for unequal comparison (property must exist)</li>
-     *     <li>{@code like} for using the jcr:like xpath function (optional)</li>
-     *     <li>{@code not} for no match (e.g.: "not(@prop)" in xpath, value param will be ignored)</li>
-     *     <li>{@code exists} for existence check (value can be true - property must exist, the default - or false - same as {@code not})</li>
-     * </ul>
-     *
-     * @param propertyName  Name of the property.
-     * @param operation     The operation (see {@link com.day.cq.search.eval.JcrPropertyPredicateEvaluator}).
-     * @param propertyValue The comparison value.
-     * @return A configured PredicateGroup.
-     */
-    public @NonNull PredicateGroup createPropertyPredicate(@NonNull final String propertyName, @NonNull final String operation, @NonNull final String propertyValue) {
-        final Map<String, String> propertyMap = new HashMap<>();
-        propertyMap.put(JcrPropertyPredicateEvaluator.PROPERTY, propertyName);
-        propertyMap.put("property.operation", operation);
-        propertyMap.put("property.value", propertyValue);
-
-        return PredicateGroup.create(propertyMap);
-    }
-
-    /**
-     * Creates a predicate group that verifies the existence of a specified property.
-     *
-     * @param propertyName The name of the property to check for existence.
-     * @return A PredicateGroup configured to evaluate whether the specified property exists.
-     */
-    public @NonNull PredicateGroup createPropertyExistsPredicate(@NonNull final String propertyName) {
-        final Map<String, String> propertyMap = new HashMap<>();
-        propertyMap.put(JcrPropertyPredicateEvaluator.PROPERTY, propertyName);
-        propertyMap.put("property.operation", JcrPropertyPredicateEvaluator.OP_EXISTS);
-
-        return PredicateGroup.create(propertyMap);
-    }
-
-    /**
-     * Creates a predicate group to evaluate if a specified property does not exist.
-     *
-     * @param propertyName The name of the property to check for non-existence.
-     * @return A PredicateGroup configured to check that the specified property does not exist.
-     */
-    public @NonNull PredicateGroup createPropertyNotExistsPredicate(@NonNull final String propertyName) {
-        final Map<String, String> propertyMap = new HashMap<>();
-        propertyMap.put(JcrPropertyPredicateEvaluator.PROPERTY, propertyName);
-        propertyMap.put("property.operation", JcrPropertyPredicateEvaluator.OP_NOT);
-
-        return PredicateGroup.create(propertyMap);
-    }
-
-    /**
-     * lower operation defaults to greater than (alternative greater or equals than).
-     * <p>
-     * upper operation defaults to less than (alternative less or equals than).
-     *
-     * @param propertyName The property to evaluate.
-     * @param lowerBound   The minimum value.
-     * @param upperBound   The maximum value.
-     * @param decimal      Whether to treat values as decimals.
-     * @return A range PredicateGroup.
-     */
-    public @NonNull PredicateGroup createRangePropertyPredicate(@NonNull final String propertyName, @Nullable final String lowerBound, @Nullable final String upperBound, final boolean decimal) {
-        return createRangePropertyPredicate(propertyName, lowerBound, QueryConstants.OP_NAME_GT_GENERAL, upperBound, QueryConstants.OP_NAME_LT_GENERAL, decimal);
-    }
-
-    /**
-     * Creates a range property predicate based on the specified input parameters.
-     *
-     * @param propertyName   the name of the property to apply the range condition to
-     * @param lowerBound     the lower bound value of the range; can be null or blank if not required
-     * @param lowerOperation the operation for the lower bound (e.g., {@code >}, {@code >=}); ignored if lowerBound is null or blank
-     * @param upperBound     the upper bound value of the range; can be null or blank if not required
-     * @param upperOperation the operation for the upper bound (e.g., {@code <}, {@code <=}); ignored if upperBound is null or blank
-     * @param decimal        a flag indicating whether the property is decimal-based
-     * @return a PredicateGroup representing the range property predicate
-     */
-    public @NonNull PredicateGroup createRangePropertyPredicate(@NonNull final String propertyName, @Nullable final String lowerBound, @Nullable final String lowerOperation,
-                                                                @Nullable final String upperBound, @Nullable final String upperOperation, final boolean decimal) {
-        final Map<String, String> propertyMap = new HashMap<>();
-        propertyMap.put("rangeproperty.property", propertyName);
-        if (StringUtils.isNoneBlank(lowerBound, lowerOperation)) {
-            propertyMap.put("rangeproperty.lowerBound", lowerBound);
-            propertyMap.put("rangeproperty.lowerOperation", lowerOperation);
-        }
-        if (StringUtils.isNoneBlank(upperBound, upperOperation)) {
-            propertyMap.put("rangeproperty.upperBound", upperBound);
-            propertyMap.put("rangeproperty.upperOperation", upperOperation);
-        }
-        propertyMap.put("rangeproperty.decimal", String.valueOf(decimal));
-
-        return PredicateGroup.create(propertyMap);
-    }
-
-    /**
-     * Creates a predicate group representing a date range property with optional lower and upper bounds.
-     *
-     * @param propertyName   the name of the property to be used in the date range comparison
-     * @param lowerBound    the lower bound value of the range; can be null or blank if not required
-     * @param lowerOperation the operation for the lower bound (e.g., {@code >}, {@code >=}); ignored if lowerBound is null or blank
-     * @param upperBound     the upper bound value of the range; can be null or blank if not required
-     * @param upperOperation the operation for the upper bound (e.g., {@code <}, {@code <=}); ignored if upperBound is null or blank
-     * @return a PredicateGroup containing the configured date range property and bounds, or an empty group if no bounds are provided
-     */
-    public @NonNull PredicateGroup createDateRangePropertyPredicate(@NonNull final String propertyName, @Nullable final String lowerBound, @Nullable final String lowerOperation,
-                                                                    @Nullable final String upperBound, @Nullable final String upperOperation) {
-        final Map<String, String> propertyMap = new HashMap<>();
-        propertyMap.put("daterange.property", propertyName);
-        if (StringUtils.isNoneBlank(lowerBound, lowerOperation)) {
-            propertyMap.put("daterange.lowerBound", lowerBound);
-            propertyMap.put("daterange.lowerOperation", lowerOperation);
-        }
-        if (StringUtils.isNoneBlank(upperBound, upperOperation)) {
-            propertyMap.put("daterange.upperBound", upperBound);
-            propertyMap.put("daterange.upperOperation", upperOperation);
-        }
-
-        return PredicateGroup.create(propertyMap);
-    }
-
-    /**
-     * Creates a predicate group for a relative date range based on the provided property name and bounds.
-     *
-     * @param propertyName the name of the property for which the relative date range predicate is being created
-     * @param lowerBound   the lower bound of the relative date range can be null or empty to exclude it
-     * @param upperBound   the upper bound of the relative date range can be null or empty to exclude it
-     * @return a PredicateGroup configured with the relative date range properties
-     */
-    public @NonNull PredicateGroup createRelativeDateRangePropertyPredicate(@NonNull final String propertyName, @Nullable final String lowerBound, @Nullable final String upperBound) {
-        final Map<String, String> propertyMap = new HashMap<>();
-        propertyMap.put("relativedaterange.property", propertyName);
-        if (StringUtils.isNotBlank(lowerBound)) {
-            propertyMap.put("relativedaterange.lowerBound", lowerBound);
-        }
-        if (StringUtils.isNotBlank(upperBound)) {
-            propertyMap.put("relativedaterange.upperBound", upperBound);
-        }
-
-        return PredicateGroup.create(propertyMap);
     }
 
     /**
@@ -448,7 +258,6 @@ public class QuerySearch {
      * <p>
      * Logic for On-Time: (OnTime <= Now) OR (OnTime does not exist). <br>
      * Logic for Off-Time: (OffTime > Now) OR (OffTime does not exist).
-     * </p>
      *
      * @param addOnOffTimePredicate Flag to toggle this logic.
      * @return The activation PredicateGroup.
@@ -487,7 +296,7 @@ public class QuerySearch {
     }
 
     private @NonNull PredicateGroup createSingleTagPredicate(@NonNull final Tag tag) {
-        return createTagPredicate(tag, PredicateProperties.CQ_TAGS);
+        return QuerySearchUtil.createTagPredicate(tag, PredicateProperties.CQ_TAGS);
     }
 
     private @Nullable PredicateGroup createAllRequiredTagsPredicate() {
