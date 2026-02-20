@@ -255,7 +255,7 @@ class RequestUtilTest {
      * Methods under test:
      * <ul>
      *     <li>{@link RequestUtil#getParameter(SlingHttpServletRequest, String)}</li>
-     *     <li>{@link RequestUtil#getParameter(SlingHttpServletRequest, String, String)} </li>
+     *     <li>{@link RequestUtil#getParameter(SlingHttpServletRequest, String, String)}</li>
      * </ul>
      */
     @Test
@@ -273,7 +273,7 @@ class RequestUtilTest {
      * Methods under test:
      * <ul>
      *     <li>{@link RequestUtil#getParameterAsInt(SlingHttpServletRequest, String)}</li>
-     *     <li>{@link RequestUtil#getParameterAsInt(SlingHttpServletRequest, String, int)} </li>
+     *     <li>{@link RequestUtil#getParameterAsInt(SlingHttpServletRequest, String, int)}</li>
      * </ul>
      */
     @Test
@@ -294,7 +294,7 @@ class RequestUtilTest {
      * Methods under test:
      * <ul>
      *     <li>{@link RequestUtil#getParameterAsLong(SlingHttpServletRequest, String)}</li>
-     *     <li>{@link RequestUtil#getParameterAsLong(SlingHttpServletRequest, String, long)} </li>
+     *     <li>{@link RequestUtil#getParameterAsLong(SlingHttpServletRequest, String, long)}</li>
      * </ul>
      */
     @Test
@@ -315,7 +315,7 @@ class RequestUtilTest {
      * Methods under test:
      * <ul>
      *     <li>{@link RequestUtil#getParameterAsFloat(SlingHttpServletRequest, String)}</li>
-     *     <li>{@link RequestUtil#getParameterAsFloat(SlingHttpServletRequest, String, float)} </li>
+     *     <li>{@link RequestUtil#getParameterAsFloat(SlingHttpServletRequest, String, float)}</li>
      * </ul>
      */
     @Test
@@ -336,7 +336,7 @@ class RequestUtilTest {
      * Methods under test:
      * <ul>
      *     <li>{@link RequestUtil#getParameterAsBoolean(SlingHttpServletRequest, String)}</li>
-     *     <li>{@link RequestUtil#getParameterAsBoolean(SlingHttpServletRequest, String, boolean)} </li>
+     *     <li>{@link RequestUtil#getParameterAsBoolean(SlingHttpServletRequest, String, boolean)}</li>
      * </ul>
      */
     @Test

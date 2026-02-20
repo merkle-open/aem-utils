@@ -36,9 +36,9 @@ class LinksTest {
     /**
      * Methods under test:
      * <ul>
-     *   <li>{@link Links.Target#getValue()}
-     *   <li>{@link Links.Target#getRel()}
-     *   <li>{@link Links.Target#toString()}
+     *   <li>{@link Links.Target#getValue()}</li>
+     *   <li>{@link Links.Target#getRel()}</li>
+     *   <li>{@link Links.Target#toString()}</li>
      * </ul>
      */
     @Test

@@ -587,10 +587,10 @@ class QuerySearchTest {
     /**
      * Methods under test:
      * <ul>
-     *   <li>{@link QuerySearch#QuerySearch(String)}
-     *   <li>{@link QuerySearch#setAddOnOffTimePredicate(boolean)}
-     *   <li>{@link QuerySearch#setHitsPerPage(long)}
-     *   <li>{@link QuerySearch#setOffset(long)}
+     *   <li>{@link QuerySearch#QuerySearch(String)}</li>
+     *   <li>{@link QuerySearch#setAddOnOffTimePredicate(boolean)}</li>
+     *   <li>{@link QuerySearch#setHitsPerPage(long)}</li>
+     *   <li>{@link QuerySearch#setOffset(long)}</li>
      * </ul>
      */
     @Test

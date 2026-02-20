@@ -81,7 +81,7 @@ public interface InMemoryCacheService {
      * Determines is service holds cache for given service name
      *
      * @param serviceName The name of the cache.
-     * @return {@code true} if cache is available, else {@code false}.
+     * @return {@code true} if cache is available, {@code false} otherwise.
      */
     boolean hasServiceCache(@NonNull final String serviceName);
 

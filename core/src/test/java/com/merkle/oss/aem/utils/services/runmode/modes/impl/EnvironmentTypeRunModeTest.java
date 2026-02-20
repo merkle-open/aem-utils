@@ -13,10 +13,10 @@ class EnvironmentTypeRunModeTest {
      * Methods under test:
      *
      * <ul>
-     *   <li>{@link EnvironmentTypeRunMode.Type#getMode()}
-     *   <li>{@link EnvironmentTypeRunMode.Type#is(String)}
-     *   <li>{@link EnvironmentTypeRunMode.Type#toString()}
-     *   <li>{@link EnvironmentTypeRunMode.Type#of(String)}
+     *   <li>{@link EnvironmentTypeRunMode.Type#getMode()}</li>
+     *   <li>{@link EnvironmentTypeRunMode.Type#is(String)}</li>
+     *   <li>{@link EnvironmentTypeRunMode.Type#toString()}</li>
+     *   <li>{@link EnvironmentTypeRunMode.Type#of(String)}</li>
      * </ul>
      */
     @Test

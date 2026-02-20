@@ -31,8 +31,8 @@ class LinkMappingUtilTest {
     /**
      * Methods under test:
      * <ul>
-     *   <li>{@link LinkMappingUtil#map(String, ResourceResolver)}
-     *   <li>{@link LinkMappingUtil#map(String, SlingHttpServletRequest)}
+     *   <li>{@link LinkMappingUtil#map(String, ResourceResolver)}</li>
+     *   <li>{@link LinkMappingUtil#map(String, SlingHttpServletRequest)}</li>
      * </ul>
      */
     @Test

@@ -37,7 +37,7 @@ class RunModeServiceImplTest {
     /**
      * Methods under test:
      * <ul>
-     *   <li>{@link RunModeServiceImpl#getRunModes()}
+     *   <li>{@link RunModeServiceImpl#getRunModes()}</li>
      * </ul>
      */
     @Test
@@ -52,14 +52,14 @@ class RunModeServiceImplTest {
     /**
      * Methods under test:
      * <ul>
-     *   <li>{@link RunModeServiceImpl#isAuthor()}
-     *   <li>{@link RunModeServiceImpl#isPublish()}
-     *   <li>{@link RunModeServiceImpl#isLocal()}
-     *   <li>{@link RunModeServiceImpl#isRde()}
-     *   <li>{@link RunModeServiceImpl#isDev()}
-     *   <li>{@link RunModeServiceImpl#isStage()}
-     *   <li>{@link RunModeServiceImpl#isProd()}
-     *   <li>{@link RunModeServiceImpl#getRunModes()}
+     *   <li>{@link RunModeServiceImpl#isAuthor()}</li>
+     *   <li>{@link RunModeServiceImpl#isPublish()}</li>
+     *   <li>{@link RunModeServiceImpl#isLocal()}</li>
+     *   <li>{@link RunModeServiceImpl#isRde()}</li>
+     *   <li>{@link RunModeServiceImpl#isDev()}</li>
+     *   <li>{@link RunModeServiceImpl#isStage()}</li>
+     *   <li>{@link RunModeServiceImpl#isProd()}</li>
+     *   <li>{@link RunModeServiceImpl#getRunModes()}</li>
      * </ul>
      */
     @Test
@@ -83,14 +83,14 @@ class RunModeServiceImplTest {
     /**
      * Methods under test:
      * <ul>
-     *   <li>{@link RunModeServiceImpl#isAuthor()}
-     *   <li>{@link RunModeServiceImpl#isPublish()}
-     *   <li>{@link RunModeServiceImpl#isLocal()}
-     *   <li>{@link RunModeServiceImpl#isRde()}
-     *   <li>{@link RunModeServiceImpl#isDev()}
-     *   <li>{@link RunModeServiceImpl#isStage()}
-     *   <li>{@link RunModeServiceImpl#isProd()}
-     *   <li>{@link RunModeServiceImpl#getRunModes()}
+     *   <li>{@link RunModeServiceImpl#isAuthor()}</li>
+     *   <li>{@link RunModeServiceImpl#isPublish()}</li>
+     *   <li>{@link RunModeServiceImpl#isLocal()}</li>
+     *   <li>{@link RunModeServiceImpl#isRde()}</li>
+     *   <li>{@link RunModeServiceImpl#isDev()}</li>
+     *   <li>{@link RunModeServiceImpl#isStage()}</li>
+     *   <li>{@link RunModeServiceImpl#isProd()}</li>
+     *   <li>{@link RunModeServiceImpl#getRunModes()}</li>
      * </ul>
      */
     @Test
