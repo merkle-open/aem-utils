@@ -14,7 +14,9 @@ import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.*;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Stream;
 
 /**
@@ -77,73 +79,44 @@ public final class ResourceUtil {
     }
 
     /**
-     * Returns a sequential {@link Stream} of the direct children of the given resource.
-     *
-     * @param resource The parent resource.
-     * @return A non-null stream of child resources. Returns {@link Stream#empty()} if the resource is null.
-     */
-    public static @NonNull Stream<Resource> childrenAsStream(@Nullable final Resource resource) {
-        return Optional.ofNullable(resource)
-                .map(Resource::listChildren)
-                .map(FunctionalUtil::asStream)
-                .orElse(Stream.empty());
-    }
-
-    /**
-     * Collects all direct children that match any of the specified resource types
-     * retrievable via {org.apache.sling.api.resource.Resource#getResourceType()}
-     *
-     * @param parent        The parent resource to inspect.
-     * @param resourceTypes One or more resource types to filter by.
-     * @return A non-null list of matching child resources. Returns an empty list if no matches are found or inputs are null/empty.
-     */
-    public static @NonNull List<Resource> childrenOfTypes(@Nullable final Resource parent, @Nullable final String... resourceTypes) {
-        if (Objects.isNull(parent)) {
-            return Collections.emptyList();
-        }
-
-        if (ArrayUtils.isEmpty(resourceTypes)) {
-            return Collections.emptyList();
-        }
-
-        final List<String> resourceTypeList = Stream.of(resourceTypes).toList();
-
-        return childrenAsStream(parent)
-                .filter(resource -> resourceTypeList.contains(resource.getResourceType()))
-                .toList();
-    }
-
-    /**
-     * Performs a deep recursive search below the given parent to find all resources of specific types.
+     * Traverses the resource hierarchy downward from the immediate children of the {@code parent},
+     * returning a stream of resources that match the specified resource types.
      * <p>
-     * This traverses the entire subtree (all levels deep).
+     * This traversal is exclusive of the {@code parent} resource and performs a lazy,
+     * pre-order search. The {@code typeSet} is evaluated against each resource's
+     * {@link org.apache.sling.api.resource.Resource#getResourceType()}.
      *
-     * @param parent        The root resource from which to start the recursive search.
-     * @param resourceTypes The resource types to look for.
-     * @return A list of all matching descendant resources found.
+     * @param parent        the starting resource whose descendants will be searched; may be {@code null}
+     * @param resourceTypes the resource types to include in the resulting stream;
+     * @return a {@link Stream} of matching descendant {@code Resource}
      */
-    public static @NonNull List<Resource> descendantsOfTypes(@Nullable final Resource parent, @Nullable final String... resourceTypes) {
-        if (Objects.isNull(parent)) {
-            return Collections.emptyList();
-        }
-
-        if (ArrayUtils.isEmpty(resourceTypes)) {
-            return Collections.emptyList();
-        }
-
-        final List<String> resourceTypeList = Stream.of(resourceTypes).toList();
-        final List<Resource> resources = new ArrayList<>();
-        collectDescendants(parent, resourceTypeList, resources);
-        return resources;
+    public static @NonNull Stream<Resource> streamDescendantsByTypes(@Nullable final Resource parent, @Nullable final String... resourceTypes) {
+        return streamDescendantsByTypes(parent, 0, resourceTypes);
     }
 
-    private static void collectDescendants(final Resource resource, final List<String> resourceTypeList, final List<Resource> resources) {
-        resource.listChildren().forEachRemaining(child -> {
-            if (resourceTypeList.contains(child.getResourceType())) {
-                resources.add(child);
-            }
-            collectDescendants(child, resourceTypeList, resources);
-        });
+    /**
+     * Traverses the resource hierarchy downward from the immediate children of the {@code parent},
+     * returning a stream of resources that match the specified resource types.
+     * <p>
+     * This traversal is exclusive of the {@code parent} resource and performs a lazy,
+     * pre-order search. The {@code typeSet} is evaluated against each resource's
+     * {@link org.apache.sling.api.resource.Resource#getResourceType()}.
+     *
+     * @param parent        the starting resource whose descendants will be searched; may be {@code null}
+     * @param maxDepth      the maximum depth of the traversal. {@code 1} limits the search to
+     *                      immediate children; {@code 0} or less allows for infinite depth.
+     * @param resourceTypes the resource types to include in the resulting stream;
+     * @return a {@link Stream} of matching descendant {@code Resource}
+     */
+    public static @NonNull Stream<Resource> streamDescendantsByTypes(@Nullable final Resource parent, final int maxDepth, @Nullable final String... resourceTypes) {
+        if (Objects.isNull(parent) || ArrayUtils.isEmpty(resourceTypes)) {
+            return Stream.empty();
+        }
+
+        final Set<String> typeSet = Set.of(resourceTypes);
+
+        return FunctionalUtil.streamDescendants(parent, Resource::listChildren, maxDepth)
+                .filter(resource -> typeSet.contains(resource.getResourceType()));
     }
 
     /**
@@ -155,18 +128,14 @@ public final class ResourceUtil {
      * @param resourceTypes   One or more resource types to match.
      * @return An {@link Optional} containing the nearest matching ancestor, or {@link Optional#empty()} if none found.
      */
-    public static @NonNull Optional<Resource> findClosestAncestorOfResourceTypes(@Nullable final Resource currentResource, @Nullable final String... resourceTypes) {
-        if (ArrayUtils.isEmpty(resourceTypes)) {
+    public static @NonNull Optional<Resource> findClosestAncestorByTypes(@Nullable final Resource currentResource, @Nullable final String... resourceTypes) {
+        if (currentResource == null || ArrayUtils.isEmpty(resourceTypes)) {
             return Optional.empty();
         }
 
-        final List<String> resourceTypeList = Stream.of(resourceTypes).toList();
-        return java.util.Optional.ofNullable(currentResource)
-                .map(Resource::getParent)
-                .flatMap(parent -> resourceTypeList.contains(parent.getResourceType()) ?
-                        Optional.of(parent) :
-                        findClosestAncestorOfResourceTypes(parent, resourceTypes)
-                );
+        final Set<String> typeSet = Set.of(resourceTypes);
+
+        return FunctionalUtil.findClosestAncestorByPredicate(currentResource.getParent(), Resource::getParent, resource -> typeSet.contains(resource.getResourceType()));
     }
 
 }

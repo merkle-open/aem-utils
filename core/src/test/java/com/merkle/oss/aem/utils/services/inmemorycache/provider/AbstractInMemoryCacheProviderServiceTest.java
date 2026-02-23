@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
  * Unit tests for the {@link AbstractInMemoryCacheProviderService} class.
  */
 @ExtendWith(MockitoExtension.class)
-class AbstractCacheProviderServiceTest {
+class AbstractInMemoryCacheProviderServiceTest {
 
     @Mock
     private InMemoryCacheService inMemoryCacheService;
