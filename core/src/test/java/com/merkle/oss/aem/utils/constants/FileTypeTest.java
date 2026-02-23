@@ -12,9 +12,9 @@ class FileTypeTest {
     /**
      * Methods under test:
      * <ul>
-     *   <li>{@link FileType#getMimeType()}
-     *   <li>{@link FileType#getExtension()}
-     *   <li>{@link FileType#toString()}
+     *   <li>{@link FileType#getMimeType()}</li>
+     *   <li>{@link FileType#getExtension()}</li>
+     *   <li>{@link FileType#toString()}</li>
      * </ul>
      */
     @Test

@@ -5,10 +5,8 @@
 * [PageUtil](#pageutil)
     * [Fetch properties](#fetch-properties)
     * [equals() & isValid()](#equals--isvalid)
-    * [findClosestAncestorByTemplate()](#findclosestancestorbytemplate)
-    * [childrenByTemplate()](#childrenbytemplate)
-    * [streamDescendants()](#streamdescendants)
-    * [streamTree()](#streamtree)
+    * [streamDescendantsByTemplates()](#streamdescendantsbytemplates)
+    * [findClosestAncestorByTemplates()](#findclosestancestorbytemplates)
 
 ### PageManagerUtil
 
@@ -152,68 +150,7 @@ protected void doGet(@NonNull final SlingHttpServletRequest request,
 
 ```
 
-#### findClosestAncestorByTemplate()
-
-```java
-
-import com.day.cq.wcm.api.Page;
-import com.merkle.oss.aem.utils.wcm.PageManagerUtil;
-import org.apache.sling.api.resource.Resource;
-//other imports...
-
-@Model(adaptables = Resource.class, defaultInjectionStrategy = DefaultInjectionStrategy.OPTIONAL)
-public class ExampleComponent {
-
-    @Self
-    private Resource resource;
-
-    @PostConstruct
-    void init() {
-        final Page currentPage = PageManagerUtil.containingPage(resource);
-        /* <--- EXAMPLE ---> */
-        final Page targetParentPage = PageUtil.findClosestAncestorByTemplate(currentPage, "/apps/mySite/templates/home")
-                .orElse(null);
-        //do init logic...
-    }
-
-}
-
-
-```
-
-#### childrenByTemplate()
-
-```java
-
-import com.day.cq.wcm.api.Page;
-import com.merkle.oss.aem.utils.wcm.PageManagerUtil;
-import com.merkle.oss.aem.utils.wcm.PageUtil;
-import org.apache.sling.api.resource.Resource;
-
-import static com.merkle.oss.aem.utils.sling.SlingUtil.to;
-//other imports...
-
-@Model(adaptables = Resource.class, defaultInjectionStrategy = DefaultInjectionStrategy.OPTIONAL)
-public class ExampleComponent {
-
-    @Self
-    private Resource resource;
-
-    public List<TeaserItem> getTeasers() {
-        final Page currentPage = PageManagerUtil.containingPage(resource);
-        /* <--- EXAMPLE ---> */
-        return PageUtil.childrenByTemplate(currentPage, "/apps/mySite/templates/article").stream()
-                .map(to(TeaserItem.class))
-                .filter(Objects::nonNull)
-                .toList();
-    }
-
-}
-
-
-```
-
-#### streamDescendants()
+####  streamDescendantsByTemplates()
 
 ```java
 
@@ -237,7 +174,7 @@ public class ExampleComponent {
     public List<TeaserItem> getTeasers() {
         final Page currentPage = PageManagerUtil.containingPage(resource);
         /* <--- EXAMPLE ---> */
-        return PageUtil.streamDescendants(currentPage, maxTeaserDepth)
+        return PageUtil.streamDescendantsByTemplates(currentPage, maxTeaserDepth, "/apps/mySite/templates/standard", "/apps/mySite/templates/campaign")
                 .map(to(TeaserItem.class))
                 .filter(Objects::nonNull)
                 .toList();
@@ -248,16 +185,13 @@ public class ExampleComponent {
 
 ```
 
-#### streamTree()
+#### findClosestAncestorByTemplates()
 
 ```java
 
 import com.day.cq.wcm.api.Page;
 import com.merkle.oss.aem.utils.wcm.PageManagerUtil;
-import com.merkle.oss.aem.utils.wcm.PageUtil;
 import org.apache.sling.api.resource.Resource;
-
-import static com.merkle.oss.aem.utils.sling.SlingUtil.to;
 //other imports...
 
 @Model(adaptables = Resource.class, defaultInjectionStrategy = DefaultInjectionStrategy.OPTIONAL)
@@ -266,19 +200,15 @@ public class ExampleComponent {
     @Self
     private Resource resource;
 
-    @ValueMapValue
-    private int maxNavigationLevel;
-
-    public List<NavigationItem> getNavigationItems() {
+    @PostConstruct
+    void init() {
         final Page currentPage = PageManagerUtil.containingPage(resource);
         /* <--- EXAMPLE ---> */
-        return PageUtil.streamTree(currentPage, maxNavigationLevel)
-                .map(to(NavigationItem.class))
-                .filter(Objects::nonNull)
-                .toList();
+        final Page targetParentPage = PageUtil.findClosestAncestorByTemplates(currentPage, "/apps/mySite/templates/home")
+                .orElse(null);
+        //do init logic...
     }
 
 }
-
 
 ```

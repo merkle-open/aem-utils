@@ -16,6 +16,19 @@ import org.jspecify.annotations.Nullable;
 public interface InMemoryCacheServiceProvider<K, V> {
 
     /**
+     * Initializes and registers a new cache instance.
+     *
+     * @param timeToLiveInSeconds Duration after which an entry should be automatically removed after the last write.
+     * @param cacheSize           The maximum number of entries the cache can hold before eviction occurs.
+     */
+    void buildCache(int timeToLiveInSeconds, int cacheSize);
+
+    /**
+     * Invalidates all entries and removes the named cache instance from the service.
+     */
+    void cleanUpCache();
+
+    /**
      * Associates the specified value with the specified key in the provider's cache.
      *
      * @param key   The key with which the specified value is to be associated.

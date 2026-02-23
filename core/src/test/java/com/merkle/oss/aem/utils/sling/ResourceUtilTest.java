@@ -8,11 +8,15 @@ import org.apache.sling.spi.resource.provider.ResourceProvider;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
+import org.mockito.MockedStatic;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.*;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.Mockito.mockStatic;
 import static org.mockito.Mockito.when;
 
 /**
@@ -69,186 +73,64 @@ class ResourceUtilTest {
     }
 
     /**
-     * Method under test: {@link ResourceUtil#childrenOfTypes(Resource, String...)}
+     * Method under test: {@link ResourceUtil#streamDescendantsByTypes(Resource, int, String...)}
      */
     @Test
-    void childrenOfTypes() {
-        assertEquals(0, ResourceUtil.childrenAsStream(null).toList().size());
+    void streamDescendantsByTypes() {
+        assertEquals(0, ResourceUtil.streamDescendantsByTypes(null, 0, RESOURCE_TYPE_1).count());
+        assertEquals(0, ResourceUtil.streamDescendantsByTypes(null, 0, (String[]) null).count());
+        assertEquals(0, ResourceUtil.streamDescendantsByTypes(resource, 0, (String[]) null).count());
 
-        final Iterator<Resource> iterator1 = Arrays.asList(childResource1, childResource2).iterator();
-        final Iterator<Resource> iterator2 = Arrays.asList(childResource1, childResource2).iterator();
-        when(resource.listChildren()).thenReturn(iterator1);
-        final List<Resource> resourceList = ResourceUtil.childrenAsStream(resource).toList();
-        assertEquals(FunctionalUtil.asStream(iterator2).toList(), resourceList);
-    }
-
-    /**
-     * Method under test: {@link ResourceUtil#childrenOfTypes(Resource, String...)}
-     */
-    @Test
-    void childrenOfTypes_none() {
-        assertEquals(Collections.emptyList(), ResourceUtil.childrenOfTypes(resource));
-        assertEquals(Collections.emptyList(), ResourceUtil.childrenOfTypes(null));
-
-        final Iterator<Resource> iterator = Arrays.asList(childResource1, childResource2).iterator();
-        when(resource.listChildren()).thenReturn(iterator);
         when(childResource1.getResourceType()).thenReturn(RESOURCE_TYPE_1);
         when(childResource2.getResourceType()).thenReturn(RESOURCE_TYPE_2);
-        assertEquals(0, ResourceUtil.childrenOfTypes(resource, RESOURCE_TYPE_3).size());
+        when(childResource1Sub1.getResourceType()).thenReturn(RESOURCE_TYPE_3);
+        when(childResource1Sub2.getResourceType()).thenReturn(RESOURCE_TYPE_1);
+        when(childResource2Sub1.getResourceType()).thenReturn(RESOURCE_TYPE_2);
+
+        final Stream<Resource> resourceStream1 = Stream.of(childResource1, childResource2, childResource1Sub1, childResource1Sub2, childResource2Sub1);
+        final Stream<Resource> resourceStream2 = Stream.of(childResource1, childResource2, childResource1Sub1, childResource1Sub2, childResource2Sub1);
+        final Stream<Resource> resourceStream3 = Stream.of(childResource1, childResource2, childResource1Sub1, childResource1Sub2, childResource2Sub1);
+        final Stream<Resource> resourceStream4 = Stream.of(childResource1, childResource2, childResource1Sub1, childResource1Sub2, childResource2Sub1);
+        final Stream<Resource> resourceStream5 = Stream.of(childResource1, childResource2);
+        final Stream<Resource> resourceStream6 = Stream.of(childResource1, childResource2, childResource1Sub1, childResource1Sub2, childResource2Sub1);
+        final Stream<Resource> resourceStream7 = Stream.of(childResource1, childResource2, childResource1Sub1, childResource1Sub2, childResource2Sub1);
+
+        try (MockedStatic<FunctionalUtil> functionalUtilMockedStatic = mockStatic(FunctionalUtil.class)) {
+            functionalUtilMockedStatic.when(() -> FunctionalUtil.streamDescendants(any(Resource.class), any(), anyInt())).thenReturn(resourceStream1);
+            assertEquals(2, ResourceUtil.streamDescendantsByTypes(resource, RESOURCE_TYPE_1).count());
+            functionalUtilMockedStatic.when(() -> FunctionalUtil.streamDescendants(any(Resource.class), any(), anyInt())).thenReturn(resourceStream2);
+            assertEquals(2, ResourceUtil.streamDescendantsByTypes(resource, 0, RESOURCE_TYPE_2).count());
+            functionalUtilMockedStatic.when(() -> FunctionalUtil.streamDescendants(any(Resource.class), any(), anyInt())).thenReturn(resourceStream3);
+            assertEquals(1, ResourceUtil.streamDescendantsByTypes(resource, 0, RESOURCE_TYPE_3).count());
+            functionalUtilMockedStatic.when(() -> FunctionalUtil.streamDescendants(any(Resource.class), any(), anyInt())).thenReturn(resourceStream4);
+            assertEquals(5, ResourceUtil.streamDescendantsByTypes(resource, 0, RESOURCE_TYPE_1, RESOURCE_TYPE_2, RESOURCE_TYPE_3).count());
+            functionalUtilMockedStatic.when(() -> FunctionalUtil.streamDescendants(any(Resource.class), any(), anyInt())).thenReturn(resourceStream5);
+            assertEquals(2, ResourceUtil.streamDescendantsByTypes(resource, 1, RESOURCE_TYPE_1, RESOURCE_TYPE_2).count());
+            functionalUtilMockedStatic.when(() -> FunctionalUtil.streamDescendants(any(Resource.class), any(), anyInt())).thenReturn(resourceStream6);
+            assertEquals(3, ResourceUtil.streamDescendantsByTypes(resource, 0, RESOURCE_TYPE_1, RESOURCE_TYPE_3).count());
+            functionalUtilMockedStatic.when(() -> FunctionalUtil.streamDescendants(any(Resource.class), any(), anyInt())).thenReturn(resourceStream7);
+            assertEquals(3, ResourceUtil.streamDescendantsByTypes(resource, 0, RESOURCE_TYPE_2, RESOURCE_TYPE_3).count());
+        }
     }
 
     /**
-     * Method under test: {@link ResourceUtil#childrenOfTypes(Resource, String...)}
+     * Method under test: {@link ResourceUtil#findClosestAncestorByTypes(Resource, String...)}
      */
     @Test
-    void childrenOfTypes_one() {
-        assertEquals(Collections.emptyList(), ResourceUtil.childrenOfTypes(resource));
-
-        final Iterator<Resource> iterator = Arrays.asList(childResource1, childResource2).iterator();
-        when(resource.listChildren()).thenReturn(iterator);
-        when(childResource1.getResourceType()).thenReturn(RESOURCE_TYPE_1);
-        when(childResource2.getResourceType()).thenReturn(RESOURCE_TYPE_2);
-        assertEquals(1, ResourceUtil.childrenOfTypes(resource, RESOURCE_TYPE_1).size());
-    }
-
-    /**
-     * Method under test: {@link ResourceUtil#childrenOfTypes(Resource, String...)}
-     */
-    @Test
-    void childrenOfTypes_two() {
-        assertEquals(Collections.emptyList(), ResourceUtil.childrenOfTypes(resource));
-
-        final Iterator<Resource> iterator1 = Arrays.asList(childResource1, childResource2).iterator();
-        when(resource.listChildren()).thenReturn(iterator1);
-        when(childResource1.getResourceType()).thenReturn(RESOURCE_TYPE_1);
-        when(childResource2.getResourceType()).thenReturn(RESOURCE_TYPE_2);
-        assertEquals(2, ResourceUtil.childrenOfTypes(resource, RESOURCE_TYPE_1, RESOURCE_TYPE_2).size());
-    }
-
-    /**
-     * Method under test: {@link ResourceUtil#descendantsOfTypes(Resource, String...)}
-     */
-    @Test
-    void descendantsOfTypes_none() {
-        assertEquals(Collections.emptyList(), ResourceUtil.descendantsOfTypes(resource));
-        assertEquals(Collections.emptyList(), ResourceUtil.descendantsOfTypes(null));
-
-        final Iterator<Resource> iterator1 = Arrays.asList(childResource1, childResource2).iterator();
-        final Iterator<Resource> iterator1Sub1 = Arrays.asList(childResource1Sub1, childResource1Sub2).iterator();
-        final Iterator<Resource> iterator2Sub1 = List.of(childResource2Sub1).iterator();
-        final List<Resource> emptyList = new ArrayList<>();
-        final Iterator<Resource> empty1Sub1 = emptyList.iterator();
-        final Iterator<Resource> empty1Sub2 = emptyList.iterator();
-        final Iterator<Resource> empty2Sub1 = emptyList.iterator();
-        when(resource.listChildren()).thenReturn(iterator1);
-        when(childResource1.listChildren()).thenReturn(iterator1Sub1);
-        when(childResource2.listChildren()).thenReturn(iterator2Sub1);
-        when(childResource1Sub1.listChildren()).thenReturn(empty1Sub1);
-        when(childResource1Sub2.listChildren()).thenReturn(empty1Sub2);
-        when(childResource2Sub1.listChildren()).thenReturn(empty2Sub1);
-        when(childResource1.getResourceType()).thenReturn(RESOURCE_TYPE_1);
-        when(childResource2.getResourceType()).thenReturn(RESOURCE_TYPE_2);
-        when(childResource1Sub1.getResourceType()).thenReturn(RESOURCE_TYPE_1);
-        when(childResource1Sub2.getResourceType()).thenReturn(RESOURCE_TYPE_2);
-        when(childResource2Sub1.getResourceType()).thenReturn(RESOURCE_TYPE_3);
-        assertEquals(0, ResourceUtil.descendantsOfTypes(resource, "resourceType4").size());
-    }
-
-    /**
-     * Method under test: {@link ResourceUtil#descendantsOfTypes(Resource, String...)}
-     */
-    @Test
-    void descendantsOfTypes_one() {
-        final Iterator<Resource> iterator1 = Arrays.asList(childResource1, childResource2).iterator();
-        final Iterator<Resource> iterator1Sub1 = Arrays.asList(childResource1Sub1, childResource1Sub2).iterator();
-        final Iterator<Resource> iterator2Sub1 = List.of(childResource2Sub1).iterator();
-        final List<Resource> emptyList = new ArrayList<>();
-        final Iterator<Resource> empty1Sub1 = emptyList.iterator();
-        final Iterator<Resource> empty1Sub2 = emptyList.iterator();
-        final Iterator<Resource> empty2Sub1 = emptyList.iterator();
-        when(resource.listChildren()).thenReturn(iterator1);
-        when(childResource1.listChildren()).thenReturn(iterator1Sub1);
-        when(childResource2.listChildren()).thenReturn(iterator2Sub1);
-        when(childResource1Sub1.listChildren()).thenReturn(empty1Sub1);
-        when(childResource1Sub2.listChildren()).thenReturn(empty1Sub2);
-        when(childResource2Sub1.listChildren()).thenReturn(empty2Sub1);
-        when(childResource1.getResourceType()).thenReturn(RESOURCE_TYPE_1);
-        when(childResource2.getResourceType()).thenReturn(RESOURCE_TYPE_2);
-        when(childResource1Sub1.getResourceType()).thenReturn(RESOURCE_TYPE_1);
-        when(childResource1Sub2.getResourceType()).thenReturn(RESOURCE_TYPE_2);
-        when(childResource2Sub1.getResourceType()).thenReturn(RESOURCE_TYPE_3);
-        assertEquals(1, ResourceUtil.descendantsOfTypes(resource, RESOURCE_TYPE_3).size());
-    }
-
-    /**
-     * Method under test: {@link ResourceUtil#descendantsOfTypes(Resource, String...)}
-     */
-    @Test
-    void descendantsOfTypes_two() {
-        final Iterator<Resource> iterator1 = Arrays.asList(childResource1, childResource2).iterator();
-        final Iterator<Resource> iterator1Sub1 = Arrays.asList(childResource1Sub1, childResource1Sub2).iterator();
-        final Iterator<Resource> iterator2Sub1 = List.of(childResource2Sub1).iterator();
-        final List<Resource> emptyList = new ArrayList<>();
-        final Iterator<Resource> empty1Sub1 = emptyList.iterator();
-        final Iterator<Resource> empty1Sub2 = emptyList.iterator();
-        final Iterator<Resource> empty2Sub1 = emptyList.iterator();
-        when(resource.listChildren()).thenReturn(iterator1);
-        when(childResource1.listChildren()).thenReturn(iterator1Sub1);
-        when(childResource2.listChildren()).thenReturn(iterator2Sub1);
-        when(childResource1Sub1.listChildren()).thenReturn(empty1Sub1);
-        when(childResource1Sub2.listChildren()).thenReturn(empty1Sub2);
-        when(childResource2Sub1.listChildren()).thenReturn(empty2Sub1);
-        when(childResource1.getResourceType()).thenReturn(RESOURCE_TYPE_1);
-        when(childResource2.getResourceType()).thenReturn(RESOURCE_TYPE_2);
-        when(childResource1Sub1.getResourceType()).thenReturn(RESOURCE_TYPE_1);
-        when(childResource1Sub2.getResourceType()).thenReturn(RESOURCE_TYPE_2);
-        when(childResource2Sub1.getResourceType()).thenReturn(RESOURCE_TYPE_3);
-        assertEquals(2, ResourceUtil.descendantsOfTypes(resource, RESOURCE_TYPE_1).size());
-    }
-
-    /**
-     * Method under test: {@link ResourceUtil#descendantsOfTypes(Resource, String...)}
-     */
-    @Test
-    void descendantsOfTypes_three() {
-        final Iterator<Resource> iterator1 = Arrays.asList(childResource1, childResource2).iterator();
-        final Iterator<Resource> iterator1Sub1 = Arrays.asList(childResource1Sub1, childResource1Sub2).iterator();
-        final Iterator<Resource> iterator2Sub1 = List.of(childResource2Sub1).iterator();
-        final List<Resource> emptyList = new ArrayList<>();
-        final Iterator<Resource> empty1Sub1 = emptyList.iterator();
-        final Iterator<Resource> empty1Sub2 = emptyList.iterator();
-        final Iterator<Resource> empty2Sub1 = emptyList.iterator();
-        when(resource.listChildren()).thenReturn(iterator1);
-        when(childResource1.listChildren()).thenReturn(iterator1Sub1);
-        when(childResource2.listChildren()).thenReturn(iterator2Sub1);
-        when(childResource1Sub1.listChildren()).thenReturn(empty1Sub1);
-        when(childResource1Sub2.listChildren()).thenReturn(empty1Sub2);
-        when(childResource2Sub1.listChildren()).thenReturn(empty2Sub1);
-        when(childResource1.getResourceType()).thenReturn(RESOURCE_TYPE_1);
-        when(childResource2.getResourceType()).thenReturn(RESOURCE_TYPE_2);
-        when(childResource1Sub1.getResourceType()).thenReturn(RESOURCE_TYPE_1);
-        when(childResource1Sub2.getResourceType()).thenReturn(RESOURCE_TYPE_2);
-        when(childResource2Sub1.getResourceType()).thenReturn(RESOURCE_TYPE_3);
-        assertEquals(4, ResourceUtil.descendantsOfTypes(resource, RESOURCE_TYPE_1, RESOURCE_TYPE_2).size());
-    }
-
-    /**
-     * Method under test: {@link ResourceUtil#findClosestAncestorOfResourceTypes(Resource, String...)}
-     */
-    @Test
-    void findClosestAncestorOfResourceTypes() {
-        assertNull(ResourceUtil.findClosestAncestorOfResourceTypes(null, "").orElse(null));
-        assertNull(ResourceUtil.findClosestAncestorOfResourceTypes(null).orElse(null));
+    void findClosestAncestorByTypes() {
+        assertNull(ResourceUtil.findClosestAncestorByTypes(null, "").orElse(null));
+        assertNull(ResourceUtil.findClosestAncestorByTypes(null).orElse(null));
+        assertNull(ResourceUtil.findClosestAncestorByTypes(childResource1, (String[]) null).orElse(null));
 
         when(childResource1Sub1.getParent()).thenReturn(childResource1);
         when(childResource1.getParent()).thenReturn(resource);
         when(childResource1.getResourceType()).thenReturn(RESOURCE_TYPE_3);
         when(resource.getResourceType()).thenReturn(RESOURCE_TYPE_2);
-        assertEquals(childResource1, ResourceUtil.findClosestAncestorOfResourceTypes(childResource1Sub1, RESOURCE_TYPE_3).orElse(null));
-        assertEquals(resource, ResourceUtil.findClosestAncestorOfResourceTypes(childResource1Sub1, RESOURCE_TYPE_2).orElse(null));
-        assertNull(ResourceUtil.findClosestAncestorOfResourceTypes(childResource1Sub1, RESOURCE_TYPE_1).orElse(null));
-        assertEquals(resource, ResourceUtil.findClosestAncestorOfResourceTypes(childResource1, RESOURCE_TYPE_2).orElse(null));
-        assertNull(ResourceUtil.findClosestAncestorOfResourceTypes(childResource1, RESOURCE_TYPE_3).orElse(null));
+        assertEquals(childResource1, ResourceUtil.findClosestAncestorByTypes(childResource1Sub1, RESOURCE_TYPE_3).orElse(null));
+        assertEquals(resource, ResourceUtil.findClosestAncestorByTypes(childResource1Sub1, RESOURCE_TYPE_2).orElse(null));
+        assertNull(ResourceUtil.findClosestAncestorByTypes(childResource1Sub1, RESOURCE_TYPE_1).orElse(null));
+        assertEquals(resource, ResourceUtil.findClosestAncestorByTypes(childResource1, RESOURCE_TYPE_2).orElse(null));
+        assertNull(ResourceUtil.findClosestAncestorByTypes(childResource1, RESOURCE_TYPE_3).orElse(null));
     }
 
 }

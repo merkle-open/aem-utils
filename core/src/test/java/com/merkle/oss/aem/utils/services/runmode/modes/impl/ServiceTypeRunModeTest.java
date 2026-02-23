@@ -13,9 +13,9 @@ class ServiceTypeRunModeTest {
      * Methods under test:
      *
      * <ul>
-     *   <li>{@link ServiceTypeRunMode.Type#getMode()}
-     *   <li>{@link ServiceTypeRunMode.Type#is(String)}
-     *   <li>{@link ServiceTypeRunMode.Type#toString()}
+     *   <li>{@link ServiceTypeRunMode.Type#getMode()}</li>
+     *   <li>{@link ServiceTypeRunMode.Type#is(String)}</li>
+     *   <li>{@link ServiceTypeRunMode.Type#toString()}</li>
      * </ul>
      */
     @Test

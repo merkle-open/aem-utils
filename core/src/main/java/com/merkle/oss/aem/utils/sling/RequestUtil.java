@@ -58,7 +58,7 @@ public final class RequestUtil {
     }
 
     /**
-     * Gets the selector at the specified index. Returns an empty string if the index is out of bounds.
+     * Gets the selector at the specified index. Returns an empty string {@code ""} if the index is out of bounds.
      *
      * @param request the current Sling request
      * @param index   the zero-based index of the selector
@@ -90,7 +90,7 @@ public final class RequestUtil {
     }
 
     /**
-     * Gets the first selector of the request.
+     * Gets the first selector of the request. Defaults to empty string {@code ""} if missing or invalid.
      *
      * @param request the current Sling request
      * @return the first selector or an empty string
@@ -123,17 +123,28 @@ public final class RequestUtil {
     }
 
     /**
-     * Gets the suffix of the request.
+     * Gets the suffix of the request. Defaults to empty string {@code ""} if missing or invalid.
      *
      * @param request the current Sling request
      * @return the suffix or an empty string if no suffix exists
      */
     public static @NonNull String getSuffix(@NonNull final SlingHttpServletRequest request) {
+        return getSuffix(request, StringUtils.EMPTY);
+    }
+
+    /**
+     * Gets the suffix of the request.
+     *
+     * @param request      the current Sling request
+     * @param defaultValue the value to return if no suffix is available
+     * @return the suffix or a default value if no suffix exists
+     */
+    public static @NonNull String getSuffix(@NonNull final SlingHttpServletRequest request, @NonNull final String defaultValue) {
         if (hasSuffix(request)) {
             return Objects.requireNonNull(request.getRequestPathInfo().getSuffix());
         }
 
-        return StringUtils.EMPTY;
+        return defaultValue;
     }
 
     /**
@@ -152,7 +163,7 @@ public final class RequestUtil {
     }
 
     /**
-     * Gets a specific segment of the suffix by index.
+     * Gets a specific segment of the suffix by index. Defaults to empty string {@code ""} if missing or invalid.
      *
      * @param request the current Sling request
      * @param index   the zero-based index of the segment
@@ -182,7 +193,7 @@ public final class RequestUtil {
     }
 
     /**
-     * Gets the first segment of the suffix.
+     * Gets the first segment of the suffix. Defaults to empty string {@code ""} if missing or invalid.
      *
      * @param request the current Sling request
      * @return the first segment or an empty string
@@ -265,7 +276,7 @@ public final class RequestUtil {
     }
 
     /**
-     * Gets a request parameter as an integer. Defaults to 0 if missing or invalid.
+     * Gets a request parameter as an integer. Defaults to {@code 0} if missing or invalid.
      *
      * @param request the current Sling request
      * @param name    the parameter name
@@ -296,7 +307,7 @@ public final class RequestUtil {
     }
 
     /**
-     * Gets a request parameter as a long. Defaults to 0L if missing or invalid.
+     * Gets a request parameter as a long. Defaults to {@code 0L} if missing or invalid.
      *
      * @param request the current Sling request
      * @param name    the parameter name
@@ -327,7 +338,7 @@ public final class RequestUtil {
     }
 
     /**
-     * Gets a request parameter as a float. Defaults to 0.0f if missing or invalid.
+     * Gets a request parameter as a float. Defaults to {@code 0.0f} if missing or invalid.
      *
      * @param request the current Sling request
      * @param name    the parameter name

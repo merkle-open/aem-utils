@@ -18,7 +18,8 @@ import java.util.List;
 import java.util.Map;
 
 import static com.day.cq.commons.jcr.JcrConstants.NT_UNSTRUCTURED;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -91,7 +92,7 @@ class QuerySearchTest {
     void testSetPaths() {
         final QuerySearch querySearch = new QuerySearch("Primary Type");
         querySearch.setPaths(new ArrayList<>());
-        final PredicateGroup createPropertyExistsPredicateResult = querySearch.createPropertyExistsPredicate("Property Name");
+        final PredicateGroup createPropertyExistsPredicateResult = QuerySearchUtil.createPropertyExistsPredicate("Property Name");
 
         assertEquals(1, createPropertyExistsPredicateResult.size());
 
@@ -101,7 +102,7 @@ class QuerySearchTest {
         assertEquals(2, parameters.size());
         assertEquals("Property Name", parameters.get("property"));
 
-        final PredicateGroup createPropertyNotExistsPredicateResult = querySearch
+        final PredicateGroup createPropertyNotExistsPredicateResult = QuerySearchUtil
                 .createPropertyNotExistsPredicate("Property Name");
 
         assertEquals(1, createPropertyNotExistsPredicateResult.size());
@@ -130,7 +131,7 @@ class QuerySearchTest {
         final ArrayList<String> paths = new ArrayList<>();
         paths.add("foo");
         querySearch.setPaths(paths);
-        final PredicateGroup createPropertyExistsPredicateResult = querySearch.createPropertyExistsPredicate("Property Name");
+        final PredicateGroup createPropertyExistsPredicateResult = QuerySearchUtil.createPropertyExistsPredicate("Property Name");
 
         assertEquals(1, createPropertyExistsPredicateResult.size());
 
@@ -140,7 +141,7 @@ class QuerySearchTest {
         assertEquals(2, parameters.size());
         assertEquals("Property Name", parameters.get("property"));
 
-        final PredicateGroup createPropertyNotExistsPredicateResult = querySearch
+        final PredicateGroup createPropertyNotExistsPredicateResult = QuerySearchUtil
                 .createPropertyNotExistsPredicate("Property Name");
 
         assertEquals(1, createPropertyNotExistsPredicateResult.size());
@@ -170,7 +171,7 @@ class QuerySearchTest {
         paths.add("42");
         paths.add("foo");
         querySearch.setPaths(paths);
-        final PredicateGroup createPropertyExistsPredicateResult = querySearch.createPropertyExistsPredicate("Property Name");
+        final PredicateGroup createPropertyExistsPredicateResult = QuerySearchUtil.createPropertyExistsPredicate("Property Name");
 
         assertEquals(1, createPropertyExistsPredicateResult.size());
 
@@ -180,7 +181,7 @@ class QuerySearchTest {
         assertEquals(2, parameters.size());
         assertEquals("Property Name", parameters.get("property"));
 
-        final PredicateGroup createPropertyNotExistsPredicateResult = querySearch
+        final PredicateGroup createPropertyNotExistsPredicateResult = QuerySearchUtil
                 .createPropertyNotExistsPredicate("Property Name");
 
         assertEquals(1, createPropertyNotExistsPredicateResult.size());
@@ -207,7 +208,7 @@ class QuerySearchTest {
     void testAddPath() {
         final QuerySearch querySearch = new QuerySearch("Primary Type");
         querySearch.addPath("Path");
-        final PredicateGroup createPropertyExistsPredicateResult = querySearch.createPropertyExistsPredicate("Property Name");
+        final PredicateGroup createPropertyExistsPredicateResult = QuerySearchUtil.createPropertyExistsPredicate("Property Name");
 
         assertEquals(1, createPropertyExistsPredicateResult.size());
 
@@ -217,7 +218,7 @@ class QuerySearchTest {
         assertEquals(2, parameters.size());
         assertEquals("Property Name", parameters.get("property"));
 
-        final PredicateGroup createPropertyNotExistsPredicateResult = querySearch
+        final PredicateGroup createPropertyNotExistsPredicateResult = QuerySearchUtil
                 .createPropertyNotExistsPredicate("Property Name");
 
         assertEquals(1, createPropertyNotExistsPredicateResult.size());
@@ -244,7 +245,7 @@ class QuerySearchTest {
     void testAddPath2() {
         final QuerySearch querySearch = new QuerySearch("Primary Type");
         querySearch.addPath(null);
-        final PredicateGroup createPropertyExistsPredicateResult = querySearch.createPropertyExistsPredicate("Property Name");
+        final PredicateGroup createPropertyExistsPredicateResult = QuerySearchUtil.createPropertyExistsPredicate("Property Name");
 
         assertEquals(1, createPropertyExistsPredicateResult.size());
 
@@ -254,7 +255,7 @@ class QuerySearchTest {
         assertEquals(2, parameters.size());
         assertEquals("Property Name", parameters.get("property"));
 
-        final PredicateGroup createPropertyNotExistsPredicateResult = querySearch
+        final PredicateGroup createPropertyNotExistsPredicateResult = QuerySearchUtil
                 .createPropertyNotExistsPredicate("Property Name");
 
         assertEquals(1, createPropertyNotExistsPredicateResult.size());
@@ -281,7 +282,7 @@ class QuerySearchTest {
     void testSetAllRequiredTags() {
         final QuerySearch querySearch = new QuerySearch("Primary Type");
         querySearch.setAllRequiredTags(new ArrayList<>());
-        final PredicateGroup createPropertyExistsPredicateResult = querySearch.createPropertyExistsPredicate("Property Name");
+        final PredicateGroup createPropertyExistsPredicateResult = QuerySearchUtil.createPropertyExistsPredicate("Property Name");
 
         assertEquals(1, createPropertyExistsPredicateResult.size());
 
@@ -291,7 +292,7 @@ class QuerySearchTest {
         assertEquals(2, parameters.size());
         assertEquals("Property Name", parameters.get("property"));
 
-        final PredicateGroup createPropertyNotExistsPredicateResult = querySearch
+        final PredicateGroup createPropertyNotExistsPredicateResult = QuerySearchUtil
                 .createPropertyNotExistsPredicate("Property Name");
 
         assertEquals(1, createPropertyNotExistsPredicateResult.size());
@@ -318,7 +319,7 @@ class QuerySearchTest {
     void testSetOneRequiredTags() {
         final QuerySearch querySearch = new QuerySearch("Primary Type");
         querySearch.setOneRequiredTags(new ArrayList<>());
-        final PredicateGroup createPropertyExistsPredicateResult = querySearch.createPropertyExistsPredicate("Property Name");
+        final PredicateGroup createPropertyExistsPredicateResult = QuerySearchUtil.createPropertyExistsPredicate("Property Name");
 
         assertEquals(1, createPropertyExistsPredicateResult.size());
 
@@ -328,7 +329,7 @@ class QuerySearchTest {
         assertEquals(2, parameters.size());
         assertEquals("Property Name", parameters.get("property"));
 
-        final PredicateGroup createPropertyNotExistsPredicateResult = querySearch
+        final PredicateGroup createPropertyNotExistsPredicateResult = QuerySearchUtil
                 .createPropertyNotExistsPredicate("Property Name");
 
         assertEquals(1, createPropertyNotExistsPredicateResult.size());
@@ -356,7 +357,7 @@ class QuerySearchTest {
     void testAddAdditionalPredicates() {
         final QuerySearch querySearch = new QuerySearch("Primary Type");
         querySearch.addAdditionalPredicates(new PredicateGroup());
-        final PredicateGroup createPropertyExistsPredicateResult = querySearch.createPropertyExistsPredicate("Property Name");
+        final PredicateGroup createPropertyExistsPredicateResult = QuerySearchUtil.createPropertyExistsPredicate("Property Name");
 
         assertEquals(1, createPropertyExistsPredicateResult.size());
 
@@ -366,7 +367,7 @@ class QuerySearchTest {
         assertEquals(2, parameters.size());
         assertEquals("Property Name", parameters.get("property"));
 
-        final PredicateGroup createPropertyNotExistsPredicateResult = querySearch
+        final PredicateGroup createPropertyNotExistsPredicateResult = QuerySearchUtil
                 .createPropertyNotExistsPredicate("Property Name");
 
         assertEquals(1, createPropertyNotExistsPredicateResult.size());
@@ -394,7 +395,7 @@ class QuerySearchTest {
     void testAddAdditionalPredicates2() {
         final QuerySearch querySearch = new QuerySearch("Primary Type");
         querySearch.addAdditionalPredicates(null);
-        final PredicateGroup createPropertyExistsPredicateResult = querySearch.createPropertyExistsPredicate("Property Name");
+        final PredicateGroup createPropertyExistsPredicateResult = QuerySearchUtil.createPropertyExistsPredicate("Property Name");
 
         assertEquals(1, createPropertyExistsPredicateResult.size());
 
@@ -404,7 +405,7 @@ class QuerySearchTest {
         assertEquals(2, parameters.size());
         assertEquals("Property Name", parameters.get("property"));
 
-        final PredicateGroup createPropertyNotExistsPredicateResult = querySearch
+        final PredicateGroup createPropertyNotExistsPredicateResult = QuerySearchUtil
                 .createPropertyNotExistsPredicate("Property Name");
 
         assertEquals(1, createPropertyNotExistsPredicateResult.size());
@@ -436,7 +437,7 @@ class QuerySearchTest {
         final PredicateGroup predicates = new PredicateGroup();
         predicates.addAll(c);
         querySearch.addAdditionalPredicates(predicates);
-        final PredicateGroup createPropertyExistsPredicateResult = querySearch.createPropertyExistsPredicate("Property Name");
+        final PredicateGroup createPropertyExistsPredicateResult = QuerySearchUtil.createPropertyExistsPredicate("Property Name");
 
         assertEquals(1, createPropertyExistsPredicateResult.size());
 
@@ -446,7 +447,7 @@ class QuerySearchTest {
         assertEquals(2, parameters.size());
         assertEquals("Property Name", parameters.get("property"));
 
-        final PredicateGroup createPropertyNotExistsPredicateResult = querySearch
+        final PredicateGroup createPropertyNotExistsPredicateResult = QuerySearchUtil
                 .createPropertyNotExistsPredicate("Property Name");
 
         assertEquals(1, createPropertyNotExistsPredicateResult.size());
@@ -479,7 +480,7 @@ class QuerySearchTest {
         final PredicateGroup predicates = new PredicateGroup();
         predicates.addAll(c);
         querySearch.addAdditionalPredicates(predicates);
-        final PredicateGroup createPropertyExistsPredicateResult = querySearch.createPropertyExistsPredicate("Property Name");
+        final PredicateGroup createPropertyExistsPredicateResult = QuerySearchUtil.createPropertyExistsPredicate("Property Name");
 
         assertEquals(1, createPropertyExistsPredicateResult.size());
 
@@ -489,7 +490,7 @@ class QuerySearchTest {
         assertEquals(2, parameters.size());
         assertEquals("Property Name", parameters.get("property"));
 
-        final PredicateGroup createPropertyNotExistsPredicateResult = querySearch
+        final PredicateGroup createPropertyNotExistsPredicateResult = QuerySearchUtil
                 .createPropertyNotExistsPredicate("Property Name");
 
         assertEquals(1, createPropertyNotExistsPredicateResult.size());
@@ -510,25 +511,13 @@ class QuerySearchTest {
     }
 
     /**
-     * Method under test: {@link QuerySearch#createTagPredicate(Tag, String)}
-     */
-    @Test
-    void testCreateTagPredicate() {
-        when(tag.getTagID()).thenReturn("tagId");
-        final PredicateGroup predicateGroup = QuerySearch.createTagPredicate(tag, "name");
-
-        assertEquals("tagId", predicateGroup.getFirst().getParameters().get("tagid"));
-        assertEquals("name", predicateGroup.getFirst().getParameters().get("property"));
-    }
-
-    /**
      * Method under test: {@link QuerySearch#addOrderByPredicate(String, boolean)}
      */
     @Test
     void testAddOrderByPredicate() {
         final QuerySearch querySearch = new QuerySearch("Primary Type");
         querySearch.addOrderByPredicate("Order By Property", true);
-        final PredicateGroup createPropertyExistsPredicateResult = querySearch.createPropertyExistsPredicate("Property Name");
+        final PredicateGroup createPropertyExistsPredicateResult = QuerySearchUtil.createPropertyExistsPredicate("Property Name");
 
         assertEquals(1, createPropertyExistsPredicateResult.size());
 
@@ -538,7 +527,7 @@ class QuerySearchTest {
         assertEquals(2, parameters.size());
         assertEquals("Property Name", parameters.get("property"));
 
-        final PredicateGroup createPropertyNotExistsPredicateResult = querySearch
+        final PredicateGroup createPropertyNotExistsPredicateResult = QuerySearchUtil
                 .createPropertyNotExistsPredicate("Property Name");
 
         assertEquals(1, createPropertyNotExistsPredicateResult.size());
@@ -565,7 +554,7 @@ class QuerySearchTest {
     void testAddOrderByPredicate2() {
         final QuerySearch querySearch = new QuerySearch("Primary Type");
         querySearch.addOrderByPredicate("Order By Property", false);
-        final PredicateGroup createPropertyExistsPredicateResult = querySearch.createPropertyExistsPredicate("Property Name");
+        final PredicateGroup createPropertyExistsPredicateResult = QuerySearchUtil.createPropertyExistsPredicate("Property Name");
 
         assertEquals(1, createPropertyExistsPredicateResult.size());
 
@@ -575,7 +564,7 @@ class QuerySearchTest {
         assertEquals(2, parameters.size());
         assertEquals("Property Name", parameters.get("property"));
 
-        final PredicateGroup createPropertyNotExistsPredicateResult = querySearch
+        final PredicateGroup createPropertyNotExistsPredicateResult = QuerySearchUtil
                 .createPropertyNotExistsPredicate("Property Name");
 
         assertEquals(1, createPropertyNotExistsPredicateResult.size());
@@ -596,258 +585,12 @@ class QuerySearchTest {
     }
 
     /**
-     * Method under test:
-     * {@link QuerySearch#createPropertyPredicate(String, String)}
-     */
-    @Test
-    void testCreatePropertyPredicate() {
-        final PredicateGroup actualCreatePropertyPredicateResult = (new QuerySearch("Primary Type"))
-                .createPropertyPredicate("Property Name", "42");
-
-        assertEquals(1, actualCreatePropertyPredicateResult.size());
-
-        final Predicate getResult = actualCreatePropertyPredicateResult.getFirst();
-
-        assertEquals("property", getResult.getName());
-        assertEquals("property", getResult.getPath());
-        assertEquals("property", getResult.getType());
-        assertEquals(2, getResult.getParameters().size());
-    }
-
-    /**
-     * Method under test:
-     * {@link QuerySearch#createPropertyPredicate(String, String, String)}
-     */
-    @Test
-    void testCreatePropertyPredicate2() {
-        final PredicateGroup actualCreatePropertyPredicateResult = (new QuerySearch("Primary Type"))
-                .createPropertyPredicate("Property Name", "Operation", "42");
-
-        assertEquals(1, actualCreatePropertyPredicateResult.size());
-
-        final Predicate getResult = actualCreatePropertyPredicateResult.getFirst();
-
-        assertEquals("property", getResult.getName());
-        assertEquals("property", getResult.getPath());
-        assertEquals("property", getResult.getType());
-        assertEquals(3, getResult.getParameters().size());
-    }
-
-    /**
-     * Method under test:
-     * {@link QuerySearch#createFullTextPredicate(String, String)}
-     */
-    @Test
-    void testCreateFullTextPredicate() {
-        final PredicateGroup actualCreateFullTextPredicateResult = (new QuerySearch("Primary Type")).createFullTextPredicate("42",
-                "Property Name");
-
-        assertEquals(1, actualCreateFullTextPredicateResult.size());
-
-        final Predicate getResult = actualCreateFullTextPredicateResult.getFirst();
-
-        assertEquals("fulltext", getResult.getName());
-        assertEquals("fulltext", getResult.getPath());
-        assertEquals("fulltext", getResult.getType());
-        assertEquals(2, getResult.getParameters().size());
-    }
-
-    /**
-     * Method under test: {@link QuerySearch#createPropertyExistsPredicate(String)}
-     */
-    @Test
-    void testCreatePropertyExistsPredicate() {
-        final PredicateGroup actualCreatePropertyExistsPredicateResult = (new QuerySearch("Primary Type"))
-                .createPropertyExistsPredicate("Property Name");
-
-        assertEquals(1, actualCreatePropertyExistsPredicateResult.size());
-
-        final Predicate getResult = actualCreatePropertyExistsPredicateResult.getFirst();
-
-        assertEquals("property", getResult.getName());
-        assertEquals("property", getResult.getPath());
-        assertEquals("property", getResult.getType());
-        assertEquals(2, getResult.getParameters().size());
-    }
-
-    /**
-     * Method under test:
-     * {@link QuerySearch#createPropertyNotExistsPredicate(String)}
-     */
-    @Test
-    void testCreatePropertyNotExistsPredicate() {
-        final PredicateGroup actualCreatePropertyNotExistsPredicateResult = (new QuerySearch("Primary Type"))
-                .createPropertyNotExistsPredicate("Property Name");
-
-        assertEquals(1, actualCreatePropertyNotExistsPredicateResult.size());
-
-        final Predicate getResult = actualCreatePropertyNotExistsPredicateResult.getFirst();
-
-        assertEquals("property", getResult.getName());
-        assertEquals("property", getResult.getPath());
-        assertEquals("property", getResult.getType());
-        assertEquals(2, getResult.getParameters().size());
-    }
-
-    /**
-     * Method under test:
-     * {@link QuerySearch#createRangePropertyPredicate(String, String, String, String, String, boolean)}
-     */
-    @Test
-    void testCreateRangePropertyPredicate() {
-        final PredicateGroup actualCreateRangePropertyPredicateResult = (new QuerySearch("Primary Type"))
-                .createRangePropertyPredicate("Property Name", "Lower Bound", "Lower Operation", "Upper Bound",
-                        "Upper Operation", true);
-
-        assertEquals(1, actualCreateRangePropertyPredicateResult.size());
-
-        final Predicate getResult = actualCreateRangePropertyPredicateResult.getFirst();
-
-        assertEquals("rangeproperty", getResult.getName());
-        assertEquals("rangeproperty", getResult.getPath());
-        assertEquals("rangeproperty", getResult.getType());
-        assertEquals(6, getResult.getParameters().size());
-    }
-
-    /**
-     * Method under test:
-     * {@link QuerySearch#createRangePropertyPredicate(String, String, String, String, String, boolean)}
-     */
-    @Test
-    void testCreateRangePropertyPredicate2() {
-        final PredicateGroup actualCreateRangePropertyPredicateResult = (new QuerySearch("Primary Type"))
-                .createRangePropertyPredicate("Property Name", null, "Lower Operation", null, "Upper Operation", true);
-
-        assertEquals(1, actualCreateRangePropertyPredicateResult.size());
-
-        final Predicate getResult = actualCreateRangePropertyPredicateResult.getFirst();
-
-        assertEquals("rangeproperty", getResult.getName());
-        assertEquals("rangeproperty", getResult.getPath());
-        assertEquals("rangeproperty", getResult.getType());
-        assertEquals(2, getResult.getParameters().size());
-    }
-
-    /**
-     * Method under test:
-     * {@link QuerySearch#createRangePropertyPredicate(String, String, String, boolean)}
-     */
-    @Test
-    void testCreateRangePropertyPredicate3() {
-        final PredicateGroup actualCreateRangePropertyPredicateResult = (new QuerySearch("Primary Type"))
-                .createRangePropertyPredicate("Property Name", "Lower Bound", "Upper Bound", true);
-        assertEquals(1, actualCreateRangePropertyPredicateResult.size());
-
-        final Predicate getResult = actualCreateRangePropertyPredicateResult.getFirst();
-
-        assertEquals("rangeproperty", getResult.getName());
-        assertEquals("rangeproperty", getResult.getPath());
-        assertEquals("rangeproperty", getResult.getType());
-        assertEquals(6, getResult.getParameters().size());
-    }
-
-    /**
-     * Method under test:
-     * {@link QuerySearch#createRangePropertyPredicate(String, String, String, boolean)}
-     */
-    @Test
-    void testCreateRangePropertyPredicate4() {
-        final PredicateGroup actualCreateRangePropertyPredicateResult = (new QuerySearch("Primary Type"))
-                .createRangePropertyPredicate("Property Name", null, null, true);
-
-        assertEquals(1, actualCreateRangePropertyPredicateResult.size());
-
-        final Predicate getResult = actualCreateRangePropertyPredicateResult.getFirst();
-
-        assertEquals("rangeproperty", getResult.getName());
-        assertEquals("rangeproperty", getResult.getPath());
-        assertEquals("rangeproperty", getResult.getType());
-        assertEquals(2, getResult.getParameters().size());
-    }
-
-    /**
-     * Method under test:
-     * {@link QuerySearch#createDateRangePropertyPredicate(String, String, String, String, String)}
-     */
-    @Test
-    void testCreateDateRangePropertyPredicate() {
-        final PredicateGroup actualCreateDateRangePropertyPredicateResult = (new QuerySearch("Primary Type"))
-                .createDateRangePropertyPredicate("Property Name", "Lower Bound", "Lower Operation", "Upper Bound",
-                        "Upper Operation");
-        assertEquals(1, actualCreateDateRangePropertyPredicateResult.size());
-
-        final Predicate getResult = actualCreateDateRangePropertyPredicateResult.getFirst();
-
-        assertEquals("daterange", getResult.getName());
-        assertEquals("daterange", getResult.getPath());
-        assertEquals("daterange", getResult.getType());
-        assertEquals(5, getResult.getParameters().size());
-    }
-
-    /**
-     * Method under test:
-     * {@link QuerySearch#createDateRangePropertyPredicate(String, String, String, String, String)}
-     */
-    @Test
-    void testCreateDateRangePropertyPredicate2() {
-        final PredicateGroup actualCreateDateRangePropertyPredicateResult = (new QuerySearch("Primary Type"))
-                .createDateRangePropertyPredicate("Property Name", null, "Lower Operation", null, "Upper Operation");
-        assertEquals(1, actualCreateDateRangePropertyPredicateResult.size());
-
-        final Predicate getResult = actualCreateDateRangePropertyPredicateResult.getFirst();
-
-        assertEquals("daterange", getResult.getName());
-        assertEquals("daterange", getResult.getPath());
-        assertEquals("daterange", getResult.getType());
-        assertEquals(1, getResult.getParameters().size());
-    }
-
-    /**
-     * Method under test:
-     * {@link QuerySearch#createRelativeDateRangePropertyPredicate(String, String, String)}
-     */
-    @Test
-    void testCreateRelativeDateRangePropertyPredicate() {
-        final PredicateGroup actualCreateRelativeDateRangePropertyPredicateResult = (new QuerySearch("Primary Type"))
-                .createRelativeDateRangePropertyPredicate("Property Name", "Lower Bound", "Upper Bound");
-
-        assertEquals(1, actualCreateRelativeDateRangePropertyPredicateResult.size());
-
-        final Predicate getResult = actualCreateRelativeDateRangePropertyPredicateResult.getFirst();
-
-        assertEquals("relativedaterange", getResult.getName());
-        assertEquals("relativedaterange", getResult.getPath());
-        assertEquals("relativedaterange", getResult.getType());
-        assertEquals(3, getResult.getParameters().size());
-    }
-
-    /**
-     * Method under test:
-     * {@link QuerySearch#createRelativeDateRangePropertyPredicate(String, String, String)}
-     */
-    @Test
-    void testCreateRelativeDateRangePropertyPredicate2() {
-
-        final PredicateGroup actualCreateRelativeDateRangePropertyPredicateResult = (new QuerySearch("Primary Type"))
-                .createRelativeDateRangePropertyPredicate("Property Name", null, null);
-
-        assertEquals(1, actualCreateRelativeDateRangePropertyPredicateResult.size());
-
-        final Predicate getResult = actualCreateRelativeDateRangePropertyPredicateResult.getFirst();
-
-        assertEquals("relativedaterange", getResult.getName());
-        assertEquals("relativedaterange", getResult.getPath());
-        assertEquals("relativedaterange", getResult.getType());
-        assertEquals(1, getResult.getParameters().size());
-    }
-
-    /**
      * Methods under test:
      * <ul>
-     *   <li>{@link QuerySearch#QuerySearch(String)}
-     *   <li>{@link QuerySearch#setAddOnOffTimePredicate(boolean)}
-     *   <li>{@link QuerySearch#setHitsPerPage(long)}
-     *   <li>{@link QuerySearch#setOffset(long)}
+     *   <li>{@link QuerySearch#QuerySearch(String)}</li>
+     *   <li>{@link QuerySearch#setAddOnOffTimePredicate(boolean)}</li>
+     *   <li>{@link QuerySearch#setHitsPerPage(long)}</li>
+     *   <li>{@link QuerySearch#setOffset(long)}</li>
      * </ul>
      */
     @Test

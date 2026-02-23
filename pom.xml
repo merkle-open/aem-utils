@@ -9,7 +9,7 @@
     <groupId>com.merkle.oss.aem</groupId>
     <artifactId>aem-utils</artifactId>
     <packaging>pom</packaging>
-    <version>2.0.0</version>
+    <version>3.0.0-SNAPSHOT</version>
     <name>AEM Utils</name>
     <description>Maven Multimodule project for AEM Utils</description>
     <url>https://github.com/merkle-open/aem-utils</url>
@@ -103,13 +103,13 @@
         <mvn.resource.plugin.version>3.4.0</mvn.resource.plugin.version>
         <mvn.compiler.plugin.version>3.15.0</mvn.compiler.plugin.version>
         <mvn.install.plugin.version>3.1.4</mvn.install.plugin.version>
-        <mvn.surefire.plugin.version>3.5.4</mvn.surefire.plugin.version>
-        <mvn.failsafe.plugin.version>3.5.4</mvn.failsafe.plugin.version>
+        <mvn.surefire.plugin.version>3.5.5</mvn.surefire.plugin.version>
+        <mvn.failsafe.plugin.version>3.5.5</mvn.failsafe.plugin.version>
         <mvn.deploy.plugin.version>3.1.4</mvn.deploy.plugin.version>
         <sling.mvn.plugin.version>3.0.4</sling.mvn.plugin.version>
         <htl.mvn.plugin.version>2.0.4-1.4.0</htl.mvn.plugin.version>
         <filevault.package.mvn.plugin.version>1.4.0</filevault.package.mvn.plugin.version>
-        <aemanalyser.mvn.plugin.version>1.6.14</aemanalyser.mvn.plugin.version>
+        <aemanalyser.mvn.plugin.version>1.6.16</aemanalyser.mvn.plugin.version>
         <content.package.mvn.plugin.version>1.0.6</content.package.mvn.plugin.version>
         <mvn.enforcer.plugin.version>3.6.2</mvn.enforcer.plugin.version>
         <mvn.dependency.plugin.version>3.10.0</mvn.dependency.plugin.version>
@@ -122,9 +122,9 @@
         <google.re2j.version>1.8</google.re2j.version>
         <caffeine.version>3.2.3</caffeine.version>
         <org.jspecify.version>1.0.0</org.jspecify.version>
-        <junit.version>6.0.2</junit.version>
+        <junit.version>6.0.3</junit.version>
         <mockito.version>5.21.0</mockito.version>
-        <io.wcm.testing.aem-mock.junit5.version>5.6.14</io.wcm.testing.aem-mock.junit5.version>
+        <io.wcm.testing.aem-mock.junit5.version>5.7.0</io.wcm.testing.aem-mock.junit5.version>
         <gson.version>2.13.2</gson.version>
         <slf4j-simple.version>2.0.17</slf4j-simple.version>
 

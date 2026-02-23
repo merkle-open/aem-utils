@@ -37,12 +37,10 @@ public class InMemoryCacheServiceImpl implements InMemoryCacheService {
      * {@inheritDoc}
      */
     @Override
-    public <K, V> void buildCache(@NonNull final String serviceName, final int timeToLiveSeconds, final int cacheSize, @NonNull final Class<K> keyType, @NonNull final Class<V> valueType) {
+    public void buildCache(@NonNull final String serviceName, final int timeToLiveSeconds, final int cacheSize) {
         Objects.requireNonNull(serviceName);
-        Objects.requireNonNull(keyType);
-        Objects.requireNonNull(valueType);
 
-        final Cache<K, V> cache = Caffeine.newBuilder()
+        final Cache<?, ?> cache = Caffeine.newBuilder()
                 .expireAfterWrite(timeToLiveSeconds, TimeUnit.SECONDS)
                 .maximumSize(cacheSize)
                 .build();
@@ -77,7 +75,7 @@ public class InMemoryCacheServiceImpl implements InMemoryCacheService {
         Objects.requireNonNull(key);
         Objects.requireNonNull(value);
 
-        final Cache<K, V> cache = getCache(serviceName);
+        final Cache<K, V> cache = getServiceCache(serviceName);
         if (Objects.nonNull(cache)) {
             cache.put(key, value);
             LOG.debug("Added entry to cache {} for key {}", serviceName, key);
@@ -94,7 +92,7 @@ public class InMemoryCacheServiceImpl implements InMemoryCacheService {
         Objects.requireNonNull(serviceName);
         Objects.requireNonNull(key);
 
-        final Cache<K, ?> cache = getCache(serviceName);
+        final Cache<K, ?> cache = getServiceCache(serviceName);
         if (Objects.nonNull(cache)) {
             return cache.getIfPresent(key) != null;
         }
@@ -110,7 +108,7 @@ public class InMemoryCacheServiceImpl implements InMemoryCacheService {
         Objects.requireNonNull(serviceName);
         Objects.requireNonNull(key);
 
-        final Cache<K, V> cache = getCache(serviceName);
+        final Cache<K, V> cache = getServiceCache(serviceName);
         if (Objects.nonNull(cache)) {
             final V value = cache.getIfPresent(key);
             if (Objects.isNull(value)) {
@@ -131,7 +129,7 @@ public class InMemoryCacheServiceImpl implements InMemoryCacheService {
         Objects.requireNonNull(serviceName);
         Objects.requireNonNull(key);
 
-        final Cache<K, ?> cache = getCache(serviceName);
+        final Cache<K, ?> cache = getServiceCache(serviceName);
         if (Objects.nonNull(cache)) {
             cache.invalidate(key);
         }
@@ -146,13 +144,22 @@ public class InMemoryCacheServiceImpl implements InMemoryCacheService {
     public void removeAllFromCache(@NonNull final String serviceName) {
         Objects.requireNonNull(serviceName);
 
-        final Cache<?, ?> cache = getCache(serviceName);
+        final Cache<?, ?> cache = getServiceCache(serviceName);
         if (Objects.nonNull(cache)) {
             cache.invalidateAll();
             LOG.debug("Removed all entries from cache {}", serviceName);
         }
 
         LOG.debug("Unable to remove all entries from cache {} - cache not found", serviceName);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public boolean hasServiceCache(@NonNull final String serviceName) {
+        Objects.requireNonNull(serviceName);
+
+        return caches.containsKey(serviceName);
     }
 
     /**
@@ -164,7 +171,7 @@ public class InMemoryCacheServiceImpl implements InMemoryCacheService {
      * @return The requested cache instance, or {@code null} if not found.
      * @throws ClassCastException if the cache exists but was initialized with different types than requested.
      */
-    private <K, V> @Nullable Cache<K, V> getCache(@NonNull final String serviceName) {
+    private <K, V> @Nullable Cache<K, V> getServiceCache(@NonNull final String serviceName) {
         // Unchecked cast is necessary because the map stores heterogeneous caches.
         @SuppressWarnings("unchecked") final Cache<K, V> cache = (Cache<K, V>) caches.get(serviceName);
         return cache;

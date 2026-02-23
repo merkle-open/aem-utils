@@ -41,11 +41,11 @@ import java.util.Objects;
  *     @Activate
  *     @Modified
  *     protected void activate(final ExampleCacheConfig config) {
- *         //build cache via inMemoryCacheService#buildCache
+ *         buildCache(config.cache_ttl_seconds(), config.cache_size());
  *     }
  *     @Deactivate
  *     protected void deactivate() {
- *         inMemoryCacheService.cleanUpCache(getServiceName());
+ *         cleanUpCache();
  *     }
  *     //...
  * }
@@ -54,7 +54,7 @@ import java.util.Objects;
 public abstract class AbstractInMemoryCacheProviderService<K, V> implements InMemoryCacheServiceProvider<K, V> {
 
     /**
-     * @return A descriptive name for the service for unique identification.
+     * @return A unique name for the service identification.
      */
     protected abstract @NonNull String getServiceName();
 
@@ -62,6 +62,16 @@ public abstract class AbstractInMemoryCacheProviderService<K, V> implements InMe
      * @return The central {@link InMemoryCacheService} implementation.
      */
     protected abstract @NonNull InMemoryCacheService getInMemoryCacheService();
+
+    @Override
+    public void buildCache(int timeToLiveInSeconds, int cacheSize) {
+        getInMemoryCacheService().buildCache(getServiceName(), timeToLiveInSeconds, cacheSize);
+    }
+
+    @Override
+    public void cleanUpCache() {
+        getInMemoryCacheService().cleanUpCache(getServiceName());
+    }
 
     @Override
     public void putToCache(@NonNull final K key, @NonNull final V value) {

@@ -153,16 +153,22 @@ class RequestUtilTest {
     }
 
     /**
-     * Method under test: {@link RequestUtil#getSuffix(SlingHttpServletRequest)}
+     * Methods under test:
+     * <ul>
+     *     <li>{@link RequestUtil#getSuffix(SlingHttpServletRequest)}</li>
+     *     <li>{@link RequestUtil#getSuffix(SlingHttpServletRequest, String)}</li>
+     * </ul>
      */
     @Test
     void getSuffix(final AemContext context) {
         final MockSlingHttpServletRequest request = context.request();
         assertEquals(StringUtils.EMPTY, RequestUtil.getSuffix(request));
+        assertEquals(DEFAULT_VALUE, RequestUtil.getSuffix(request, DEFAULT_VALUE));
 
         final MockRequestPathInfo mockRequestPathInfo = (MockRequestPathInfo) request.getRequestPathInfo();
         mockRequestPathInfo.setSuffix(SUFFIX);
         assertEquals(SUFFIX, RequestUtil.getSuffix(request));
+        assertEquals(SUFFIX, RequestUtil.getSuffix(request, DEFAULT_VALUE));
     }
 
     /**
@@ -249,7 +255,7 @@ class RequestUtilTest {
      * Methods under test:
      * <ul>
      *     <li>{@link RequestUtil#getParameter(SlingHttpServletRequest, String)}</li>
-     *     <li>{@link RequestUtil#getParameter(SlingHttpServletRequest, String, String)} </li>
+     *     <li>{@link RequestUtil#getParameter(SlingHttpServletRequest, String, String)}</li>
      * </ul>
      */
     @Test
@@ -267,7 +273,7 @@ class RequestUtilTest {
      * Methods under test:
      * <ul>
      *     <li>{@link RequestUtil#getParameterAsInt(SlingHttpServletRequest, String)}</li>
-     *     <li>{@link RequestUtil#getParameterAsInt(SlingHttpServletRequest, String, int)} </li>
+     *     <li>{@link RequestUtil#getParameterAsInt(SlingHttpServletRequest, String, int)}</li>
      * </ul>
      */
     @Test
@@ -288,7 +294,7 @@ class RequestUtilTest {
      * Methods under test:
      * <ul>
      *     <li>{@link RequestUtil#getParameterAsLong(SlingHttpServletRequest, String)}</li>
-     *     <li>{@link RequestUtil#getParameterAsLong(SlingHttpServletRequest, String, long)} </li>
+     *     <li>{@link RequestUtil#getParameterAsLong(SlingHttpServletRequest, String, long)}</li>
      * </ul>
      */
     @Test
@@ -309,7 +315,7 @@ class RequestUtilTest {
      * Methods under test:
      * <ul>
      *     <li>{@link RequestUtil#getParameterAsFloat(SlingHttpServletRequest, String)}</li>
-     *     <li>{@link RequestUtil#getParameterAsFloat(SlingHttpServletRequest, String, float)} </li>
+     *     <li>{@link RequestUtil#getParameterAsFloat(SlingHttpServletRequest, String, float)}</li>
      * </ul>
      */
     @Test
@@ -330,7 +336,7 @@ class RequestUtilTest {
      * Methods under test:
      * <ul>
      *     <li>{@link RequestUtil#getParameterAsBoolean(SlingHttpServletRequest, String)}</li>
-     *     <li>{@link RequestUtil#getParameterAsBoolean(SlingHttpServletRequest, String, boolean)} </li>
+     *     <li>{@link RequestUtil#getParameterAsBoolean(SlingHttpServletRequest, String, boolean)}</li>
      * </ul>
      */
     @Test

@@ -38,7 +38,7 @@ public class ExampleComponent {
     public String getComponentFeatureSpecificCookieName() {
         //returns component feature specific cookie name
         //-> "mySite.exampleComponent.feature"
-        return new CookieNameBuilder("mySite", "exampleComponent.feature").toString();
+        return new CookieNameBuilder("mySite", "exampleComponent", "feature").toString();
     }
 
 }

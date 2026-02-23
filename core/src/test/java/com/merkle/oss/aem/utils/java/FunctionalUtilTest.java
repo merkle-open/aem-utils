@@ -1,20 +1,40 @@
 package com.merkle.oss.aem.utils.java;
 
+import com.day.cq.wcm.api.Page;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.when;
 
 /**
  * Unit tests for the {@link FunctionalUtil} class.
  */
+@ExtendWith(MockitoExtension.class)
 class FunctionalUtilTest {
+
+    @Mock
+    private Page parent;
+    @Mock
+    private Page child1;
+    @Mock
+    private Page child2;
+    @Mock
+    private Page child3;
+    @Mock
+    private Page child1Sub1;
+    @Mock
+    private Page child1Sub2;
+    @Mock
+    private Page child2Sub1;
+    @Mock
+    private Page child1Sub1Sub1;
 
     /**
      * Method under test: {@link FunctionalUtil#asStream(Iterator)}
@@ -40,6 +60,152 @@ class FunctionalUtilTest {
         assertTrue(nonNullCollection.contains(test));
 
         assertThrows(NullPointerException.class, () -> FunctionalUtil.asStream(null));
+    }
+
+    /**
+     * Method under test:
+     * <ul>
+     *   <li>{@link FunctionalUtil#streamTree(Object, Function)}</li>
+     *   <li>{@link FunctionalUtil#streamTree(Object, Function, int)}</li>
+     * </ul>
+     */
+    @Test
+    void streamTree() {
+        final Page pageNull = null;
+        assertEquals(0, FunctionalUtil.streamTree(pageNull, Page::listChildren).count());
+
+        when(parent.listChildren()).thenReturn(Collections.emptyIterator());
+        assertEquals(1, FunctionalUtil.streamTree(parent, Page::listChildren).count());
+
+
+        when(parent.listChildren()).thenReturn(Arrays.asList(child1, child2, child3).iterator());
+        when(child1.listChildren()).thenReturn(Collections.emptyIterator());
+        when(child2.listChildren()).thenReturn(Collections.emptyIterator());
+        when(child3.listChildren()).thenReturn(Collections.emptyIterator());
+        assertEquals(4, FunctionalUtil.streamTree(parent, Page::listChildren).count());
+
+        when(parent.listChildren()).thenReturn(Arrays.asList(child1, child2, child3).iterator());
+        when(child1.listChildren()).thenReturn(Arrays.asList(child1Sub1, child1Sub2).iterator());
+        when(child1Sub1.listChildren()).thenReturn(Collections.emptyIterator());
+        when(child1Sub2.listChildren()).thenReturn(Collections.emptyIterator());
+        when(child2.listChildren()).thenReturn(Collections.emptyIterator());
+        when(child3.listChildren()).thenReturn(Collections.emptyIterator());
+        assertEquals(6, FunctionalUtil.streamTree(parent, Page::listChildren).count());
+
+        when(parent.listChildren()).thenReturn(Arrays.asList(child1, child2, child3).iterator());
+        when(child1.listChildren()).thenReturn(Arrays.asList(child1Sub1, child1Sub2).iterator());
+        when(child1Sub1.listChildren()).thenReturn(List.of(child1Sub1Sub1).iterator());
+        when(child1Sub1Sub1.listChildren()).thenReturn(Collections.emptyIterator());
+        when(child1Sub2.listChildren()).thenReturn(Collections.emptyIterator());
+        when(child2.listChildren()).thenReturn(Collections.emptyIterator());
+        when(child3.listChildren()).thenReturn(Collections.emptyIterator());
+        assertEquals(7, FunctionalUtil.streamTree(parent, Page::listChildren).count());
+
+        when(parent.listChildren()).thenReturn(Arrays.asList(child1, child2, child3).iterator());
+        when(child1.listChildren()).thenReturn(Arrays.asList(child1Sub1, child1Sub2).iterator());
+        when(child1Sub1.listChildren()).thenReturn(Collections.emptyIterator());
+        when(child1Sub2.listChildren()).thenReturn(Collections.emptyIterator());
+        when(child2.listChildren()).thenReturn(Collections.emptyIterator());
+        when(child3.listChildren()).thenReturn(Collections.emptyIterator());
+        assertEquals(4, FunctionalUtil.streamTree(parent, Page::listChildren, 1).count());
+
+        when(parent.listChildren()).thenReturn(Arrays.asList(child1, child2, child3).iterator());
+        when(child1.listChildren()).thenReturn(Arrays.asList(child1Sub1, child1Sub2).iterator());
+        when(child1Sub1.listChildren()).thenReturn(List.of(child1Sub1Sub1).iterator());
+        when(child1Sub1Sub1.listChildren()).thenReturn(Collections.emptyIterator());
+        when(child1Sub2.listChildren()).thenReturn(Collections.emptyIterator());
+        when(child2.listChildren()).thenReturn(Collections.emptyIterator());
+        when(child3.listChildren()).thenReturn(Collections.emptyIterator());
+        assertEquals(6, FunctionalUtil.streamTree(parent, Page::listChildren, 2).count());
+
+        when(parent.listChildren()).thenReturn(Arrays.asList(child1, child2, child3).iterator());
+        when(child1.listChildren()).thenReturn(Arrays.asList(child1Sub1, child1Sub2).iterator());
+        when(child1Sub1.listChildren()).thenReturn(List.of(child1Sub1Sub1).iterator());
+        when(child1Sub1Sub1.listChildren()).thenReturn(Collections.emptyIterator());
+        when(child1Sub2.listChildren()).thenReturn(Collections.emptyIterator());
+        when(child2.listChildren()).thenReturn(List.of(child2Sub1).iterator());
+        when(child2Sub1.listChildren()).thenReturn(Collections.emptyIterator());
+        when(child3.listChildren()).thenReturn(Collections.emptyIterator());
+        assertEquals(8, FunctionalUtil.streamTree(parent, Page::listChildren).count());
+    }
+
+    /**
+     * Method under test:
+     * <ul>
+     *   <li>{@link FunctionalUtil#streamDescendants(Object, Function)}</li>
+     *   <li>{@link FunctionalUtil#streamDescendants(Object, Function, int)}</li>
+     * </ul>
+     */
+    @Test
+    void streamDescendants() {
+        final Page pageNull = null;
+        assertEquals(0, FunctionalUtil.streamDescendants(pageNull, Page::listChildren).count());
+        assertEquals(0, FunctionalUtil.streamDescendants(pageNull, Page::listChildren,3).count());
+
+        when(parent.listChildren()).thenReturn(Arrays.asList(child1, child2, child3).iterator());
+        when(child1.listChildren()).thenReturn(Collections.emptyIterator());
+        when(child2.listChildren()).thenReturn(Collections.emptyIterator());
+        when(child3.listChildren()).thenReturn(Collections.emptyIterator());
+        assertEquals(3, FunctionalUtil.streamDescendants(parent, Page::listChildren).count());
+
+        when(parent.listChildren()).thenReturn(Arrays.asList(child1, child2, child3).iterator());
+        when(child1.listChildren()).thenReturn(Arrays.asList(child1Sub1, child1Sub2).iterator());
+        when(child1Sub1.listChildren()).thenReturn(Collections.emptyIterator());
+        when(child1Sub2.listChildren()).thenReturn(Collections.emptyIterator());
+        when(child2.listChildren()).thenReturn(Collections.emptyIterator());
+        when(child3.listChildren()).thenReturn(Collections.emptyIterator());
+        assertEquals(5, FunctionalUtil.streamDescendants(parent, Page::listChildren).count());
+
+        when(parent.listChildren()).thenReturn(Arrays.asList(child1, child2, child3).iterator());
+        when(child1.listChildren()).thenReturn(Arrays.asList(child1Sub1, child1Sub2).iterator());
+        when(child1Sub1.listChildren()).thenReturn(List.of(child1Sub1Sub1).iterator());
+        when(child1Sub1Sub1.listChildren()).thenReturn(Collections.emptyIterator());
+        when(child1Sub2.listChildren()).thenReturn(Collections.emptyIterator());
+        when(child2.listChildren()).thenReturn(Collections.emptyIterator());
+        when(child3.listChildren()).thenReturn(Collections.emptyIterator());
+        assertEquals(6, FunctionalUtil.streamDescendants(parent, Page::listChildren).count());
+
+        when(parent.listChildren()).thenReturn(Arrays.asList(child1, child2, child3).iterator());
+        when(child1.listChildren()).thenReturn(Arrays.asList(child1Sub1, child1Sub2).iterator());
+        when(child1Sub1.listChildren()).thenReturn(Collections.emptyIterator());
+        when(child1Sub2.listChildren()).thenReturn(Collections.emptyIterator());
+        when(child2.listChildren()).thenReturn(Collections.emptyIterator());
+        when(child3.listChildren()).thenReturn(Collections.emptyIterator());
+        assertEquals(3, FunctionalUtil.streamDescendants(parent, Page::listChildren, 1).count());
+
+        when(parent.listChildren()).thenReturn(Arrays.asList(child1, child2, child3).iterator());
+        when(child1.listChildren()).thenReturn(Arrays.asList(child1Sub1, child1Sub2).iterator());
+        when(child1Sub1.listChildren()).thenReturn(List.of(child1Sub1Sub1).iterator());
+        when(child1Sub1Sub1.listChildren()).thenReturn(Collections.emptyIterator());
+        when(child1Sub2.listChildren()).thenReturn(Collections.emptyIterator());
+        when(child2.listChildren()).thenReturn(Collections.emptyIterator());
+        when(child3.listChildren()).thenReturn(Collections.emptyIterator());
+        assertEquals(5, FunctionalUtil.streamDescendants(parent, Page::listChildren, 2).count());
+
+        when(parent.listChildren()).thenReturn(Arrays.asList(child1, child2, child3).iterator());
+        when(child1.listChildren()).thenReturn(Arrays.asList(child1Sub1, child1Sub2).iterator());
+        when(child1Sub1.listChildren()).thenReturn(List.of(child1Sub1Sub1).iterator());
+        when(child1Sub1Sub1.listChildren()).thenReturn(Collections.emptyIterator());
+        when(child1Sub2.listChildren()).thenReturn(Collections.emptyIterator());
+        when(child2.listChildren()).thenReturn(List.of(child2Sub1).iterator());
+        when(child2Sub1.listChildren()).thenReturn(Collections.emptyIterator());
+        when(child3.listChildren()).thenReturn(Collections.emptyIterator());
+        assertEquals(7, FunctionalUtil.streamDescendants(parent, Page::listChildren).count());
+    }
+
+    /**
+     * Methods under test: {@link FunctionalUtil#streamChildren(Object, Function)}
+     */
+    @Test
+    void streamChildren() {
+        when(parent.listChildren()).thenReturn(Arrays.asList(child1, child2, child3).iterator());
+        assertEquals(3, FunctionalUtil.streamChildren(parent, Page::listChildren).count());
+
+        when(parent.listChildren()).thenReturn(List.of(child1).iterator());
+        assertEquals(1, FunctionalUtil.streamChildren(parent, Page::listChildren).count());
+
+        when(parent.listChildren()).thenReturn(Arrays.asList(child2, child3).iterator());
+        assertEquals(2, FunctionalUtil.streamChildren(parent, Page::listChildren).count());
     }
 
     /**

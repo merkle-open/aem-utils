@@ -36,7 +36,7 @@ import java.util.TreeMap;
  * access should be restricted via Dispatcher filters to prevent sensitive system info leakage.
  * <p>
  * To pass a path value to test the link manipulation against, make use of the {@code path} query parameter:
- * https://your.domain/bin/com/merkle/oss/aem/utils/test.json?path=/content/your/test/path
+ * {@code https://your.domain/bin/com/merkle/oss/aem/utils/test.json?path=/content/your/test/path}
  *
  */
 @Component(service = Servlet.class)
