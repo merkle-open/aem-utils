@@ -1,6 +1,5 @@
 package com.merkle.oss.aem.utils.wcm;
 
-import com.day.cq.commons.Filter;
 import com.day.cq.wcm.api.Page;
 import com.day.cq.wcm.api.PageFilter;
 import com.day.cq.wcm.api.constants.NameConstants;
@@ -13,10 +12,9 @@ import org.apache.commons.lang3.Strings;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
-import java.util.Collections;
-import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
@@ -163,6 +161,48 @@ public final class PageUtil {
     }
 
     /**
+     * Traverses the page tree hierarchy downward from the immediate children of the {@code parent},
+     * returning a stream of page that match the specified templates.
+     * <p>
+     * This traversal is exclusive of the {@code parent} resource and performs a lazy,
+     * pre-order search. The {@code typeSet} is evaluated against each page's
+     * {@link com.day.cq.wcm.api.constants.NameConstants#NN_TEMPLATE}.
+     *
+     * @param parent    the starting page whose descendants will be searched; may be {@code null}
+     * @param templates the templates to include in the resulting stream;
+     * @return a {@link Stream} of matching descendant {@code Page}
+     */
+    public static @NonNull Stream<Page> streamDescendantsByTemplates(@Nullable final Page parent, @Nullable final String... templates) {
+        return streamDescendantsByTemplates(parent, 0, templates);
+    }
+
+    /**
+     * Traverses the page tree hierarchy downward from the immediate children of the {@code parent},
+     * returning a stream of page that match the specified templates.
+     * <p>
+     * This traversal is exclusive of the {@code parent} resource and performs a lazy,
+     * pre-order search. The {@code typeSet} is evaluated against each page's
+     * {@link com.day.cq.wcm.api.constants.NameConstants#NN_TEMPLATE}.
+     *
+     * @param parent    the starting page whose descendants will be searched; may be {@code null}
+     * @param maxDepth  the maximum depth of the traversal. {@code 1} limits the search to
+     *                  immediate children; {@code 0} or less allows for infinite depth.
+     * @param templates the templates to include in the resulting stream;
+     * @return a {@link Stream} of matching descendant {@code Page}
+     */
+    public static @NonNull Stream<Page> streamDescendantsByTemplates(@Nullable final Page parent, final int maxDepth, @Nullable final String... templates) {
+        if (Objects.isNull(parent) || ArrayUtils.isEmpty(templates)) {
+            return Stream.empty();
+        }
+
+        final Set<String> templateSet = Set.of(templates);
+
+        return FunctionalUtil.streamDescendants(parent, page -> page.listChildren(new PageFilter()), maxDepth)
+                .filter(page -> templateSet.contains(getTemplatePath(page)));
+    }
+
+
+    /**
      * Searches upwards through the page hierarchy to find the nearest ancestor matching one of the given templates.
      * <p>
      * The search starts from the <b>parent</b> of the {@code currentPage}.
@@ -172,94 +212,13 @@ public final class PageUtil {
      * @return An {@link Optional} containing the matching ancestor page, or empty if none found.
      */
     public static @NonNull Optional<Page> findClosestAncestorByTemplates(@Nullable final Page currentPage, @Nullable final String... templates) {
-        if (currentPage == null) {
+        if (currentPage == null || ArrayUtils.isEmpty(templates)) {
             return Optional.empty();
         }
 
-        if (ArrayUtils.isEmpty(templates)) {
-            return Optional.empty();
-        }
+        final Set<String> templateSet = Set.of(templates);
 
-        Page parent = currentPage.getParent();
-        while (parent != null) {
-            if (matchesAnyTemplate(parent, templates)) {
-                return Optional.of(parent);
-            }
-            parent = parent.getParent();
-        }
-
-        return Optional.empty();
-    }
-
-    private static boolean matchesAnyTemplate(@Nullable final Page page, @Nullable final String... templates) {
-        return Stream.of(templates)
-                .anyMatch(template -> Strings.CS.equals(template, getTemplatePath(page)));
-    }
-
-    /**
-     * Finds all <b>direct child</b> pages that match one of the given templates.
-     *
-     * @param currentPage The parent page to search beneath.
-     * @param templates   The template paths to filter by.
-     * @return A list of matching child pages.
-     */
-    public static @NonNull List<Page> childrenByTemplates(@Nullable final Page currentPage, @Nullable final String... templates) {
-        if (currentPage == null) {
-            return Collections.emptyList();
-        }
-
-        if (ArrayUtils.isEmpty(templates)) {
-            return Collections.emptyList();
-        }
-
-        return FunctionalUtil.asStream(currentPage.listChildren(filterFor(templates)))
-                .filter(PageUtil::isValid)
-                .toList();
-    }
-
-    private static @NonNull Filter<Page> filterFor(@Nullable final String... templates) {
-        return page -> matchesAnyTemplate(page, templates);
-    }
-
-    /**
-     * Streams all descendant pages beneath the parent, traversing deeply up to the specified depth.
-     * <p>
-     * The {@code parent} itself is <b>not</b> included in the stream.
-     *
-     * @param parent   The root page of the subtree (excluded in the result).
-     * @param maxDepth The maximum absolute depth to traverse (JCR depth). If 0, depth checking is ignored.
-     * @return A stream of descendant pages in tree-traversal order.
-     */
-    public static @NonNull Stream<Page> streamDescendants(@Nullable final Page parent, final int maxDepth) {
-        if (parent == null) {
-            return Stream.empty();
-        }
-
-        return FunctionalUtil.asStream(parent.listChildren(new PageFilter()))
-                .flatMap(page -> streamTree(page, maxDepth));
-    }
-
-    /**
-     * Streams all descendant pages beneath the parent, traversing deeply up to the specified depth.
-     * <p>
-     * The {@code parent} itself <b>is</b> included in the stream.
-     *
-     * @param parent   The root of the subtree (included in the result).
-     * @param maxDepth The maximum absolute depth to traverse (JCR depth). If 0, depth checking is ignored.
-     * @return A stream containing the parent and its descendants in tree-traversal order.
-     */
-    public static @NonNull Stream<Page> streamTree(@Nullable final Page parent, final int maxDepth) {
-        if (parent == null) {
-            return Stream.empty();
-        }
-
-        if (maxDepth != 0 && parent.getDepth() > maxDepth) {
-            return Stream.empty();
-        }
-
-        return FunctionalUtil.asStream(parent.listChildren(new PageFilter()))
-                .map(page -> streamTree(page, maxDepth))
-                .reduce(Stream.of(parent), Stream::concat);
+        return FunctionalUtil.findClosestAncestorByPredicate(currentPage.getParent(), Page::getParent, page -> templateSet.contains(getTemplatePath(page)));
     }
 
 }

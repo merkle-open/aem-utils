@@ -27,7 +27,10 @@ class QuerySearchUtilTest {
     private static final List<String> TAG_LIST = List.of("tag1", "tag2");
 
     @Mock
-    private Tag tag;
+    private Tag tag1;
+
+    @Mock
+    private Tag tag2;
 
     @Mock
     private TagManager tagManager;
@@ -137,8 +140,8 @@ class QuerySearchUtilTest {
      */
     @Test
     void testCreateTagPredicate() {
-        when(tag.getTagID()).thenReturn("tagId");
-        final PredicateGroup predicateGroupTag = QuerySearchUtil.createTagPredicate(tag, "name");
+        when(tag1.getTagID()).thenReturn("tagId");
+        final PredicateGroup predicateGroupTag = QuerySearchUtil.createTagPredicate(tag1, "name");
 
         assertEquals("tagId", predicateGroupTag.getFirst().getParameters().get("tagid"));
         assertEquals("name", predicateGroupTag.getFirst().getParameters().get("property"));
@@ -160,6 +163,12 @@ class QuerySearchUtilTest {
 
         when(tagManager.resolve("tag1")).thenReturn(null);
         when(tagManager.resolve("tag2")).thenReturn(null);
+        assertNotNull(QuerySearchUtil.createTagListPredicateGroup(TAG_LIST, TAG_PROPERTY_PATH, false, tagManager));
+
+        when(tagManager.resolve("tag1")).thenReturn(tag1);
+        when(tagManager.resolve("tag2")).thenReturn(tag2);
+        when(tag1.getTagID()).thenReturn("tag1");
+        when(tag2.getTagID()).thenReturn("tag2");
         assertNotNull(QuerySearchUtil.createTagListPredicateGroup(TAG_LIST, TAG_PROPERTY_PATH, false, tagManager));
     }
 

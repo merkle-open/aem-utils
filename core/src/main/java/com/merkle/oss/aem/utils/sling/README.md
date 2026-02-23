@@ -6,10 +6,8 @@
     * [Parameter handling](#parameter-handling)
 * [ResourceUtil](#resourceutil)
     * [isValid()](#isvalid)
-    * [childrenAsStream()](#childrenasstream)
-    * [childrenOfTypes()](#childrenoftypes)
-    * [descendantsOfTypes()](#descendantsoftypes)
-    * [findClosestAncestorOfResourceTypes()](#findclosestancestorofresourcetypes)
+    * [streamDescendantsByTypes()](#streamdescendantsbytypes)
+    * [findClosestAncestorByTypes()](#findclosestancestorbytypes)
 * [SlingUtil](#slingutil)
     * [to()](#to)
     * [caConfigOf()](#caconfigof)
@@ -133,7 +131,7 @@ protected void doGet(@NonNull final SlingHttpServletRequest request,
 
 ```
 
-#### childrenAsStream()
+#### streamDescendantsByTypes()
 
 ```java
 
@@ -149,38 +147,12 @@ public class ExampleComponent {
     @ChildResource
     private Resource containerParsys;
 
-    public List<ModelClass> getItemsAsModel() {
-        /* <--- EXAMPLE ---> */
-        return ResourceUtil.childrenAsStream(containerParsys)
-                .map(to(ModelClass.class))
-                .filter(Objects::nonNull)
-                .toList();
-    }
-
-}
-
-
-```
-
-#### childrenOfTypes()
-
-```java
-
-import com.merkle.oss.aem.utils.sling.ResourceUtil;
-import org.apache.sling.api.resource.Resource;
-
-import static com.merkle.oss.aem.utils.sling.SlingUtil.to;
-//other imports...
-
-@Model(adaptables = Resource.class, defaultInjectionStrategy = DefaultInjectionStrategy.OPTIONAL)
-public class ExampleComponent {
-
-    @ChildResource
-    private Resource containerParsys;
+    @ValueMapValue
+    private int maxResourceDepth;
 
     public List<ModelClass> getItemsOfTypeAsModel() {
         /* <--- EXAMPLE ---> */
-        return ResourceUtil.childrenOfTypes(containerParsys, "mySite/components/componenA", "mySite/components/componenB")
+        return ResourceUtil.streamDescendantsByTypes(containerParsys, maxResourceDepth, "mySite/components/componenA", "mySite/components/componenB")
                 .map(to(ModelClass.class))
                 .filter(Objects::nonNull)
                 .toList();
@@ -191,36 +163,7 @@ public class ExampleComponent {
 
 ```
 
-#### descendantsOfTypes()
-
-```java
-
-import com.merkle.oss.aem.utils.sling.ResourceUtil;
-import org.apache.sling.api.resource.Resource;
-
-import static com.merkle.oss.aem.utils.sling.SlingUtil.to;
-//other imports...
-
-@Model(adaptables = Resource.class, defaultInjectionStrategy = DefaultInjectionStrategy.OPTIONAL)
-public class ExampleComponent {
-
-    @ChildResource
-    private Resource containerParsys;
-
-    public List<ModelClass> getItemsOfTypeAsModelForCompleteTree() {
-        /* <--- EXAMPLE ---> */
-        return ResourceUtil.descendantsOfTypes(containerParsys, "mySite/components/componenA", "mySite/components/componenB")
-                .map(to(ModelClass.class))
-                .filter(Objects::nonNull)
-                .toList();
-    }
-
-}
-
-
-```
-
-#### findClosestAncestorOfResourceTypes()
+#### findClosestAncestorByTypes()
 
 ```java
 
@@ -238,7 +181,7 @@ public class ExampleComponent {
 
     public ModelClass getParentContainerOfType() {
         /* <--- EXAMPLE ---> */
-        return ResourceUtil.findClosestAncestorOfResourceTypes(resource, "mySite/components/containerA")
+        return ResourceUtil.findClosestAncestorByTypes(resource, "mySite/components/containerA")
                 .map(to(ModelClass.class))
                 .orElse(null);
     }
@@ -267,13 +210,13 @@ public class ExampleComponent {
     private Resource containerParsys;
 
     public List<ModelClass> getItemsAsModel() {
-        return ResourceUtil.childrenAsStream(containerParsys)
+        return ResourceUtil.streamChildren(containerParsys)
                 /* <--- EXAMPLE ---> */
                 //reads fluent with static import
                 .map(to(ModelClass.class))
                 .filter(Objects::nonNull)
                 .toList();
-    }
+  }
 
 }
 

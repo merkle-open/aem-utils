@@ -112,7 +112,7 @@ public final class SlingUtil {
      * @return The resolved configuration object, or {@code null} if the page is null or adaptation fails.
      * @apiNote Example usage:
      * {@snippet :
-     * SiteConfig config = SlingUtil.caConfigOf(currentPage, SiteConfig.class);
+     * final SiteConfig config = SlingUtil.caConfigOf(currentPage, SiteConfig.class);
      * if (config != null) {
      *     // use config...
      * }

@@ -5,10 +5,8 @@
 * [PageUtil](#pageutil)
     * [Fetch properties](#fetch-properties)
     * [equals() & isValid()](#equals--isvalid)
+    * [streamDescendantsByTemplates()](#streamdescendantsbytemplates)
     * [findClosestAncestorByTemplates()](#findclosestancestorbytemplates)
-    * [childrenByTemplates()](#childrenbytemplates)
-    * [streamDescendants()](#streamdescendants)
-    * [streamTree()](#streamtree)
 
 ### PageManagerUtil
 
@@ -152,6 +150,41 @@ protected void doGet(@NonNull final SlingHttpServletRequest request,
 
 ```
 
+####  streamDescendantsByTemplates()
+
+```java
+
+import com.day.cq.wcm.api.Page;
+import com.merkle.oss.aem.utils.wcm.PageManagerUtil;
+import com.merkle.oss.aem.utils.wcm.PageUtil;
+import org.apache.sling.api.resource.Resource;
+
+import static com.merkle.oss.aem.utils.sling.SlingUtil.to;
+//other imports...
+
+@Model(adaptables = Resource.class, defaultInjectionStrategy = DefaultInjectionStrategy.OPTIONAL)
+public class ExampleComponent {
+
+    @Self
+    private Resource resource;
+
+    @ValueMapValue
+    private int maxTeaserDepth;
+
+    public List<TeaserItem> getTeasers() {
+        final Page currentPage = PageManagerUtil.containingPage(resource);
+        /* <--- EXAMPLE ---> */
+        return PageUtil.streamDescendantsByTemplates(currentPage, maxTeaserDepth, "/apps/mySite/templates/standard", "/apps/mySite/templates/campaign")
+                .map(to(TeaserItem.class))
+                .filter(Objects::nonNull)
+                .toList();
+    }
+
+}
+
+
+```
+
 #### findClosestAncestorByTemplates()
 
 ```java
@@ -177,108 +210,5 @@ public class ExampleComponent {
     }
 
 }
-
-
-```
-
-#### childrenByTemplates()
-
-```java
-
-import com.day.cq.wcm.api.Page;
-import com.merkle.oss.aem.utils.wcm.PageManagerUtil;
-import com.merkle.oss.aem.utils.wcm.PageUtil;
-import org.apache.sling.api.resource.Resource;
-
-import static com.merkle.oss.aem.utils.sling.SlingUtil.to;
-//other imports...
-
-@Model(adaptables = Resource.class, defaultInjectionStrategy = DefaultInjectionStrategy.OPTIONAL)
-public class ExampleComponent {
-
-    @Self
-    private Resource resource;
-
-    public List<TeaserItem> getTeasers() {
-        final Page currentPage = PageManagerUtil.containingPage(resource);
-        /* <--- EXAMPLE ---> */
-        return PageUtil.childrenByTemplates(currentPage, "/apps/mySite/templates/article").stream()
-                .map(to(TeaserItem.class))
-                .filter(Objects::nonNull)
-                .toList();
-    }
-
-}
-
-
-```
-
-#### streamDescendants()
-
-```java
-
-import com.day.cq.wcm.api.Page;
-import com.merkle.oss.aem.utils.wcm.PageManagerUtil;
-import com.merkle.oss.aem.utils.wcm.PageUtil;
-import org.apache.sling.api.resource.Resource;
-
-import static com.merkle.oss.aem.utils.sling.SlingUtil.to;
-//other imports...
-
-@Model(adaptables = Resource.class, defaultInjectionStrategy = DefaultInjectionStrategy.OPTIONAL)
-public class ExampleComponent {
-
-    @Self
-    private Resource resource;
-
-    @ValueMapValue
-    private int maxTeaserDepth;
-
-    public List<TeaserItem> getTeasers() {
-        final Page currentPage = PageManagerUtil.containingPage(resource);
-        /* <--- EXAMPLE ---> */
-        return PageUtil.streamDescendants(currentPage, maxTeaserDepth)
-                .map(to(TeaserItem.class))
-                .filter(Objects::nonNull)
-                .toList();
-    }
-
-}
-
-
-```
-
-#### streamTree()
-
-```java
-
-import com.day.cq.wcm.api.Page;
-import com.merkle.oss.aem.utils.wcm.PageManagerUtil;
-import com.merkle.oss.aem.utils.wcm.PageUtil;
-import org.apache.sling.api.resource.Resource;
-
-import static com.merkle.oss.aem.utils.sling.SlingUtil.to;
-//other imports...
-
-@Model(adaptables = Resource.class, defaultInjectionStrategy = DefaultInjectionStrategy.OPTIONAL)
-public class ExampleComponent {
-
-    @Self
-    private Resource resource;
-
-    @ValueMapValue
-    private int maxNavigationLevel;
-
-    public List<NavigationItem> getNavigationItems() {
-        final Page currentPage = PageManagerUtil.containingPage(resource);
-        /* <--- EXAMPLE ---> */
-        return PageUtil.streamTree(currentPage, maxNavigationLevel)
-                .map(to(NavigationItem.class))
-                .filter(Objects::nonNull)
-                .toList();
-    }
-
-}
-
 
 ```
