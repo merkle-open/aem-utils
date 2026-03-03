@@ -3,6 +3,7 @@ package com.merkle.oss.aem.utils.services.httpclient.impl;
 import com.adobe.granite.keystore.KeyStoreNotInitialisedException;
 import com.adobe.granite.keystore.KeyStoreService;
 import com.merkle.oss.aem.utils.services.httpclient.HttpClientResponse;
+import com.merkle.oss.aem.utils.services.httpclient.HttpClientServiceException;
 import com.merkle.oss.aem.utils.services.resourceresolver.ResourceResolverService;
 import org.apache.http.HttpEntity;
 import org.apache.http.StatusLine;
@@ -29,11 +30,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import javax.net.ssl.SSLContext;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.net.UnknownHostException;
 import java.nio.charset.StandardCharsets;
-import java.security.KeyManagementException;
-import java.security.KeyStore;
-import java.security.UnrecoverableKeyException;
+import java.security.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -271,7 +269,7 @@ class HttpClientServiceImplTest {
 
         try (MockedConstruction<SSLContextBuilder> ignored = mockConstruction(SSLContextBuilder.class)) {
             final HttpGet httpGet = new HttpGet("https://example.com");
-            final SecurityException exception = assertThrows(SecurityException.class, () -> httpClientService.httpGetWithTrustStore(httpGet));
+            final HttpClientServiceException exception = assertThrows(HttpClientServiceException.class, () -> httpClientService.httpGetWithTrustStore(httpGet));
             assertInstanceOf(LoginException.class, exception.getCause());
         }
     }
@@ -280,7 +278,7 @@ class HttpClientServiceImplTest {
      * Method under test: {@link HttpClientServiceImpl#httpGetWithTrustStore(HttpGet)}
      */
     @Test
-    void httpGetWithTrustStore_failureKeyMgmt() throws Exception {
+    void httpGetWithTrustStore_failureKeyMgmt1() throws Exception {
         when(resourceResolverService.createTruststoreReader()).thenReturn(resourceResolver);
         when(keyStoreService.getTrustStore(resourceResolver)).thenReturn(keyStore);
 
@@ -293,7 +291,49 @@ class HttpClientServiceImplTest {
 
             staticHttpClientBuilder.when(HttpClientBuilder::create).thenReturn(httpClientBuilder);
             final HttpGet httpGet = new HttpGet("https://example.com");
-            assertThrows(SecurityException.class, () -> httpClientService.httpGetWithTrustStore(httpGet));
+            assertThrows(HttpClientServiceException.class, () -> httpClientService.httpGetWithTrustStore(httpGet));
+        }
+    }
+
+    /**
+     * Method under test: {@link HttpClientServiceImpl#httpGetWithTrustStore(HttpGet)}
+     */
+    @Test
+    void httpGetWithTrustStore_failureKeyMgmt2() throws Exception {
+        when(resourceResolverService.createTruststoreReader()).thenReturn(resourceResolver);
+        when(keyStoreService.getTrustStore(resourceResolver)).thenReturn(keyStore);
+
+        try (MockedStatic<HttpClientBuilder> staticHttpClientBuilder = mockStatic(HttpClientBuilder.class);
+             MockedConstruction<SSLContextBuilder> mockSslBuilder = mockConstruction(SSLContextBuilder.class,
+                     (mockBuilder, context) -> {
+                         when(mockBuilder.loadTrustMaterial(any(KeyStore.class), any())).thenThrow(NoSuchAlgorithmException.class);
+                         when(mockBuilder.build()).thenThrow(KeyManagementException.class);
+                     })) {
+
+            staticHttpClientBuilder.when(HttpClientBuilder::create).thenReturn(httpClientBuilder);
+            final HttpGet httpGet = new HttpGet("https://example.com");
+            assertThrows(HttpClientServiceException.class, () -> httpClientService.httpGetWithTrustStore(httpGet));
+        }
+    }
+
+    /**
+     * Method under test: {@link HttpClientServiceImpl#httpGetWithTrustStore(HttpGet)}
+     */
+    @Test
+    void httpGetWithTrustStore_failureKeyMgmt3() throws Exception {
+        when(resourceResolverService.createTruststoreReader()).thenReturn(resourceResolver);
+        when(keyStoreService.getTrustStore(resourceResolver)).thenReturn(keyStore);
+
+        try (MockedStatic<HttpClientBuilder> staticHttpClientBuilder = mockStatic(HttpClientBuilder.class);
+             MockedConstruction<SSLContextBuilder> mockSslBuilder = mockConstruction(SSLContextBuilder.class,
+                     (mockBuilder, context) -> {
+                         when(mockBuilder.loadTrustMaterial(any(KeyStore.class), any())).thenThrow(KeyStoreException.class);
+                         when(mockBuilder.build()).thenThrow(KeyManagementException.class);
+                     })) {
+
+            staticHttpClientBuilder.when(HttpClientBuilder::create).thenReturn(httpClientBuilder);
+            final HttpGet httpGet = new HttpGet("https://example.com");
+            assertThrows(HttpClientServiceException.class, () -> httpClientService.httpGetWithTrustStore(httpGet));
         }
     }
 
@@ -305,7 +345,8 @@ class HttpClientServiceImplTest {
         when(resourceResolverService.createTruststoreReader()).thenReturn(resourceResolver);
         when(keyStoreService.getTrustStore(resourceResolver)).thenThrow(KeyStoreNotInitialisedException.class);
 
-        assertThrows(UnknownHostException.class, () -> httpClientService.httpGetWithTrustStore(new HttpGet("https://secure.example.com")));
+        final HttpGet httpGet = new HttpGet("https://secure.example.com");
+        assertThrows(HttpClientServiceException.class, () -> httpClientService.httpGetWithTrustStore(httpGet));
     }
 
     /**
@@ -329,7 +370,7 @@ class HttpClientServiceImplTest {
 
             staticHttpClientBuilder.when(HttpClientBuilder::create).thenReturn(httpClientBuilder);
             final HttpGet httpGet = new HttpGet("https://example.com");
-            assertThrows(SecurityException.class, () -> httpClientService.httpGetWithKeyStore(httpGet, userId, password));
+            assertThrows(HttpClientServiceException.class, () -> httpClientService.httpGetWithKeyStore(httpGet, userId, password));
         }
     }
 
@@ -337,7 +378,57 @@ class HttpClientServiceImplTest {
      * Method under test: {@link HttpClientServiceImpl#httpGetWithKeyStore(HttpGet, String, String, int, int)}
      */
     @Test
-    void httpGetWithKeyStore_failureKeyMaterial() throws Exception {
+    void httpGetWithKeyStore_failureKeyMaterial1() throws Exception {
+        final String userId = "service-user";
+        final String password = "password";
+
+        when(resourceResolverService.createUsersReader()).thenReturn(resourceResolver);
+        when(keyStoreService.getKeyStore(resourceResolver, userId)).thenReturn(keyStore);
+
+        try (MockedStatic<HttpClientBuilder> staticHttpClientBuilder = mockStatic(HttpClientBuilder.class);
+             MockedConstruction<SSLContextBuilder> mockSslBuilder = mockConstruction(SSLContextBuilder.class,
+                     (mockBuilder, context) -> {
+                         when(mockBuilder.loadKeyMaterial(any(KeyStore.class), any(char[].class))).thenThrow(NoSuchAlgorithmException.class);
+                         when(mockBuilder.build()).thenThrow(KeyManagementException.class);
+                     })) {
+
+
+            staticHttpClientBuilder.when(HttpClientBuilder::create).thenReturn(httpClientBuilder);
+            final HttpGet httpGet = new HttpGet("https://example.com");
+            assertThrows(HttpClientServiceException.class, () -> httpClientService.httpGetWithKeyStore(httpGet, userId, password));
+        }
+    }
+
+    /**
+     * Method under test: {@link HttpClientServiceImpl#httpGetWithKeyStore(HttpGet, String, String, int, int)}
+     */
+    @Test
+    void httpGetWithKeyStore_failureKeyMaterial2() throws Exception {
+        final String userId = "service-user";
+        final String password = "password";
+
+        when(resourceResolverService.createUsersReader()).thenReturn(resourceResolver);
+        when(keyStoreService.getKeyStore(resourceResolver, userId)).thenReturn(keyStore);
+
+        try (MockedStatic<HttpClientBuilder> staticHttpClientBuilder = mockStatic(HttpClientBuilder.class);
+             MockedConstruction<SSLContextBuilder> mockSslBuilder = mockConstruction(SSLContextBuilder.class,
+                     (mockBuilder, context) -> {
+                         when(mockBuilder.loadKeyMaterial(any(KeyStore.class), any(char[].class))).thenThrow(KeyStoreException.class);
+                         when(mockBuilder.build()).thenThrow(KeyManagementException.class);
+                     })) {
+
+
+            staticHttpClientBuilder.when(HttpClientBuilder::create).thenReturn(httpClientBuilder);
+            final HttpGet httpGet = new HttpGet("https://example.com");
+            assertThrows(HttpClientServiceException.class, () -> httpClientService.httpGetWithKeyStore(httpGet, userId, password));
+        }
+    }
+
+    /**
+     * Method under test: {@link HttpClientServiceImpl#httpGetWithKeyStore(HttpGet, String, String, int, int)}
+     */
+    @Test
+    void httpGetWithKeyStore_failureKeyMaterial3() throws Exception {
         final String userId = "service-user";
         final String password = "password";
 
@@ -354,7 +445,7 @@ class HttpClientServiceImplTest {
 
             staticHttpClientBuilder.when(HttpClientBuilder::create).thenReturn(httpClientBuilder);
             final HttpGet httpGet = new HttpGet("https://example.com");
-            assertThrows(SecurityException.class, () -> httpClientService.httpGetWithKeyStore(httpGet, userId, password));
+            assertThrows(HttpClientServiceException.class, () -> httpClientService.httpGetWithKeyStore(httpGet, userId, password));
         }
     }
 
@@ -369,7 +460,8 @@ class HttpClientServiceImplTest {
         when(resourceResolverService.createUsersReader()).thenReturn(resourceResolver);
         when(keyStoreService.getKeyStore(resourceResolver, userId)).thenThrow(KeyStoreNotInitialisedException.class);
 
-        assertThrows(UnknownHostException.class, () -> httpClientService.httpGetWithKeyStore(new HttpGet("https://secure.example.com"), userId, password));
+        final HttpGet httpGet = new HttpGet("https://secure.example.com");
+        assertThrows(HttpClientServiceException.class, () -> httpClientService.httpGetWithKeyStore(httpGet, userId, password));
     }
 
     /**
@@ -384,7 +476,7 @@ class HttpClientServiceImplTest {
 
         try (MockedConstruction<SSLContextBuilder> ignored = mockConstruction(SSLContextBuilder.class)) {
             final HttpGet httpGet = new HttpGet("https://example.com");
-            final SecurityException exception = assertThrows(SecurityException.class, () -> httpClientService.httpGetWithKeyStore(httpGet, userId, password));
+            final HttpClientServiceException exception = assertThrows(HttpClientServiceException.class, () -> httpClientService.httpGetWithKeyStore(httpGet, userId, password));
             assertInstanceOf(LoginException.class, exception.getCause());
         }
     }

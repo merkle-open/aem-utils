@@ -9,7 +9,7 @@
     <groupId>com.merkle.oss.aem</groupId>
     <artifactId>aem-utils</artifactId>
     <packaging>pom</packaging>
-    <version>3.0.0</version>
+    <version>4.0.0-SNAPSHOT</version>
     <name>AEM Utils</name>
     <description>Maven Multimodule project for AEM Utils</description>
     <url>https://github.com/merkle-open/aem-utils</url>
@@ -123,7 +123,7 @@
         <caffeine.version>3.2.3</caffeine.version>
         <org.jspecify.version>1.0.0</org.jspecify.version>
         <junit.version>6.0.3</junit.version>
-        <mockito.version>5.21.0</mockito.version>
+        <mockito.version>5.22.0</mockito.version>
         <io.wcm.testing.aem-mock.junit5.version>5.7.0</io.wcm.testing.aem-mock.junit5.version>
         <gson.version>2.13.2</gson.version>
         <slf4j-simple.version>2.0.17</slf4j-simple.version>
@@ -660,12 +660,6 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>com.adobe.aem</groupId>
-                <artifactId>aem-sdk-api</artifactId>
-                <version>${aem.sdk.api}</version>
-                <scope>provided</scope>
-            </dependency>
-            <dependency>
                 <groupId>org.jsoup</groupId>
                 <artifactId>jsoup</artifactId>
                 <version>${org.jsoup.version}</version>
@@ -689,6 +683,7 @@
                 <version>${org.jspecify.version}</version>
                 <scope>compile</scope>
             </dependency>
+            <!-- Testing - Start -->
             <dependency>
                 <groupId>org.junit</groupId>
                 <artifactId>junit-bom</artifactId>
@@ -741,6 +736,13 @@
                 <artifactId>slf4j-simple</artifactId>
                 <version>${slf4j-simple.version}</version>
                 <scope>test</scope>
+            </dependency>
+            <!-- Testing - End -->
+            <dependency>
+                <groupId>com.adobe.aem</groupId>
+                <artifactId>aem-sdk-api</artifactId>
+                <version>${aem.sdk.api}</version>
+                <scope>provided</scope>
             </dependency>
         </dependencies>
     </dependencyManagement>

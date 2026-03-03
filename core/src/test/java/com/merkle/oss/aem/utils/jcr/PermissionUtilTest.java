@@ -17,15 +17,14 @@ import org.mockito.Mock;
 import org.mockito.MockedStatic;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import javax.jcr.Node;
-import javax.jcr.RepositoryException;
-import javax.jcr.Session;
+import javax.jcr.*;
 import javax.jcr.security.AccessControlManager;
 import javax.jcr.security.AccessControlPolicy;
 import javax.jcr.security.AccessControlPolicyIterator;
 import java.security.Principal;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -77,10 +76,6 @@ class PermissionUtilTest {
     @Mock
     private Node node;
 
-    public static class MockPolicy implements AccessControlPolicy {
-        // Implementation details of the policy class
-    }
-
     /**
      * Method under test: {@link PermissionUtil#getUserId(Session)}
      */
@@ -112,14 +107,14 @@ class PermissionUtilTest {
      */
     @Test
     void getAuthorizable_request() throws RepositoryException {
-        assertNull(PermissionUtil.getAuthorizable(null));
+        assertTrue(PermissionUtil.getAuthorizable(null).isEmpty());
 
         when(request.getResourceResolver()).thenReturn(resourceResolver);
         when(resourceResolver.adaptTo(Session.class)).thenReturn(session);
         when(session.getUserID()).thenReturn(USER_ID);
         when(resourceResolver.adaptTo(UserManager.class)).thenReturn(userManager);
         when(userManager.getAuthorizable(USER_ID)).thenReturn(authorizable);
-        assertEquals(authorizable, PermissionUtil.getAuthorizable(request));
+        assertEquals(Optional.of(authorizable), PermissionUtil.getAuthorizable(request));
     }
 
     /**
@@ -130,7 +125,7 @@ class PermissionUtilTest {
         when(resourceResolver.adaptTo(UserManager.class)).thenReturn(null);
         when(resourceResolver.adaptTo(UserManager.class)).thenReturn(userManager);
         when(userManager.getAuthorizable(USER_ID)).thenThrow(RepositoryException.class);
-        assertNull(PermissionUtil.getAuthorizable(USER_ID, resourceResolver));
+        assertThrows(PermissionException.class, () -> PermissionUtil.getAuthorizable(USER_ID, resourceResolver).isEmpty());
     }
 
     /**
@@ -138,15 +133,15 @@ class PermissionUtilTest {
      */
     @Test
     void getAuthorizable_resolver() throws RepositoryException {
-        assertNull(PermissionUtil.getAuthorizable(StringUtils.EMPTY, resourceResolver));
-        assertNull(PermissionUtil.getAuthorizable(USER_ID, null));
+        assertTrue(PermissionUtil.getAuthorizable(StringUtils.EMPTY, resourceResolver).isEmpty());
+        assertTrue(PermissionUtil.getAuthorizable(USER_ID, null).isEmpty());
 
         when(resourceResolver.adaptTo(UserManager.class)).thenReturn(null);
-        assertNull(PermissionUtil.getAuthorizable(USER_ID, resourceResolver));
+        assertTrue(PermissionUtil.getAuthorizable(USER_ID, resourceResolver).isEmpty());
 
         when(resourceResolver.adaptTo(UserManager.class)).thenReturn(userManager);
         when(userManager.getAuthorizable(USER_ID)).thenReturn(authorizable);
-        assertEquals(authorizable, PermissionUtil.getAuthorizable(USER_ID, resourceResolver));
+        assertEquals(Optional.of(authorizable), PermissionUtil.getAuthorizable(USER_ID, resourceResolver));
     }
 
     /**
@@ -155,14 +150,22 @@ class PermissionUtilTest {
     @Test
     void getPolicy() throws RepositoryException {
         when(accessControlManager.getPolicies(RESOURCE_PATH)).thenReturn(new PrincipalSetPolicy[]{});
-        assertNull(PermissionUtil.getPolicy(RESOURCE_PATH, accessControlManager));
+        assertTrue(PermissionUtil.getPolicy(RESOURCE_PATH, accessControlManager).isEmpty());
 
         AccessControlPolicy[] policies = {mockPolicy, principalSetPolicy};
         when(accessControlManager.getPolicies(RESOURCE_PATH)).thenReturn(policies);
-        assertNotNull(PermissionUtil.getPolicy(RESOURCE_PATH, accessControlManager));
+        assertTrue(PermissionUtil.getPolicy(RESOURCE_PATH, accessControlManager).isPresent());
+
+        final AccessControlManager accessControlManager2 = mock(AccessControlManager.class);
+        when(accessControlManager2.getPolicies(RESOURCE_PATH)).thenThrow(PathNotFoundException.class);
+        assertThrows(PermissionException.class, () -> PermissionUtil.getPolicy(RESOURCE_PATH, accessControlManager2).isEmpty());
+
+        final AccessControlManager accessControlManager3 = mock(AccessControlManager.class);
+        when(accessControlManager3.getPolicies(RESOURCE_PATH)).thenThrow(AccessDeniedException.class);
+        assertThrows(PermissionException.class, () -> PermissionUtil.getPolicy(RESOURCE_PATH, accessControlManager3).isEmpty());
 
         when(accessControlManager.getPolicies(RESOURCE_PATH)).thenThrow(RepositoryException.class);
-        assertNull(PermissionUtil.getPolicy(RESOURCE_PATH, accessControlManager));
+        assertThrows(PermissionException.class, () -> PermissionUtil.getPolicy(RESOURCE_PATH, accessControlManager).isEmpty());
     }
 
     /**
@@ -171,7 +174,7 @@ class PermissionUtilTest {
     @Test
     void getEffectivePolicy() throws RepositoryException {
         when(accessControlManager.getEffectivePolicies(RESOURCE_PATH)).thenReturn(new PrincipalSetPolicy[]{});
-        assertNull(PermissionUtil.getEffectivePolicy(RESOURCE_PATH, accessControlManager));
+        assertTrue(PermissionUtil.getEffectivePolicy(RESOURCE_PATH, accessControlManager).isEmpty());
 
         AccessControlPolicy[] policies = {mockPolicy, principalSetPolicy, cugPolicy, cugPolicy2};
         when(accessControlManager.getEffectivePolicies(RESOURCE_PATH)).thenReturn(policies);
@@ -179,15 +182,23 @@ class PermissionUtilTest {
 
         when(cugPolicy.getPath()).thenReturn(RESOURCE_PATH);
         assertNotNull(PermissionUtil.getEffectivePolicy(RESOURCE_PATH, accessControlManager));
-        assertEquals(cugPolicy, PermissionUtil.getEffectivePolicy(RESOURCE_PATH, accessControlManager));
+        assertEquals(Optional.of(cugPolicy), PermissionUtil.getEffectivePolicy(RESOURCE_PATH, accessControlManager));
 
         when(cugPolicy.getPath()).thenReturn(RESOURCE_PATH + "/path1");
         when(cugPolicy2.getPath()).thenReturn(RESOURCE_PATH + "/path1/path2");
         assertNotNull(PermissionUtil.getEffectivePolicy(RESOURCE_PATH, accessControlManager));
-        assertEquals(cugPolicy2, PermissionUtil.getEffectivePolicy(RESOURCE_PATH, accessControlManager));
+        assertEquals(Optional.of(cugPolicy2), PermissionUtil.getEffectivePolicy(RESOURCE_PATH, accessControlManager));
+
+        final AccessControlManager accessControlManager2 = mock(AccessControlManager.class);
+        when(accessControlManager2.getEffectivePolicies(RESOURCE_PATH)).thenThrow(PathNotFoundException.class);
+        assertThrows(PermissionException.class, () -> PermissionUtil.getEffectivePolicy(RESOURCE_PATH, accessControlManager2));
+
+        final AccessControlManager accessControlManager3 = mock(AccessControlManager.class);
+        when(accessControlManager3.getEffectivePolicies(RESOURCE_PATH)).thenThrow(AccessDeniedException.class);
+        assertThrows(PermissionException.class, () -> PermissionUtil.getEffectivePolicy(RESOURCE_PATH, accessControlManager3));
 
         when(accessControlManager.getEffectivePolicies(RESOURCE_PATH)).thenThrow(RepositoryException.class);
-        assertNull(PermissionUtil.getEffectivePolicy(RESOURCE_PATH, accessControlManager));
+        assertThrows(PermissionException.class, () -> PermissionUtil.getEffectivePolicy(RESOURCE_PATH, accessControlManager));
     }
 
     /**
@@ -197,14 +208,22 @@ class PermissionUtilTest {
     void getApplicablePolicy() throws RepositoryException {
         AccessControlPolicyIterator accessControlPolicyIterator = new AccessControlPolicyIteratorAdapter(Collections.emptyList());
         when(accessControlManager.getApplicablePolicies(RESOURCE_PATH)).thenReturn(accessControlPolicyIterator);
-        assertNull(PermissionUtil.getApplicablePolicy(RESOURCE_PATH, accessControlManager));
+        assertTrue(PermissionUtil.getApplicablePolicy(RESOURCE_PATH, accessControlManager).isEmpty());
 
         accessControlPolicyIterator = new AccessControlPolicyIteratorAdapter(List.of(mockPolicy, principalSetPolicy));
         when(accessControlManager.getApplicablePolicies(RESOURCE_PATH)).thenReturn(accessControlPolicyIterator);
-        assertNotNull(PermissionUtil.getApplicablePolicy(RESOURCE_PATH, accessControlManager));
+        assertTrue(PermissionUtil.getApplicablePolicy(RESOURCE_PATH, accessControlManager).isPresent());
+
+        final AccessControlManager accessControlManager2 = mock(AccessControlManager.class);
+        when(accessControlManager2.getApplicablePolicies(RESOURCE_PATH)).thenThrow(PathNotFoundException.class);
+        assertThrows(PermissionException.class, () -> PermissionUtil.getApplicablePolicy(RESOURCE_PATH, accessControlManager2).isEmpty());
+
+        final AccessControlManager accessControlManager3 = mock(AccessControlManager.class);
+        when(accessControlManager3.getApplicablePolicies(RESOURCE_PATH)).thenThrow(AccessDeniedException.class);
+        assertThrows(PermissionException.class, () -> PermissionUtil.getApplicablePolicy(RESOURCE_PATH, accessControlManager3).isEmpty());
 
         when(accessControlManager.getApplicablePolicies(RESOURCE_PATH)).thenThrow(RepositoryException.class);
-        assertNull(PermissionUtil.getApplicablePolicy(RESOURCE_PATH, accessControlManager));
+        assertThrows(PermissionException.class, () -> PermissionUtil.getApplicablePolicy(RESOURCE_PATH, accessControlManager).isEmpty());
     }
 
     /**
@@ -224,12 +243,15 @@ class PermissionUtilTest {
 
             AccessControlPolicy[] policies = {cugPolicy};
             when(cugPolicy.getPrincipals()).thenReturn(Set.of(principal));
-            when(principal.getName()).thenReturn(CUG_PRINCIPLE_NAME);
+            when(principal.getName()).thenReturn(null);
             when(accessControlManager.getEffectivePolicies(any())).thenReturn(policies);
             when(resourceResolver.adaptTo(Session.class)).thenReturn(session);
             when(resourceResolver.adaptTo(UserManager.class)).thenReturn(userManager);
             when(userManager.getAuthorizable(CUG_PRINCIPLE_NAME)).thenReturn(authorizable);
             when(authorizable.isGroup()).thenReturn(false);
+            assertEquals(Collections.emptyList(), PermissionUtil.getAuthorizedUserGroups(resource, resourceResolver));
+
+            when(principal.getName()).thenReturn(CUG_PRINCIPLE_NAME);
             assertEquals(Collections.emptyList(), PermissionUtil.getAuthorizedUserGroups(resource, resourceResolver));
 
             when(userManager.getAuthorizable(CUG_PRINCIPLE_NAME)).thenReturn(null);
@@ -264,10 +286,10 @@ class PermissionUtilTest {
             assertEquals(List.of(CUG_PRINCIPLE_NAME, "anyone"), PermissionUtil.getAuthorizedUserGroups(resource, resourceResolver));
 
             when(group.getDeclaredMembers()).thenThrow(RepositoryException.class);
-            assertEquals(List.of(CUG_PRINCIPLE_NAME), PermissionUtil.getAuthorizedUserGroups(resource, resourceResolver));
+            assertThrows(PermissionException.class, () -> PermissionUtil.getAuthorizedUserGroups(resource, resourceResolver));
 
             accessControlUtilMockedStatic.when(() -> AccessControlUtil.getAccessControlManager(any())).thenThrow(RepositoryException.class);
-            assertEquals(Collections.emptyList(), PermissionUtil.getAuthorizedUserGroups(resource, resourceResolver));
+            assertThrows(PermissionException.class, () -> PermissionUtil.getAuthorizedUserGroups(resource, resourceResolver));
         }
 
     }
@@ -276,13 +298,13 @@ class PermissionUtilTest {
      * Method under test: {@link PermissionUtil#getAuthorizedUserGroups(Resource, ResourceResolver)}
      */
     @Test
-    void getAuthorizedUserGroups_nullPolicy() throws RepositoryException {
+    void getAuthorizedUserGroups_exception() throws RepositoryException {
         try (MockedStatic<AccessControlUtil> accessControlUtilMockedStatic = mockStatic(AccessControlUtil.class)) {
             accessControlUtilMockedStatic.when(() -> AccessControlUtil.getAccessControlManager(any())).thenReturn(accessControlManager);
             when(resourceResolver.adaptTo(Session.class)).thenReturn(session);
             when(resource.getPath()).thenReturn(RESOURCE_PATH);
             when(accessControlManager.getEffectivePolicies(any())).thenThrow(RepositoryException.class);
-            assertEquals(Collections.emptyList(), PermissionUtil.getAuthorizedUserGroups(resource, resourceResolver));
+            assertThrows(PermissionException.class, () -> PermissionUtil.getAuthorizedUserGroups(resource, resourceResolver));
         }
 
     }
@@ -334,7 +356,11 @@ class PermissionUtilTest {
         when(resource.getPath()).thenReturn(RESOURCE_PATH);
         doThrow(RepositoryException.class).when(session).checkPermission(RESOURCE_PATH, PERMISSION_ADD_NODE);
 
-        assertFalse(PermissionUtil.userHasPermissionForActions(request, PERMISSION_ADD_NODE));
+        assertThrows(PermissionException.class, () -> PermissionUtil.userHasPermissionForActions(request, PERMISSION_ADD_NODE));
+    }
+
+    public static class MockPolicy implements AccessControlPolicy {
+        // Implementation details of the policy class
     }
 
 }
