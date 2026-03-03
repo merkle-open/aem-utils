@@ -683,6 +683,7 @@
                 <version>${org.jspecify.version}</version>
                 <scope>compile</scope>
             </dependency>
+            <!-- Testing - Start -->
             <dependency>
                 <groupId>org.junit</groupId>
                 <artifactId>junit-bom</artifactId>
@@ -736,6 +737,7 @@
                 <version>${slf4j-simple.version}</version>
                 <scope>test</scope>
             </dependency>
+            <!-- Testing - End -->
             <dependency>
                 <groupId>com.adobe.aem</groupId>
                 <artifactId>aem-sdk-api</artifactId>
