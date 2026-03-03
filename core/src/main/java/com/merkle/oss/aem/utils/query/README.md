@@ -58,8 +58,8 @@ public class QueryExampleComponent {
         final QueryResultHelper queryResultHelper = QueryResultHelper.create(resource.getResourceResolver());
         final Query query = querySearch.toQuery(queryBuilder, resource.getResourceResolver());
         searchResultItem = query.getResult().getHits().stream()
-                .map(queryResultHelper::getResource)
-                .filter(Objects::nonNull)
+                .map(queryResultHelper::toResource)
+                .flatMap(Optional::stream)
                 .map(to(ResultItem.class))
                 .collect(Collectors.toList());
     }
@@ -79,7 +79,7 @@ final QueryResultHelper queryResultHelper = QueryResultHelper.create(resource.ge
 final Query query = querySearch.toQuery(queryBuilder, resource.getResourceResolver());
 final List<Object> searchResultItem = query.getResult().getHits().stream()
         .map(queryResultHelper::getResource)
-        .filter(Objects::nonNull)
+        .flatMap(Optional::stream)
         //...
 
 

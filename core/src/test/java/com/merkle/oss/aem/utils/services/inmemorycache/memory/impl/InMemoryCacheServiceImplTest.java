@@ -20,6 +20,7 @@ class InMemoryCacheServiceImplTest {
         try {
             Field f = service.getClass().getDeclaredField("caches");
             f.setAccessible(true);
+            //noinspection unchecked
             return (Map<String, Cache<?, ?>>) f.get(service);
         } catch (NoSuchFieldException | IllegalAccessException e) {
             throw new RuntimeException(e);
