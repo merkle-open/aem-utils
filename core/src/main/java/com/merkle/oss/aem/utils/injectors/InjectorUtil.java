@@ -189,7 +189,7 @@ public final class InjectorUtil {
     }
 
     /**
-     * Performs an element-by-element copy between a wrapper array and a primitive array (or vice-versa).
+     * Performs an element-by-element copy between a wrapper array and a primitive array (or vice versa).
      */
     private static @NonNull Object transformArray(@NonNull final Object sourceArray, @NonNull final Class<?> targetComponentType) {
         final int length = Array.getLength(sourceArray);

@@ -10,6 +10,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import javax.jcr.RepositoryException;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
@@ -44,41 +45,41 @@ class QueryResultHelperTest {
     }
 
     /**
-     * Method under test: {@link QueryResultHelper#getResource(Hit)}
+     * Method under test: {@link QueryResultHelper#toResource(Hit)}
      */
     @Test
-    void getResource() throws RepositoryException {
+    void toResource() throws RepositoryException {
         final QueryResultHelper queryResultHelper = QueryResultHelper.create(resourceResolver);
-        assertNull(queryResultHelper.getResource(null));
+        assertTrue(queryResultHelper.toResource(null).isEmpty());
 
         when(hit.getPath()).thenReturn(PAGE_PATH);
         when(resourceResolver.getResource(PAGE_PATH)).thenReturn(null);
-        assertNull(queryResultHelper.getResource(hit));
+        assertTrue(queryResultHelper.toResource(hit).isEmpty());
 
         when(resourceResolver.getResource(PAGE_PATH)).thenReturn(resource);
-        assertEquals(resource, queryResultHelper.getResource(hit));
+        assertEquals(Optional.of(resource), queryResultHelper.toResource(hit));
 
         when(hit.getPath()).thenThrow(RepositoryException.class);
-        assertNull(queryResultHelper.getResource(hit));
+        assertTrue(queryResultHelper.toResource(hit).isEmpty());
     }
 
     /**
-     * Method under test: {@link QueryResultHelper#adaptHitToPage(Hit)}
+     * Method under test: {@link QueryResultHelper#toPage(Hit)}
      */
     @Test
-    void adaptHitToPage() throws RepositoryException {
+    void toPage() throws RepositoryException {
         final QueryResultHelper queryResultHelper = QueryResultHelper.create(resourceResolver);
 
         when(hit.getPath()).thenReturn(PAGE_PATH);
         when(resourceResolver.getResource(PAGE_PATH)).thenReturn(null);
-        assertNull(queryResultHelper.adaptHitToPage(hit));
+        assertTrue(queryResultHelper.toPage(hit).isEmpty());
 
         when(resourceResolver.getResource(PAGE_PATH)).thenReturn(resource);
         when(resource.adaptTo(Page.class)).thenReturn(page);
-        assertEquals(page, queryResultHelper.adaptHitToPage(hit));
+        assertEquals(Optional.of(page), queryResultHelper.toPage(hit));
 
         when(hit.getPath()).thenThrow(RepositoryException.class);
-        assertNull(queryResultHelper.adaptHitToPage(hit));
+        assertTrue(queryResultHelper.toPage(hit).isEmpty());
     }
 
 }

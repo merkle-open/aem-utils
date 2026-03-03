@@ -4,6 +4,8 @@ import com.adobe.granite.keystore.KeyStoreNotInitialisedException;
 import com.adobe.granite.keystore.KeyStoreService;
 import com.merkle.oss.aem.utils.services.httpclient.HttpClientResponse;
 import com.merkle.oss.aem.utils.services.httpclient.HttpClientService;
+import com.merkle.oss.aem.utils.services.httpclient.HttpClientServiceErrorCode;
+import com.merkle.oss.aem.utils.services.httpclient.HttpClientServiceException;
 import com.merkle.oss.aem.utils.services.resourceresolver.ResourceResolverService;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpEntity;
@@ -184,8 +186,9 @@ public class HttpClientServiceImpl implements HttpClientService {
      * @param connectionTimeout The time (in milliseconds) allowed to establish the connection.
      * @param socketTimeout     The time (in milliseconds) allowed for data to be received.
      * @return An {@link HttpClientResponse} containing the client response.
-     * @throws IOException       on http client execution failure.
-     * @throws SecurityException If the global truststore cannot be loaded or SSL context initialization fails.
+     * @throws IOException                on http client execution failure.
+     * @throws HttpClientServiceException HttpClientServiceException If the global TrustStore cannot be loaded, SSL algorithms
+     *                                    are missing, or the SSL context initialization fails.
      */
     private @NonNull HttpClientResponse executeWithTrustStore(@NonNull final HttpUriRequest request, final int connectionTimeout, final int socketTimeout) throws IOException {
         LOG.debug("Http Client execution attempt for URI {}", request.getURI());
@@ -202,10 +205,12 @@ public class HttpClientServiceImpl implements HttpClientService {
 
             return buildAndExecuteClientRequest(httpClientBuilder, request);
 
-        } catch (NoSuchAlgorithmException | KeyStoreException | LoginException e) {
-            throw new SecurityException("Unable to load global Truststore", e);
+        } catch (NoSuchAlgorithmException e) {
+            throw new HttpClientServiceException(HttpClientServiceErrorCode.NO_SUCH_ALGORITHM, "Unable to load trust material.", e);
+        } catch (KeyStoreException e) {
+            throw new HttpClientServiceException(HttpClientServiceErrorCode.KEY_STORE, "Unable to load trust material.", e);
         } catch (KeyManagementException e) {
-            throw new SecurityException("Unable to build ssl connection factory", e);
+            throw new HttpClientServiceException(HttpClientServiceErrorCode.KEY_MANAGEMENT, "Failed to initialize the SSL connection factory.", e);
         }
 
     }
@@ -213,15 +218,17 @@ public class HttpClientServiceImpl implements HttpClientService {
     /**
      * Retrieves the global AEM TrustStore using the internal ResourceResolver service.
      *
-     * @return The {@link KeyStore} instance representing the global TrustStore, or {@code null} if not initialized.
-     * @throws LoginException If the system user for reading the truststore cannot be authenticated.
+     * @return The {@link KeyStore} instance representing the global TrustStore
+     * @throws HttpClientServiceException If the system user cannot be authenticated (LoginException)
+     *                                    or if the KeyStore is in an uninitialized state.
      */
-    private @Nullable KeyStore loadAEMTrustStore() throws LoginException {
+    private @Nullable KeyStore loadAEMTrustStore() {
         try (final ResourceResolver coreReader = resourceResolverService.createTruststoreReader()) {
             return keyStoreService.getTrustStore(coreReader);
         } catch (KeyStoreNotInitialisedException e) {
-            LOG.error("Unable to load global truststore", e);
-            return null;
+            throw new HttpClientServiceException(HttpClientServiceErrorCode.KEY_STORE_NOT_INITIALISED, "Unable to load global truststore.", e);
+        } catch (LoginException e) {
+            throw new HttpClientServiceException(HttpClientServiceErrorCode.LOGIN, "Unable to create trust store reader.", e);
         }
     }
 
@@ -238,11 +245,12 @@ public class HttpClientServiceImpl implements HttpClientService {
      * @param connectionTimeout     The time (in milliseconds) allowed to establish the connection.
      * @param socketTimeout         The time (in milliseconds) allowed for data to be received.
      * @return An {@link HttpClientResponse} containing the client response.
-     * @throws IOException       on http client execution failure.
-     * @throws SecurityException If the keystore is inaccessible, the password is incorrect, or SSL setup fails.
+     * @throws IOException                on http client execution failure.
+     * @throws HttpClientServiceException HttpClientServiceException If the KeyStore cannot be loaded, SSL algorithms
+     *                                    are missing, or the SSL context initialization fails.
      */
     private @NonNull HttpClientResponse executeWithKeyStore(@NonNull final HttpUriRequest request, @NonNull final String keyStoreServiceUserId, @NonNull final String keyStorePassword, final int connectionTimeout, final int socketTimeout) throws IOException {
-        LOG.debug("Http Client execution attempt for URI {}", request.getURI());
+        LOG.debug("Http Client execution attempt for URI {}.", request.getURI());
 
         try {
             final SSLContextBuilder sslContextBuilder = new SSLContextBuilder();
@@ -256,12 +264,14 @@ public class HttpClientServiceImpl implements HttpClientService {
 
             return buildAndExecuteClientRequest(httpClientBuilder, request);
 
-        } catch (NoSuchAlgorithmException | KeyStoreException | LoginException e) {
-            throw new SecurityException("Unable to load global Truststore", e);
-        } catch (KeyManagementException e) {
-            throw new SecurityException("Unable to build ssl connection factory", e);
+        } catch (NoSuchAlgorithmException e) {
+            throw new HttpClientServiceException(HttpClientServiceErrorCode.NO_SUCH_ALGORITHM, "Unable to load key material.", e);
+        } catch (KeyStoreException e) {
+            throw new HttpClientServiceException(HttpClientServiceErrorCode.KEY_STORE, "Unable to load key material.", e);
         } catch (UnrecoverableKeyException e) {
-            throw new SecurityException("Unable to load key material on ssl context", e);
+            throw new HttpClientServiceException(HttpClientServiceErrorCode.UNRECOVERABLE_KEY, "Unable to load key material.", e);
+        } catch (KeyManagementException e) {
+            throw new HttpClientServiceException(HttpClientServiceErrorCode.KEY_MANAGEMENT, "Failed to initialize the SSL connection factory.", e);
         }
 
     }
@@ -271,14 +281,16 @@ public class HttpClientServiceImpl implements HttpClientService {
      *
      * @param serviceUserId The ID of the system user to retrieve the keystore from.
      * @return The {@link KeyStore} instance, or {@code null} if the keystore is not initialized for this user.
-     * @throws LoginException If the system user for reading user profiles cannot be authenticated.
+     * @throws HttpClientServiceException If the system user cannot be authenticated (LoginException)
+     *                                    or if the KeyStore is in an uninitialized state.
      */
-    private @Nullable KeyStore loadKeyStore(@NonNull final String serviceUserId) throws LoginException {
+    private @Nullable KeyStore loadKeyStore(@NonNull final String serviceUserId) {
         try (final ResourceResolver trustStoreReader = resourceResolverService.createUsersReader()) {
             return keyStoreService.getKeyStore(trustStoreReader, serviceUserId);
         } catch (KeyStoreNotInitialisedException e) {
-            LOG.error("Unable to load keystore because keystore is not initialised for given service user id {}", serviceUserId, e);
-            return null;
+            throw new HttpClientServiceException(HttpClientServiceErrorCode.KEY_STORE_NOT_INITIALISED, "Unable to load keystore because keystore is not initialised for given service user id {}.", serviceUserId, e);
+        } catch (LoginException e) {
+            throw new HttpClientServiceException(HttpClientServiceErrorCode.LOGIN, "Unable to create users reader.", e);
         }
     }
 
