@@ -109,7 +109,6 @@ public final class PageUtil {
      * @param page         The page to inspect.
      * @param propertyName The property name (e.g., "jcr:title").
      * @return The property value, or an empty string if the page/property does not exist.
-     * @throws NullPointerException if {@code propertyName} is null.
      */
     public static @NonNull String getProperty(@Nullable final Page page, @NonNull final String propertyName) {
         Objects.requireNonNull(propertyName);

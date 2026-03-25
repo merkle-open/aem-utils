@@ -27,7 +27,6 @@ public class CookieNameBuilder {
      *
      * @param namespace          The root namespace for the cookie (e.g., projectName). Must not be null.
      * @param cookieSegmentNames Additional initial segments to append immediately.
-     * @throws NullPointerException if {@code namespace} or {@code cookieSegmentNames} is null.
      */
     public CookieNameBuilder(@NonNull final String namespace, @NonNull final String... cookieSegmentNames) {
         Objects.requireNonNull(namespace);

@@ -35,7 +35,6 @@ public final class PageManagerUtil {
      *
      * @param request The current Sling request (must not be null).
      * @return The PageManager, or {@code null} if the resolver cannot be adapted (e.g., due to permission issues).
-     * @throws NullPointerException if {@code request} is null.
      */
     public static @Nullable PageManager pageManagerOf(@NonNull final SlingHttpServletRequest request) {
         return pageManagerOf(request.getResourceResolver());
@@ -46,7 +45,6 @@ public final class PageManagerUtil {
      *
      * @param resource The resource (must not be null).
      * @return The PageManager, or {@code null} if the resolver cannot be adapted.
-     * @throws NullPointerException if {@code resource} is null.
      */
     public static @Nullable PageManager pageManagerOf(@NonNull final Resource resource) {
         return pageManagerOf(resource.getResourceResolver());
@@ -57,7 +55,6 @@ public final class PageManagerUtil {
      *
      * @param resourceResolver The resource resolver (must not be null).
      * @return The PageManager, or {@code null} if adaptation fails.
-     * @throws NullPointerException if {@code resourceResolver} is null.
      */
     public static @Nullable PageManager pageManagerOf(@NonNull final ResourceResolver resourceResolver) {
         Objects.requireNonNull(resourceResolver);
@@ -70,8 +67,7 @@ public final class PageManagerUtil {
      * <p>
      *
      * @param request The current Sling request (must not be null).
-     * @return The containing {@link com.day.cq.wcm.api.Page}, or {@code null} if the resource is not retriveable.
-     * @throws NullPointerException if {@code request} is null.
+     * @return The containing {@link com.day.cq.wcm.api.Page}, or {@code null} if the resource is not retrievable.
      */
     public static @Nullable Page containingPage(@NonNull final SlingHttpServletRequest request) {
         return Optional.ofNullable(pageManagerOf(request))
@@ -85,7 +81,6 @@ public final class PageManagerUtil {
      *
      * @param resource The resource to check (must not be null).
      * @return The containing {@link com.day.cq.wcm.api.Page}, or {@code null} if the resource is not retrievable.
-     * @throws NullPointerException if {@code resource} is null.
      */
     public static @Nullable Page containingPage(@NonNull final Resource resource) {
         return Optional.ofNullable(pageManagerOf(resource))
@@ -99,7 +94,6 @@ public final class PageManagerUtil {
      * @param path             The absolute path to the resource (e.g., {@code "/content/site/en/home/jcr:content/par"}).
      * @param resourceResolver The resolver used to access the content.
      * @return The containing {@link com.day.cq.wcm.api.Page}, or {@code null} if the path is invalid or no page is found.
-     * @throws NullPointerException if {@code path} or {@code resourceResolver} is null.
      */
     public static @Nullable Page containingPage(@NonNull final String path, @NonNull final ResourceResolver resourceResolver) {
         Objects.requireNonNull(path);
