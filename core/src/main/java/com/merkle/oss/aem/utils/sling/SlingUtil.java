@@ -57,7 +57,6 @@ public final class SlingUtil {
      *
      * @param page The AEM Page (must have a valid content resource).
      * @return The JCR Session, or {@code null} if the underlying resolver cannot adapt to a session.
-     * @throws NullPointerException if {@code page.getContentResource()} is null.
      */
     public static @Nullable Session sessionOf(@NonNull final Page page) {
         Objects.requireNonNull(page.getContentResource());

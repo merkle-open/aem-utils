@@ -28,7 +28,6 @@ public final class RequestUtil {
      * @param request       the current Sling request
      * @param selectorValue the selector to search for
      * @return {@code true} if the selector is present, {@code false} otherwise
-     * @throws NullPointerException if request or selectorValue is null
      */
     public static boolean hasSelector(@NonNull final SlingHttpServletRequest request, @NonNull final String selectorValue) {
         Objects.requireNonNull(request);
@@ -49,7 +48,6 @@ public final class RequestUtil {
      *
      * @param request the current Sling request
      * @return a non-null list of selectors (empty list if no selectors are present)
-     * @throws NullPointerException if request is null
      */
     public static @NonNull List<String> getSelectors(@NonNull final SlingHttpServletRequest request) {
         Objects.requireNonNull(request);
@@ -75,7 +73,6 @@ public final class RequestUtil {
      * @param index        the zero-based index of the selector
      * @param defaultValue the value to return if the index is invalid
      * @return the selector value or the default value
-     * @throws NullPointerException if request or defaultValue is null
      */
     public static @NonNull String getSelector(@NonNull final SlingHttpServletRequest request, final int index, @NonNull final String defaultValue) {
         Objects.requireNonNull(request);

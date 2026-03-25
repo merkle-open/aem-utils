@@ -35,7 +35,6 @@ public class HttpClientResponse {
      * @param statusCode  The HTTP status code received from the server (e.g., 200, 404).
      * @param inputStream The {@link InputStream} containing the raw response body. Must not be null.
      * @throws IOException          If an error occurs while reading the stream or converting it to a string.
-     * @throws NullPointerException if the {@code inputStream} is null.
      */
     public HttpClientResponse(int statusCode, @NonNull final InputStream inputStream) throws IOException {
         Objects.requireNonNull(inputStream);

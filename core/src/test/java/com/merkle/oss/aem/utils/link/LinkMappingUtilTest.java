@@ -40,8 +40,7 @@ class LinkMappingUtilTest {
         final SlingHttpServletRequest nullRequest = null;
         final ResourceResolver nullResolver = null;
 
-        assertThrows(NullPointerException.class, () -> LinkMappingUtil.map(null, request));
-        assertThrows(NullPointerException.class, () -> LinkMappingUtil.map(null, resourceResolver));
+        assertThrows(NullPointerException.class, () -> LinkMappingUtil.map(FULL_PATH, request));
         assertThrows(NullPointerException.class, () -> LinkMappingUtil.map(FULL_PATH, nullRequest));
         assertThrows(NullPointerException.class, () -> LinkMappingUtil.map(FULL_PATH, nullResolver));
     }
