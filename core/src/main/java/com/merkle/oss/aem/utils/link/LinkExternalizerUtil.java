@@ -4,12 +4,14 @@ import com.day.cq.commons.Externalizer;
 import com.day.cq.wcm.api.Page;
 import com.merkle.oss.aem.utils.annotations.tooling.Generated;
 import com.merkle.oss.aem.utils.java.ClassUtil;
+import com.merkle.oss.aem.utils.wcm.PageUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 import java.util.Objects;
 
@@ -44,13 +46,11 @@ public final class LinkExternalizerUtil {
      * @param page    The AEM Page to externalize.
      * @param request a sling http request object (required for host, port, context path, and sling resource resolver mapping)
      * @return An absolute URL string, or an empty string if the page is invalid.
-     * @throws NullPointerException if the request or page is null.
      */
-    public static @NonNull String externalize(@NonNull final Page page, @NonNull final SlingHttpServletRequest request) {
+    public static @NonNull String externalize(@Nullable final Page page, @NonNull final SlingHttpServletRequest request) {
         Objects.requireNonNull(request);
-        Objects.requireNonNull(page);
 
-        if (!page.isValid()) {
+        if (!PageUtil.isValid(page)) {
             return StringUtils.EMPTY;
         }
 
@@ -71,13 +71,15 @@ public final class LinkExternalizerUtil {
      * @param path    a resource path; might contain extension, query or fragment, but plain paths are recommended; has to be without a context path
      * @param request a sling http request object (required for host, port, context path, and sling resource resolver mapping)
      * @return An absolute URL string, or an empty string if the path is internal.
-     * @throws NullPointerException if the request or path is null.
      */
-    public static @NonNull String externalize(@NonNull final String path, @NonNull final SlingHttpServletRequest request) {
+    public static @NonNull String externalize(@Nullable final String path, @NonNull final SlingHttpServletRequest request) {
         Objects.requireNonNull(request);
-        Objects.requireNonNull(path);
 
-        if (!LinkUtil.isRelativ(path)) {
+        if (StringUtils.isBlank(path)) {
+            return StringUtils.EMPTY;
+        }
+
+        if (!LinkUtil.isRelative(path)) {
             return path;
         }
 
@@ -98,11 +100,13 @@ public final class LinkExternalizerUtil {
      * @param richText The HTML string containing links to be processed.
      * @param request  a sling http request object (required for host, port, context path, and sling resource resolver mapping)
      * @return The processed HTML string with externalized links.
-     * @throws NullPointerException if the request or richText is null.
      */
-    public static @NonNull String externalizeRichTextLinks(@NonNull final String richText, @NonNull final SlingHttpServletRequest request) {
+    public static @NonNull String externalizeRichTextLinks(@Nullable final String richText, @NonNull final SlingHttpServletRequest request) {
         Objects.requireNonNull(request);
-        Objects.requireNonNull(richText);
+
+        if (StringUtils.isBlank(richText)) {
+            return StringUtils.EMPTY;
+        }
 
         final Document document = Jsoup.parse(richText);
         document.select("a").forEach(data -> data.attr("href", absoluteLink(LinkUtil.appendHtml(data.attr("href")), request)));
@@ -116,7 +120,6 @@ public final class LinkExternalizerUtil {
      * @param path    The path to externalize.
      * @param request The current Sling request.
      * @return The absolute link produced by the Externalizer.
-     * @throws NullPointerException if the Externalizer service cannot be adapted from the request resolver.
      */
     private static @NonNull String absoluteLink(@NonNull final String path, @NonNull final SlingHttpServletRequest request) {
         final ResourceResolver resolver = request.getResourceResolver();

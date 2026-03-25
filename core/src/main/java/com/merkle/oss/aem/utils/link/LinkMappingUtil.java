@@ -2,6 +2,7 @@ package com.merkle.oss.aem.utils.link;
 
 import com.merkle.oss.aem.utils.annotations.tooling.Generated;
 import com.merkle.oss.aem.utils.java.ClassUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.jspecify.annotations.NonNull;
@@ -37,7 +38,7 @@ public final class LinkMappingUtil {
      * @return The mapped and processed path.
      * @see #map(String, SlingHttpServletRequest, ResourceResolver)
      */
-    public static @NonNull String map(@NonNull final String path, @NonNull final ResourceResolver resourceResolver) {
+    public static @NonNull String map(@Nullable final String path, @NonNull final ResourceResolver resourceResolver) {
         return map(path, null, resourceResolver);
     }
 
@@ -52,7 +53,7 @@ public final class LinkMappingUtil {
      * @return The mapped and processed path.
      * @see #map(String, SlingHttpServletRequest, ResourceResolver)
      */
-    public static @NonNull String map(@NonNull final String path, @NonNull final SlingHttpServletRequest request) {
+    public static @NonNull String map(@Nullable final String path, @NonNull final SlingHttpServletRequest request) {
         return map(path, request, request.getResourceResolver());
     }
 
@@ -61,7 +62,7 @@ public final class LinkMappingUtil {
      * <p>
      * The following logic is applied:
      * <ol>
-     * <li>Checks if the path is internal via {@link LinkUtil#isRelativ(String)}. If not, returns the path as-is.</li>
+     * <li>Checks if the path is internal via {@link LinkUtil#isRelative(String)}. If not, returns the path as-is.</li>
      * <li>Applies {@link org.apache.sling.api.resource.ResourceResolver#map(String)} (or request-aware map if provided).</li>
      * </ol>
      *
@@ -69,13 +70,15 @@ public final class LinkMappingUtil {
      * @param request          The current request (optional context).
      * @param resourceResolver The resource resolver (required).
      * @return The mapped, relative, and extended path.
-     * @throws NullPointerException if the path or resourceResolver is null.
      */
-    public static @NonNull String map(@NonNull final String path, @Nullable final SlingHttpServletRequest request, @NonNull final ResourceResolver resourceResolver) {
-        Objects.requireNonNull(path);
+    public static @NonNull String map(@Nullable final String path, @Nullable final SlingHttpServletRequest request, @NonNull final ResourceResolver resourceResolver) {
         Objects.requireNonNull(resourceResolver);
 
-        if (!LinkUtil.isRelativ(path)) {
+        if (StringUtils.isBlank(path)) {
+            return StringUtils.EMPTY;
+        }
+
+        if (!LinkUtil.isRelative(path)) {
             return path;
         }
 

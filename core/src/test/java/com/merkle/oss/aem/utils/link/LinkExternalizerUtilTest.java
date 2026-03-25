@@ -10,8 +10,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 /**
@@ -64,7 +63,7 @@ class LinkExternalizerUtilTest {
     @Test
     void externalize_page_null() {
         final Page nullPage = null;
-        assertThrows(NullPointerException.class, () -> LinkExternalizerUtil.externalize(nullPage, request));
+        assertDoesNotThrow(() -> LinkExternalizerUtil.externalize(nullPage, request));
         assertThrows(NullPointerException.class, () -> LinkExternalizerUtil.externalize(page, null));
     }
 
@@ -100,7 +99,7 @@ class LinkExternalizerUtilTest {
     @Test
     void externalize_path_null() {
         final String nullPath = null;
-        assertThrows(NullPointerException.class, () -> LinkExternalizerUtil.externalize(nullPath, request));
+        assertDoesNotThrow(() -> LinkExternalizerUtil.externalize(nullPath, request));
         assertThrows(NullPointerException.class, () -> LinkExternalizerUtil.externalize(FULL_PATH, null));
     }
 
@@ -138,7 +137,7 @@ class LinkExternalizerUtilTest {
     @Test
     void externalizeRichTextLinks_null() {
         assertThrows(NullPointerException.class, () -> LinkExternalizerUtil.externalizeRichTextLinks("", null));
-        assertThrows(NullPointerException.class, () -> LinkExternalizerUtil.externalizeRichTextLinks(null, request));
+        assertDoesNotThrow(() -> LinkExternalizerUtil.externalizeRichTextLinks(null, request));
     }
 
     /**

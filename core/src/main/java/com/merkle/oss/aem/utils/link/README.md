@@ -81,7 +81,7 @@ public class ExampleComponent {
         }
         /* <--- EXAMPLE ---> */
         //-> "/content/mysite/us/en/home/pagename.html"
-        return LinkUtil.createLink(targetPath, request.getResourceResolver());
+        return LinkUtil.createLink(targetPath, request.getResourceResolver()).orElse(StringUtils.EMPTY);
     }
 
     public String getPageLink() {
@@ -90,7 +90,7 @@ public class ExampleComponent {
         }
         /* <--- EXAMPLE ---> */
         //-> "/content/mysite/us/en/home/pagename.html"
-        return LinkUtil.createLink(targetPage);
+        return LinkUtil.createLink(targetPage).orElse(StringUtils.EMPTY);
     }
 
 }
