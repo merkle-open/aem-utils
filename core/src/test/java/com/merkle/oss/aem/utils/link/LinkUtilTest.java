@@ -45,13 +45,13 @@ class LinkUtilTest {
     @Test
     void createLink_page() {
         when(page.isValid()).thenReturn(false);
-        assertNull(LinkUtil.createLink(page));
+        assertTrue(LinkUtil.createLink(page).isEmpty());
 
         when(page.isValid()).thenReturn(true);
         when(page.adaptTo(Resource.class)).thenReturn(resource);
         when(resource.getResourceResolver()).thenReturn(resourceResolver);
         when(page.getPath()).thenReturn(INTERNAL_LINK);
-        assertEquals(INTERNAL_LINK, LinkUtil.createLink(page));
+        assertEquals(INTERNAL_LINK, LinkUtil.createLink(page).get());
     }
 
     /**
@@ -59,30 +59,29 @@ class LinkUtilTest {
      */
     @Test
     void createLink_path() {
-        assertNull(LinkUtil.createLink(StringUtils.EMPTY, resourceResolver));
+        assertTrue(LinkUtil.createLink(StringUtils.EMPTY, resourceResolver).isEmpty());
         assertThrows(NullPointerException.class, () -> LinkUtil.createLink(INTERNAL_LINK, null));
-        assertThrows(NullPointerException.class, () -> LinkUtil.createLink(null, resourceResolver));
 
         when(resourceResolver.adaptTo(PageManager.class)).thenReturn(null);
-        assertNull(LinkUtil.createLink(INTERNAL_LINK, resourceResolver));
+        assertTrue(LinkUtil.createLink(INTERNAL_LINK, resourceResolver).isEmpty());
 
         when(resourceResolver.adaptTo(PageManager.class)).thenReturn(pageManager);
         when(pageManager.getPage(INTERNAL_LINK)).thenReturn(page);
         when(page.isValid()).thenReturn(false);
-        assertNull(LinkUtil.createLink(INTERNAL_LINK, resourceResolver));
+        assertTrue(LinkUtil.createLink(INTERNAL_LINK, resourceResolver).isEmpty());
 
         when(pageManager.getPage(INTERNAL_LINK_NO_EXTENSION)).thenReturn(null);
         when(page.isValid()).thenReturn(false);
-        assertEquals(INTERNAL_LINK, LinkUtil.createLink(INTERNAL_LINK_NO_EXTENSION, resourceResolver));
+        assertEquals(INTERNAL_LINK, LinkUtil.createLink(INTERNAL_LINK_NO_EXTENSION, resourceResolver).get());
 
         when(pageManager.getPage(INTERNAL_LINK)).thenReturn(page);
         when(pageManager.getPage(ABSOLUTE_LINK)).thenReturn(null);
         when(pageManager.getPage(APPLICATION_LINK)).thenReturn(null);
         when(page.isValid()).thenReturn(true);
-        assertEquals(INTERNAL_LINK, LinkUtil.createLink(INTERNAL_LINK, resourceResolver));
-        assertEquals(INTERNAL_LINK, LinkUtil.createLink(INTERNAL_LINK_NO_SLASH, resourceResolver));
-        assertEquals(ABSOLUTE_LINK, LinkUtil.createLink(ABSOLUTE_LINK, resourceResolver));
-        assertEquals(APPLICATION_LINK, LinkUtil.createLink(APPLICATION_LINK, resourceResolver));
+        assertEquals(INTERNAL_LINK, LinkUtil.createLink(INTERNAL_LINK, resourceResolver).get());
+        assertEquals(INTERNAL_LINK, LinkUtil.createLink(INTERNAL_LINK_NO_SLASH, resourceResolver).get());
+        assertEquals(ABSOLUTE_LINK, LinkUtil.createLink(ABSOLUTE_LINK, resourceResolver).get());
+        assertEquals(APPLICATION_LINK, LinkUtil.createLink(APPLICATION_LINK, resourceResolver).get());
     }
 
     /**
@@ -165,12 +164,12 @@ class LinkUtilTest {
     }
 
     /**
-     * Method under test: {@link LinkUtil#isRelativ(String)}
+     * Method under test: {@link LinkUtil#isRelative(String)}
      */
     @Test
-    void isRelativ() {
-        assertTrue(LinkUtil.isRelativ(INTERNAL_LINK));
-        assertFalse(LinkUtil.isRelativ(EXTERNAL_LINK));
+    void isRelative() {
+        assertTrue(LinkUtil.isRelative(INTERNAL_LINK));
+        assertFalse(LinkUtil.isRelative(EXTERNAL_LINK));
     }
 
     /**

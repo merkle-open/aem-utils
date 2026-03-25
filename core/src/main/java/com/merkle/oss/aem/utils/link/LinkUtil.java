@@ -46,13 +46,12 @@ public final class LinkUtil {
      * @apiNote This method does not apply Sling Resource Mapping. For shortening or
      * mapping paths, use {@link LinkMappingUtil}.
      */
-    public static @Nullable String createLink(@Nullable final Page page) {
+    public static @NonNull Optional<String> createLink(@Nullable final Page page) {
         return Optional.ofNullable(page)
                 .filter(Page::isValid)
                 .map(validPage -> validPage.adaptTo(Resource.class))
                 .map(Resource::getResourceResolver)
-                .map(resourceResolver -> createLink(page.getPath(), resourceResolver, false))
-                .orElse(null);
+                .flatMap(resourceResolver -> createLink(page.getPath(), resourceResolver, false));
     }
 
     /**
@@ -63,11 +62,10 @@ public final class LinkUtil {
      * @param path             The path string.
      * @param resourceResolver The resolver to check page existence and validity.
      * @return The processed path, or {@code null} if an internal page is invalid.
-     * @throws NullPointerException if the path or resourceResolver is null.
      * @apiNote This method does not apply Sling Resource Mapping. For shortening or
      * mapping paths, use {@link LinkMappingUtil}.
      */
-    public static @Nullable String createLink(@NonNull final String path, @NonNull final ResourceResolver resourceResolver) {
+    public static @NonNull Optional<String> createLink(@Nullable final String path, @NonNull final ResourceResolver resourceResolver) {
         return createLink(path, resourceResolver, true);
     }
 
@@ -82,9 +80,12 @@ public final class LinkUtil {
      * @param needsPageValidation Whether to perform {@link com.day.cq.wcm.api.Page#isValid()} checks.
      * @return The formatted path string or {@code null} if validation fails.
      */
-    private static @Nullable String createLink(@NonNull String path, @NonNull final ResourceResolver resourceResolver, final boolean needsPageValidation) {
-        Objects.requireNonNull(path);
+    private static @NonNull Optional<String> createLink(@Nullable String path, @NonNull final ResourceResolver resourceResolver, final boolean needsPageValidation) {
         Objects.requireNonNull(resourceResolver);
+
+        if (StringUtils.isBlank(path)) {
+            return Optional.empty();
+        }
 
         // If an internal link starts without a slash, add it. This can happen during copy and paste
         if (!path.contains(Links.REQUEST_SCHEME_EXTENSION) && !path.startsWith(Links.SLASH) && !isApplicationLink(path)) {
@@ -94,16 +95,17 @@ public final class LinkUtil {
         if (needsPageValidation) {
             final PageManager pageManager = resourceResolver.adaptTo(PageManager.class);
             if (pageManager == null) {
-                return null;
+                return Optional.empty();
             }
 
             final Page page = pageManager.getPage(path);
             if (page != null && !page.isValid()) {
-                return null;
+                return Optional.empty();
             }
         }
 
-        return appendHtml(path);
+        path = appendHtml(path);
+        return Optional.of(path);
     }
 
     /**
@@ -185,7 +187,7 @@ public final class LinkUtil {
     public static boolean isMissingHtmlExtension(@NonNull final String path) {
         Objects.requireNonNull(path);
 
-        if (isDAMPath(path) || !isRelativ(path)) {
+        if (isDAMPath(path) || !isRelative(path)) {
             return false;
         }
 
@@ -209,7 +211,7 @@ public final class LinkUtil {
      * @param link The link/path to check.
      * @return {@code true} if the link starts with {@code /}.
      */
-    public static boolean isRelativ(@Nullable final String link) {
+    public static boolean isRelative(@Nullable final String link) {
         return StringUtils.isNotBlank(link) && link.trim().startsWith(Links.SLASH);
     }
 
@@ -217,7 +219,7 @@ public final class LinkUtil {
      * Checks if a path points to a DAM asset.
      *
      * @param link The path to check.
-     * @return {@code true} if the path starts with the DAM mountpoint ({@code /content/dam}).
+     * @return {@code true} if the path starts with the DAM mount-point ({@code /content/dam}).
      */
     public static boolean isDAMPath(@Nullable final String link) {
         return StringUtils.isNotBlank(link) && Strings.CS.startsWith(link, DamConstants.MOUNTPOINT_ASSETS);
