@@ -1,7 +1,6 @@
 package com.merkle.oss.aem.utils.wcm;
 
 import com.day.cq.wcm.api.Page;
-import com.day.cq.wcm.api.PageFilter;
 import com.day.cq.wcm.api.constants.NameConstants;
 import com.merkle.oss.aem.utils.annotations.tooling.Generated;
 import com.merkle.oss.aem.utils.java.ClassUtil;
@@ -196,7 +195,7 @@ public final class PageUtil {
 
         final Set<String> templateSet = Set.of(templates);
 
-        return FunctionalUtil.streamDescendants(parent, page -> page.listChildren(new PageFilter()), maxDepth)
+        return FunctionalUtil.streamDescendants(parent, Page::listChildren, maxDepth)
                 .filter(page -> templateSet.contains(getTemplatePath(page)));
     }
 
