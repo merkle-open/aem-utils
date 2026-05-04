@@ -118,7 +118,7 @@
         <mvn.gpg.plugin.version>3.2.8</mvn.gpg.plugin.version>
         <mvn.sonatype.publishing.plugin.version>0.10.0</mvn.sonatype.publishing.plugin.version>
 
-        <org.jsoup.version>1.22.1</org.jsoup.version>
+        <org.jsoup.version>1.22.2</org.jsoup.version>
         <google.re2j.version>1.8</google.re2j.version>
         <caffeine.version>3.2.3</caffeine.version>
         <org.jspecify.version>1.0.0</org.jspecify.version>
