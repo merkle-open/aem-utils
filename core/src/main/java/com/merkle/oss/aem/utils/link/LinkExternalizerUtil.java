@@ -42,6 +42,7 @@ public final class LinkExternalizerUtil {
      * The hostname (and port) are taken from the resource resolver mapping configuration,
      * if present, or dynamically from the current request using
      * ServletRequest.getServerName() and ServletRequest.getServerPort(), while the scheme is given as an argument.
+     * Externalized links to pages are automatically appended with the ".hmtl" extension.
      *
      * @param page    The AEM Page to externalize.
      * @param request a sling http request object (required for host, port, context path, and sling resource resolver mapping)
@@ -54,7 +55,7 @@ public final class LinkExternalizerUtil {
             return StringUtils.EMPTY;
         }
 
-        return absoluteLink(page.getPath(), request);
+        return absoluteLink(LinkUtil.appendHtml(page.getPath()), request);
     }
 
     /**

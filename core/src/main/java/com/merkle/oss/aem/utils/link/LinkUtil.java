@@ -187,7 +187,7 @@ public final class LinkUtil {
     public static boolean isMissingHtmlExtension(@NonNull final String path) {
         Objects.requireNonNull(path);
 
-        if (isDAMPath(path) || !isRelative(path)) {
+        if (StringUtils.isBlank(path) || isDAMPath(path) || !isRelative(path)) {
             return false;
         }
 

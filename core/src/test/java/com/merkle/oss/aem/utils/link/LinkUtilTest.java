@@ -136,6 +136,7 @@ class LinkUtilTest {
         assertThrows(NullPointerException.class, () -> LinkUtil.isMissingHtmlExtension(null));
 
         assertFalse(LinkUtil.isMissingHtmlExtension(""));
+        assertFalse(LinkUtil.isMissingHtmlExtension(" "));
         assertFalse(LinkUtil.isMissingHtmlExtension("something/invalid"));
         assertFalse(LinkUtil.isMissingHtmlExtension("/content/dam/some/asset"));
         assertFalse(LinkUtil.isMissingHtmlExtension("/content/dam/some/asset.json"));
