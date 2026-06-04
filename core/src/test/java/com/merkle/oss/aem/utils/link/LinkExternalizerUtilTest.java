@@ -86,8 +86,8 @@ class LinkExternalizerUtilTest {
         when(request.getScheme()).thenReturn(HTTPS_SCHEME);
         when(request.getResourceResolver()).thenReturn(resourceResolver);
         when(resourceResolver.adaptTo(Externalizer.class)).thenReturn(externalizer);
-        when(externalizer.absoluteLink(request, request.getScheme(), FULL_PATH)).thenReturn(BASE_URL + MAPPED_PATH);
-        assertEquals((BASE_URL + MAPPED_PATH), LinkExternalizerUtil.externalize(page, request));
+        when(externalizer.absoluteLink(request, request.getScheme(), FULL_PATH + HTML_EXTENSION)).thenReturn(BASE_URL + MAPPED_PATH + HTML_EXTENSION);
+        assertEquals((BASE_URL + MAPPED_PATH + HTML_EXTENSION), LinkExternalizerUtil.externalize(page, request));
 
         when(resourceResolver.adaptTo(Externalizer.class)).thenReturn(null);
         assertThrows(NullPointerException.class, () -> LinkExternalizerUtil.externalize(page, request));
