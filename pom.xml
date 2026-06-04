@@ -9,7 +9,7 @@
     <groupId>com.merkle.oss.aem</groupId>
     <artifactId>aem-utils</artifactId>
     <packaging>pom</packaging>
-    <version>5.0.2</version>
+    <version>5.0.3-SNAPSHOT</version>
     <name>AEM Utils</name>
     <description>Maven Multimodule project for AEM Utils</description>
     <url>https://github.com/merkle-open/aem-utils</url>
@@ -99,7 +99,7 @@
         <mvn.assembly.plugin.version>3.8.0</mvn.assembly.plugin.version>
         <mvn.jar.plugin.version>3.5.0</mvn.jar.plugin.version>
         <mvn.clean.plugin.version>3.5.0</mvn.clean.plugin.version>
-        <bnd.mvn.plugin.version>7.2.3</bnd.mvn.plugin.version>
+        <bnd.mvn.plugin.version>7.3.0</bnd.mvn.plugin.version>
         <mvn.resource.plugin.version>3.5.0</mvn.resource.plugin.version>
         <mvn.compiler.plugin.version>3.15.0</mvn.compiler.plugin.version>
         <mvn.install.plugin.version>3.1.4</mvn.install.plugin.version>
