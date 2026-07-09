@@ -9,7 +9,7 @@
     <groupId>com.merkle.oss.aem</groupId>
     <artifactId>aem-utils</artifactId>
     <packaging>pom</packaging>
-    <version>5.0.3</version>
+    <version>5.1.0-SNAPSHOT</version>
     <name>AEM Utils</name>
     <description>Maven Multimodule project for AEM Utils</description>
     <url>https://github.com/merkle-open/aem-utils</url>
@@ -94,7 +94,7 @@
         <mvn.release.plugin.version>3.3.1</mvn.release.plugin.version>
         <mvn.javadoc.plugin.version>3.12.0</mvn.javadoc.plugin.version>
         <mvn.source.plugin.version>3.4.0</mvn.source.plugin.version>
-        <jacoco.mvn.plugin.version>0.8.14</jacoco.mvn.plugin.version>
+        <jacoco.mvn.plugin.version>0.8.15</jacoco.mvn.plugin.version>
         <sonar.mvn.plugin.version>5.7.0.6970</sonar.mvn.plugin.version>
         <mvn.assembly.plugin.version>3.8.0</mvn.assembly.plugin.version>
         <mvn.jar.plugin.version>3.5.0</mvn.jar.plugin.version>
@@ -109,20 +109,20 @@
         <sling.mvn.plugin.version>3.0.4</sling.mvn.plugin.version>
         <htl.mvn.plugin.version>2.0.4-1.4.0</htl.mvn.plugin.version>
         <filevault.package.mvn.plugin.version>1.4.0</filevault.package.mvn.plugin.version>
-        <aemanalyser.mvn.plugin.version>1.6.18</aemanalyser.mvn.plugin.version>
+        <aemanalyser.mvn.plugin.version>1.6.24</aemanalyser.mvn.plugin.version>
         <content.package.mvn.plugin.version>1.0.6</content.package.mvn.plugin.version>
         <mvn.enforcer.plugin.version>3.6.3</mvn.enforcer.plugin.version>
         <mvn.dependency.plugin.version>3.11.0</mvn.dependency.plugin.version>
         <build.helper.mvn.plugin.version>3.6.1</build.helper.mvn.plugin.version>
         <lifecycle.mapping.plugin.version>3.6.1</lifecycle.mapping.plugin.version>
         <mvn.gpg.plugin.version>3.2.8</mvn.gpg.plugin.version>
-        <mvn.sonatype.publishing.plugin.version>0.10.0</mvn.sonatype.publishing.plugin.version>
+        <mvn.sonatype.publishing.plugin.version>0.11.0</mvn.sonatype.publishing.plugin.version>
 
         <org.jsoup.version>1.22.2</org.jsoup.version>
         <google.re2j.version>1.8</google.re2j.version>
         <caffeine.version>3.2.4</caffeine.version>
         <org.jspecify.version>1.0.0</org.jspecify.version>
-        <junit.version>6.1.0</junit.version>
+        <junit.version>6.1.1</junit.version>
         <mockito.version>5.23.0</mockito.version>
         <io.wcm.testing.aem-mock.junit5.version>5.7.4</io.wcm.testing.aem-mock.junit5.version>
         <gson.version>2.14.0</gson.version>
@@ -436,7 +436,7 @@
                         <dependency>
                             <groupId>biz.netcentric.aem</groupId>
                             <artifactId>aem-nodetypes</artifactId>
-                            <version>2023.10.0</version>
+                            <version>2026.06.0</version>
                         </dependency>
                     </dependencies>
                 </plugin>
