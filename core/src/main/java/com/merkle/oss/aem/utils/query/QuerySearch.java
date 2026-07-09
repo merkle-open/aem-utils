@@ -48,6 +48,8 @@ public class QuerySearch {
 
     private final String primaryType;
 
+    private String indexTag;
+
     private boolean addOnOffTimePredicate;
 
     private long hitsPerPage = DEFAULT_HITS_PER_PAGE;
@@ -72,6 +74,17 @@ public class QuerySearch {
     public QuerySearch(@NonNull final String primaryType) {
         this.now = new Date();
         this.primaryType = primaryType;
+    }
+
+    /**
+     * Set to specific index tag of required oak:index with which the query should be executed.
+     * <p>
+     * Retrieves corresponding oak:index with value on property "tags"
+     *
+     * @param indexTag The index tag to set.
+     */
+    public void setIndexTag(@Nullable final String indexTag) {
+        this.indexTag = indexTag;
     }
 
     /**
@@ -200,7 +213,14 @@ public class QuerySearch {
      * @return A unified PredicateGroup containing all the collected predicates.
      */
     private @NonNull PredicateGroup getAllPredicateGroups() {
-        final PredicateGroup allPredicates = new PredicateGroup();
+        final Map<String, String> rootParams = new HashMap<>();
+
+        if (StringUtils.isNotBlank(indexTag)) {
+            rootParams.put("p.indexTag", indexTag);
+        }
+
+        final PredicateGroup allPredicates = PredicateGroup.create(rootParams);
+
         addPredicateIfNotNull(allPredicates, createPathPredicate());
         addPredicateIfNotNull(allPredicates, createTypePredicate());
         addPredicateIfNotNull(allPredicates, createOnOffPredicate(addOnOffTimePredicate));
