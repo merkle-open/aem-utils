@@ -9,6 +9,7 @@ import org.apache.sling.api.resource.ResourceResolver;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
+import org.mockito.ArgumentCaptor;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import javax.jcr.Session;
@@ -21,6 +22,7 @@ import static com.day.cq.commons.jcr.JcrConstants.NT_UNSTRUCTURED;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 /**
@@ -83,6 +85,24 @@ class QuerySearchTest {
         final Query queryTest = querySearch.toQuery(queryBuilder, resourceResolver);
 
         assertEquals(2L, queryTest.getHitsPerPage());
+    }
+
+    /**
+     * Method under test: {@link QuerySearch#setIndexTag(String)}
+     */
+    @Test
+    void testToQueryWithIndexTag() {
+        when(resourceResolver.adaptTo(Session.class)).thenReturn(session);
+        when(queryBuilder.createQuery(any(), any())).thenReturn(query);
+
+        final QuerySearch querySearch = new QuerySearch(NT_UNSTRUCTURED);
+        querySearch.setIndexTag("aem-utils-index");
+        querySearch.toQuery(queryBuilder, resourceResolver);
+
+        final ArgumentCaptor<PredicateGroup> predicateGroupCaptor = ArgumentCaptor.forClass(PredicateGroup.class);
+        verify(queryBuilder).createQuery(predicateGroupCaptor.capture(), any(Session.class));
+
+        assertEquals("aem-utils-index", predicateGroupCaptor.getValue().getParameters().get("indexTag"));
     }
 
     /**
