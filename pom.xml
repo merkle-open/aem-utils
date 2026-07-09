@@ -9,7 +9,7 @@
     <groupId>com.merkle.oss.aem</groupId>
     <artifactId>aem-utils</artifactId>
     <packaging>pom</packaging>
-    <version>5.1.0-SNAPSHOT</version>
+    <version>5.1.0</version>
     <name>AEM Utils</name>
     <description>Maven Multimodule project for AEM Utils</description>
     <url>https://github.com/merkle-open/aem-utils</url>
