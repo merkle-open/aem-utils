@@ -76,6 +76,13 @@ public class QuerySearch {
         this.primaryType = primaryType;
     }
 
+    /**
+     * Set to specific index tag of required oak:index with which the query should be executed.
+     * <p>
+     * Retrieves corresponding oak:index with value on property "tags"
+     *
+     * @param indexTag The index tag to set.
+     */
     public void setIndexTag(@Nullable final String indexTag) {
         this.indexTag = indexTag;
     }
