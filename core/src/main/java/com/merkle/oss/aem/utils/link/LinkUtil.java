@@ -212,7 +212,7 @@ public final class LinkUtil {
      * @return {@code true} if the link starts with {@code /}.
      */
     public static boolean isRelative(@Nullable final String link) {
-        return StringUtils.isNotBlank(link) && link.trim().startsWith(Links.SLASH);
+        return StringUtils.isNotBlank(link) && Strings.CS.startsWith(link.trim(), Links.SLASH);
     }
 
     /**
