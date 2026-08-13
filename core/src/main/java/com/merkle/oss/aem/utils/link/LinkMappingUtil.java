@@ -47,6 +47,7 @@ public final class LinkMappingUtil {
      * <p>
      * Returns a URL mapped from the provided path applying the reverse mapping used by the {@link ResourceResolver#resolve(HttpServletRequest, String)}
      * such that when the path is given to the {@link ResourceResolver#resolve(HttpServletRequest, String)} method, the same resource is returned.
+     * Converts the mapped path to a relative path using {@link LinkUtil#getRelativeFromAbsolutePath(String)}.
      *
      * @param path    The path to map.
      * @param request The current request used for context-aware mapping.
@@ -64,6 +65,7 @@ public final class LinkMappingUtil {
      * <ol>
      * <li>Checks if the path is internal via {@link LinkUtil#isRelative(String)}. If not, returns the path as-is.</li>
      * <li>Applies {@link org.apache.sling.api.resource.ResourceResolver#map(String)} (or request-aware map if provided).</li>
+     * <li>Converts the mapped path to a relative path using {@link LinkUtil#getRelativeFromAbsolutePath(String)}.</li>
      * </ol>
      *
      * @param path             The path to map.

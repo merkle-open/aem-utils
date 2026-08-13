@@ -171,6 +171,8 @@ class LinkUtilTest {
     void isRelative() {
         assertTrue(LinkUtil.isRelative(INTERNAL_LINK));
         assertFalse(LinkUtil.isRelative(EXTERNAL_LINK));
+        assertFalse(LinkUtil.isRelative(null));
+        assertFalse(LinkUtil.isRelative(""));
     }
 
     /**
