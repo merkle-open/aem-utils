@@ -299,23 +299,25 @@
                                     Bundle-Category: ${componentGroupName}
                                     Bundle-DocURL: https://github.com/merkle-open/aem-utils
 
+                                    # com.google.errorprone.annotations is transitive from com.github.benmanes.caffeine
                                     -conditionalpackage: \
                                     org.jspecify.*, \
                                     org.jsoup.*, \
-                                    com.google.re2j.*, \
                                     com.github.benmanes.caffeine.*, \
-                                    com.google.errorprone.annotations.*
+                                    com.google.errorprone.annotations.*, \
+                                    com.google.re2j.*
 
                                     -exportcontents: \
                                     com.merkle.oss.aem.utils.*
 
                                     # This explicitly prevents these from appearing in Import-Package
+                                    # com.google.errorprone.annotations is transitive from com.github.benmanes.caffeine
                                     Import-Package: \
                                     !org.jspecify.*, \
                                     !org.jsoup.*, \
-                                    !com.google.re2j.*, \
                                     !com.github.benmanes.caffeine.*, \
                                     !com.google.errorprone.annotations.*, \
+                                    !com.google.re2j.*, \
                                     *
 
                                     -fixupmessages.one: "Export com.merkle.oss.aem.utils.*jspecify.*";is:=ignore
