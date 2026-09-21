@@ -120,7 +120,7 @@
 
         <org.jsoup.version>1.23.2</org.jsoup.version>
         <google.re2j.version>1.8</google.re2j.version>
-        <caffeine.version>3.2.4</caffeine.version>
+        <caffeine.version>3.3.0</caffeine.version>
         <org.jspecify.version>1.0.1</org.jspecify.version>
         <junit.version>6.1.3</junit.version>
         <mockito.version>5.23.0</mockito.version>
