@@ -97,10 +97,6 @@ jobs:
       # Setup Java environment
       - name: Set up JDK 21
         uses: actions/setup-java@v6
-        env:
-          MAVEN_USERNAME: ${{ secrets.SONATYPE_USER }}
-          MAVEN_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
-          MAVEN_GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
         with:
           distribution: zulu
           java-version: 21
@@ -115,6 +111,6 @@ jobs:
       - name: Release Maven package
         run: mvn deploy -Pdeploy -DskipTests --batch-mode
         env:
-          MAVEN_USERNAME: ${{ secrets.SONATYPE_USER }}
-          MAVEN_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
+          MAVEN_USERNAME: ${{ secrets.SONATYPE_SNAPSHOT_USER }}
+          MAVEN_PASSWORD: ${{ secrets.SONATYPE_SNAPSHOT_PASSWORD }}
           MAVEN_GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
