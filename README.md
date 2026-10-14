@@ -69,7 +69,7 @@ Add the `aem-utils.all` and `aem-utils.core-bundle` artifact to the `<dependenci
 <dependency>
     <groupId>com.merkle.oss.aem</groupId>
     <artifactId>aem-utils.all</artifactId>
-    <version>5.1.1</version>
+    <version>5.1.2-SNAPSHOT</version>
     <type>zip</type>
 </dependency>
 
@@ -80,7 +80,7 @@ Add the `aem-utils.all` and `aem-utils.core-bundle` artifact to the `<dependenci
 <dependency>
     <groupId>com.merkle.oss.aem</groupId>
     <artifactId>aem-utils.core-bundle</artifactId>
-    <version>5.1.1</version>
+    <version>5.1.2-SNAPSHOT</version>
     <scope>provided</scope>
 </dependency>
 
@@ -131,7 +131,7 @@ Build and deploy the full package to a local AEM Author:
 
 ### AEM Version
 
-This tool requires **AEM Version 2026.1.24222.20260130T132034Z-260100** or higher.
+This tool requires **AEM Version 2026.6.26635.20260611T122956Z-260500** or higher.
 
 ### Platform Support
 

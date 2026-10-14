@@ -32,8 +32,6 @@ Custom exception definition for specialized error
 
 ```java
 
-import com.google.errorprone.annotations.FormatMethod;
-import com.google.errorprone.annotations.FormatString;
 import com.merkle.oss.aem.utils.exceptions.ErrorCode;
 import com.merkle.oss.aem.utils.exceptions.SystemException;
 
